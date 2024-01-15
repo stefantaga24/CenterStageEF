@@ -136,6 +136,19 @@ public class TeleOpCode extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+        RobotMap robot = new RobotMap(hardwareMap);
+
+        IntakeController intakeController = new IntakeController(robot);
+        CollectForbarController collectForbarController = new CollectForbarController(robot);
+        TubuleteController tubuleteController = new TubuleteController(robot);
+        BoxController boxController = new BoxController(robot);
+
+        intakeController.update();
+        collectForbarController.update();
+        tubuleteController.update();
+        boxController.update();
+
         // Declaram motoarele din drive aici
         // Numele motoarelor sunt destul de evidente
         // Ce este intre ghilimele trebuie sa fie acelasi nume ca in config
@@ -199,7 +212,48 @@ public class TeleOpCode extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
+            /// Am apasat dpad_left ->
+            // 4Bar ul intake se duce in pozitie
+            // Colectare incepe.
+            // Switch/Toggle - Continous press
+            // Dpad_left- > 4Bar-ul se duce , incepe colectare , Dpad_left - > 4barul se intoarce (Switch)
+            // Cat timp e apasat se intampla ce s-a scris mai sus (Continous)
 
+            if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left)
+            {
+                if (intakeController.currentStatus == IntakeController.IntakeStatus.STOP)
+                {
+                    tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
+                    intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                }
+                else
+                {
+                    tubuleteController.currentStatus = TubuleteController.CollectStatus.BLOCARE;
+                    intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.INIT;
+                }
+            }
+
+            if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
+            {
+                intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
+            }
+
+            /// Apas pe right_trigger
+            /// Se blocheaza
+            /// Flip
+            /// Asteapta
+            /// Transfer
+            /// Revine la intake
+
+            if (currentGamepad2.right_trigger && !previousGamepad2.right_trigger)
+            {
+
+            }
+            intakeController.update();
+            collectForbarController.update();
+            boxController.update();
         }
     }
 }

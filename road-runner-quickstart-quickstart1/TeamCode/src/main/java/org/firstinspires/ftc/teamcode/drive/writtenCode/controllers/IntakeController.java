@@ -6,10 +6,16 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
 public class IntakeController {
     public enum IntakeStatus{
-        STOP_COLLECT,
+        STOP,
         COLLECT_DRIVE,
+        REVERSE,
     }
-    public static double driveCollectPower = 0.8;
+
+    public double currentStatus = IntakeStatus.STOP;
+    public double previousStatus = null;
+
+    public double driveCollectPower = 0.8;
+    public double reverseCollectPower = -0.8;
     private DcMotorEx intakeMotor = null;
 
     /**
@@ -19,6 +25,32 @@ public class IntakeController {
      */
     public IntakeController(RobotMap robot)
     {
+        intakeMotor = robot.intakeMotor;
+    }
 
+    public update()
+    {
+        if (currentStatus != previousStatus )
+        {
+            previousStatus = currentStatus;
+            switch (currentStatus)
+            {
+                case STOP:
+                {
+                    intakeMotor.setPower(0);
+                    break;
+                }
+                case COLLECT_DRIVE:
+                {
+                    intakeMotor.setPower(driveCollectPower);
+                    break;
+                }
+                case REVERSE:
+                {
+                    intakeMotor.setPower(reverseCollectPower);
+                    break;
+                }
+            }
+        }
     }
 }
