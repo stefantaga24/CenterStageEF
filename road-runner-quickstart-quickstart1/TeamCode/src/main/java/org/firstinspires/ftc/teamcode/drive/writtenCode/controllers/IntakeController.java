@@ -14,8 +14,8 @@ public class IntakeController {
     public IntakeStatus currentStatus = IntakeStatus.STOP;
     public IntakeStatus previousStatus = null;
 
-    public double driveCollectPower = 0.8;
-    public double reverseCollectPower = -0.8;
+    public double driveCollectPower = 1;
+    public double reverseCollectPower = -1;
     private DcMotorEx intakeMotor = null;
 
     /**

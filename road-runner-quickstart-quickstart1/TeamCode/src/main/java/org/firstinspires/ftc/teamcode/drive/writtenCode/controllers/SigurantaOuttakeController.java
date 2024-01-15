@@ -14,8 +14,8 @@ public class SigurantaOuttakeController {
     public SigurantaOuttakeStatus currentStatus = SigurantaOuttakeStatus.CLOSED;
     public SigurantaOuttakeStatus previousStatus = null;
 
-    public double closedPosition = 0.5; // De modificat
-    public double openPosition = 0.3; // De modificat
+    public double closedPosition = 0.5;
+    public double openPosition = 0;
 
     private Servo sigurantaOuttake = null;
 

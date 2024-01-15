@@ -10,12 +10,12 @@ public class BoxController {
         COLLECT,
         TRANSFER,
     }
-
+    /// Cutia de transfer
     public CollectStatus currentStatus = CollectStatus.COLLECT;
     public CollectStatus previousStatus = null;
 
-    public double collectPosition = 0.5; // De modificat
-    public double transferPosition = 0.3; // De modificat
+    public double collectPosition = 1; // De modificat
+    public double transferPosition = 0.294; // De modificat
 
     private Servo forbarCutieIntake = null;
 

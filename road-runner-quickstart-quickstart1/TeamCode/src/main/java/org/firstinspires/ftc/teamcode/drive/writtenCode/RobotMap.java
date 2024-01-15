@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorREV2mDistance;
@@ -46,13 +46,18 @@ public class RobotMap {
     public Servo parbrizOuttake = null;
     public Servo pixel2Outtake = null;
     public Servo forbarOuttake = null;
-    public Servo forbarCutieIntake = null;
-    public Servo leftTransferServo = null;
-    public Servo rightTransferServo = null;
+    public Servo forbarCutieIntake;
+    public Servo leftTransferServo;
+    public Servo rightTransferServo;
 
-    public Servo forbarIntake = null;
-    public Servo hangingLeft = null;
-    public Servo hangingRight=  null;
+    public Servo forbarIntake;
+    public Servo hangingLeft;
+    public Servo hangingRight;
+
+    public DigitalChannel beamFront;
+    public DigitalChannel beamBack;
+
+    public MotorConfigurationType mctIntake, mctExtenderLeft ,mctExtenderRight;
     public RobotMap(HardwareMap Init)
     {
         /// Motoare
@@ -65,20 +70,41 @@ public class RobotMap {
 
         intakeMotor = Init.get(DcMotorEx.class , "intakeMotor");
 
+        //overclock
+        mctIntake = intakeMotor.getMotorType().clone();
+        mctIntake.setAchieveableMaxRPMFraction(1.0);
+        intakeMotor.setMotorType(mctIntake);
+        //end overclock
+
         /// Motoarele de la extensie
         leftExtension = Init.get(DcMotorEx.class, "leftExtension");
         leftExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Important ca sa utilizam encoderele
         leftExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        /// Este clar ca motorul din stanga si cel din dreapta trebuie sa se invarteasca invers
+        /// Astfel ca sa putem da aceeasi pozitie in ambele dam reverse din cod la pozitia unuia.
+        leftExtension.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        //overclock
+        mctExtenderLeft = leftExtension.getMotorType().clone();
+        mctExtenderLeft.setAchieveableMaxRPMFraction(1.0);
+        leftExtension.setMotorType(mctExtenderLeft);
+        //end overclock
+
+
+
 
         rightExtension = Init.get(DcMotorEx.class , "rightExtension");
         rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Important ca sa utilizam encoderele
         rightExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        /// Este clar ca motorul din stanga si cel din dreapta trebuie sa se invarteasca invers
-        /// Astfel ca sa putem da aceeasi pozitie in ambele dam reverse din cod la pozitia unuia.
-        rightExtension.setDirection(DcMotorSimple.Direction.REVERSE);
+        //overclock
+        mctExtenderRight = rightExtension.getMotorType().clone();
+        mctExtenderRight.setAchieveableMaxRPMFraction(1.0);
+        rightExtension.setMotorType(mctExtenderRight);
+        //end overclock
+
 
         /// Servo-uri
 
@@ -98,5 +124,8 @@ public class RobotMap {
         hangingLeft = Init.get(Servo.class, "hangingLeft");
         hangingRight = Init.get(Servo.class, "hangingRight");
 
+        /// Beam-uri
+        beamFront = Init.get(DigitalChannel.class, "beamfront");
+        beamBack = Init.get(DigitalChannel.class, "beamback");
     }
 }

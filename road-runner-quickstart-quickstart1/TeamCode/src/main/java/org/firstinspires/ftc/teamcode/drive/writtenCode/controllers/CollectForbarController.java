@@ -14,8 +14,9 @@ public class CollectForbarController {
     public CollectStatus currentStatus = CollectStatus.INIT;
     public CollectStatus previousStatus = null;
 
-    public double initPosition = 0.5; // De modificat
-    public double collectPosition = 0.3; // De modificat
+    public double initPosition = 0.9f;
+    public double collectPosition = 0.85f;
+    public double autoPosition = 0.2;
 
     private Servo forbarIntake = null;
 

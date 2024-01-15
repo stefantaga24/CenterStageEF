@@ -39,11 +39,14 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.BoxController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ExtenderController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Pixel2Controller;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.RotateClawController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.SigurantaOuttakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TubuleteController;
@@ -160,10 +163,18 @@ public class TeleOpCode extends LinearOpMode {
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
         ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
         LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,robot);
+        RotateClawController rotateClawController = new RotateClawController(robot);
+        ExtenderController extenderController = new ExtenderController(robot);
+
+
 
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController,robot);
+        ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
+
+        extenderController.update();
+        rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
         intakeController.update();
@@ -174,6 +185,7 @@ public class TeleOpCode extends LinearOpMode {
         pixel2Controller.update();
         parbrizController.update();
         sigurantaOuttakeController.update();
+        scoringController.update();
 
         // Declaram motoarele din drive aici
         // Numele motoarelor sunt destul de evidente
@@ -215,7 +227,7 @@ public class TeleOpCode extends LinearOpMode {
         Gamepad previousGamepad1 = new Gamepad();
         Gamepad previousGamepad2 = new Gamepad();
 
-
+        boolean usesBeam = true;
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -223,8 +235,8 @@ public class TeleOpCode extends LinearOpMode {
         while (opModeIsActive()) {
             if (isStopRequested()) return;
 
-            double liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-
+            int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
@@ -278,10 +290,11 @@ public class TeleOpCode extends LinearOpMode {
 
             if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
             {
-                if (transferController.currentStatus == TransferController.TransferStatus.INIT &&
-                        liftCurrentPosition<=0 &&
-                    forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS)
+                if (transferController.currentStatus == TransferController.TransferStatus.INIT && liftCurrentPosition<=0 &&
+                    forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS &&
+                    extenderCurrentPosition <= 0)
                 {
+                    transferController.actualTimeForExtendo = 0;
                     // Cand fac transferul vreau sa fie inchis parbrizul
                     parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                     // Sa fie deschis pixel2 ca sa nu impiedice colectarea
@@ -298,43 +311,13 @@ public class TeleOpCode extends LinearOpMode {
                 }
                 else
                 {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
+                    {
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                    }
                 }
             }
-            /// Lift going to mid
-            if (currentGamepad2.x && !previousGamepad2.x)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.MID;
-                }
-                else
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
-                }
-            }
-            /// Lift going to high
-            if (currentGamepad2.y && !previousGamepad2.y)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.HIGH;
-                }
-                else
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
-                }
-            }
-            // Apas pe left_bumper vreau sa-mi pice doar un singur pixel cand e in pozitie verticala
-            // Apas pe right_bumper vreau sa-mi pice ambii
-
-            // Eu sunt cu pixelii ambii in cutie doar cu siguranta de la outtake pusa
-            // Siguranta de la outtake , pabriz , pixel2 (dreapta)
-
-            // left_bumper - > pixel2 closed + delay + siguranta outtake
-            // right_bumper - > siguranta + pixel2 open
-
-
+            /// Control lift manual
             if (gamepad2.left_stick_y >0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
@@ -350,15 +333,155 @@ public class TeleOpCode extends LinearOpMode {
                         Math.max(liftMotorController.initPosition,Math.min(liftMotorController.currentPosition-10,
                                 liftMotorController.highPosition));
             }
+
+            /*/// Lift going to mid
+            if (currentGamepad2.x && !previousGamepad2.x)
+            {
+                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.MID;
+                }
+                else
+                {
+                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
+                    {
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                    }
+                }
+            }*/
+
+
+            /*/// Lift going to high
+            if (currentGamepad2.y && !previousGamepad2.y)
+            {
+                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.HIGH;
+                }
+                else
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                }
+            }*/
+
+
+            // Apas pe left_bumper vreau sa-mi pice doar un singur pixel cand e in pozitie verticala
+            // Apas pe right_bumper vreau sa-mi pice ambii
+
+            // Eu sunt cu pixelii ambii in cutie doar cu siguranta de la outtake pusa
+            // Siguranta de la outtake , pabriz , pixel2 (dreapta)
+
+            // left_bumper -> pixel2 closed + delay + siguranta outtake
+            // right_bumper -> siguranta + pixel2 open
+
+            if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper)
+            {
+                if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT &&
+                    rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
+                {
+                    scoringController.currentStatus = ScoringController.ScoringStatus.DROP_ONE_PIXEL;
+                }
+            }
+            if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper)
+            {
+                if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT)
+                {
+                    scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
+                }
+            }
+
+            if (currentGamepad2.y && !previousGamepad2.y
+                && forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD)
+            {
+                if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                {
+                    rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
+                }
+                else
+                {
+                    rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
+                }
+            }
+
+
+            if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper)
+            {
+                if (extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.FAR;
+                    tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
+                    intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                }
+                else
+                {
+
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+
+                    // Fac transferul cu extendo
+
+                    // Cand fac transferul vreau sa fie inchis parbrizul
+                    parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                    // Sa fie deschis pixel2 ca sa nu impiedice colectarea
+                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+
+                    // Pun timpul pentru extendo
+                    transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
+
+                    transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                }
+            }
+            if (currentGamepad1.x && !previousGamepad1.x)
+            {
+                usesBeam = !usesBeam;
+            }
+            /// Daca robotul vede doi pixeli in fata , folosim break beam - uri
+            if (usesBeam && robot.beamFront.getState() == false && robot.beamBack.getState() == false)
+            {
+                if (transferController.currentStatus == TransferController.TransferStatus.INIT)
+                {
+                    if (extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        // Cand fac transferul vreau sa fie inchis parbrizul
+                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        // Sa fie deschis pixel2 ca sa nu impiedice colectarea
+                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+
+                        // Nu trebuie sa tin cont de extendo
+                        transferController.actualTimeForExtendo = 0;
+
+                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                    }
+                    else
+                    {
+                        // Fac transferul cu extendo
+
+                        // Cand fac transferul vreau sa fie inchis parbrizul
+                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        // Sa fie deschis pixel2 ca sa nu impiedice colectarea
+                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+
+                        // Pun timpul pentru extendo
+                        transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
+
+                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                    }
+                }
+            }
+
+            extenderController.update();
+            rotateClawController.update();
             forbarOuttakeController.update();
             liftMotorController.update();
-            sigurantaOuttakeController.update();
-            pixel2Controller.update();
-            parbrizController.update();
             intakeController.update();
             collectForbarController.update();
+            tubuleteController.update();
             boxController.update();
             transferController.update();
+            pixel2Controller.update();
+            parbrizController.update();
+            sigurantaOuttakeController.update();
+            scoringController.update();
         }
     }
 }
