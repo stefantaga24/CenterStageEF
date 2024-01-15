@@ -37,6 +37,16 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.BoxController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Pixel2Controller;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.SigurantaOuttakeController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TubuleteController;
+
 
 /*
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -127,6 +137,7 @@ public class TeleOpCode extends LinearOpMode {
         double rightFrontPower = (y - x - rx) / denominator;
         double rightBackPower = (y + x - rx) / denominator;
 
+
         leftFront.setPower(leftFrontPower);
         leftBack.setPower(leftBackPower);
         rightFront.setPower(rightFrontPower);
@@ -143,11 +154,23 @@ public class TeleOpCode extends LinearOpMode {
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
         BoxController boxController = new BoxController(robot);
+        Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
+        ParbrizController parbrizController = new ParbrizController(robot);
+        SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
+        LiftMotorController liftMotorController = new LiftMotorController(robot);
+        TransferController transferController = new TransferController(
+                intakeController,tubuleteController,sigurantaOuttakeController,robot);
 
+
+        liftMotorController.update();
         intakeController.update();
         collectForbarController.update();
         tubuleteController.update();
         boxController.update();
+        transferController.update();
+        pixel2Controller.update();
+        parbrizController.update();
+        sigurantaOuttakeController.update();
 
         // Declaram motoarele din drive aici
         // Numele motoarelor sunt destul de evidente
@@ -241,19 +264,68 @@ public class TeleOpCode extends LinearOpMode {
             }
 
             /// Apas pe right_trigger
-            /// Se blocheaza
+            /// Se blocheaza + Reverse colectare
             /// Flip
             /// Asteapta
             /// Transfer
             /// Revine la intake
 
-            if (currentGamepad2.right_trigger && !previousGamepad2.right_trigger)
+            if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
             {
-
+                if (transferController.currentStatus == TransferController.TransferStatus.INIT &&
+                    liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    // Cand fac transferul vreau sa fie inchis parbrizul
+                    parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                    // Sa fie deschis pixel2 ca sa nu impiedice colectarea
+                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+                    transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                }
             }
+            /// Lift going to low
+            if (currentGamepad2.a && !previousGamepad2.a)
+            {
+                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
+                }
+                else
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                }
+            }
+            /// Lift going to mid
+            if (currentGamepad2.x && !previousGamepad2.x)
+            {
+                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.MID;
+                }
+                else
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                }
+            }
+            /// Lift going to high
+            if (currentGamepad2.y && !previousGamepad2.y)
+            {
+                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.HIGH;
+                }
+                else
+                {
+                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                }
+            }
+            liftMotorController.update();
+            sigurantaOuttakeController.update();
+            pixel2Controller.update();
+            parbrizController.update();
             intakeController.update();
             collectForbarController.update();
             boxController.update();
+            transferController.update();
         }
     }
 }

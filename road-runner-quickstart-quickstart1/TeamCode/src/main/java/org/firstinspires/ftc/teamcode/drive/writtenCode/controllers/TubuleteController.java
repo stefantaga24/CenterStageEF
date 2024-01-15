@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
@@ -11,8 +12,8 @@ public class TubuleteController {
         BLOCARE
     }
 
-    public double currentStatus = CollectStatus.COLECTARE;
-    public double previousStatus = null;
+    public CollectStatus currentStatus = CollectStatus.COLECTARE;
+    public CollectStatus previousStatus = null;
 
     public double collectPosition1 = 0.9;
     public double collectPosition2 = 1-collectPosition1;
@@ -26,20 +27,20 @@ public class TubuleteController {
     private Servo leftTransferServo = null;
     private Servo rightTransferServo = null;
 
-    public CollectForbarController(RobotMap robot)
+    public TubuleteController(RobotMap robot)
     {
         leftTransferServo = robot.leftTransferServo;
         rightTransferServo = robot.rightTransferServo;
     }
 
-    public update()
+    public void update()
     {
         if (currentStatus != previousStatus)
         {
             previousStatus = currentStatus;
             switch (currentStatus)
             {
-                case COLLECT:
+                case COLECTARE:
                 {
                     leftTransferServo.setPosition(collectPosition1);
                     rightTransferServo.setPosition(collectPosition2);

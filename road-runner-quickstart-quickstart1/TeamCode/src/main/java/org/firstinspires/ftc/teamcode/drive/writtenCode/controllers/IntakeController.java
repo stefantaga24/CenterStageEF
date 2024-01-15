@@ -11,8 +11,8 @@ public class IntakeController {
         REVERSE,
     }
 
-    public double currentStatus = IntakeStatus.STOP;
-    public double previousStatus = null;
+    public IntakeStatus currentStatus = IntakeStatus.STOP;
+    public IntakeStatus previousStatus = null;
 
     public double driveCollectPower = 0.8;
     public double reverseCollectPower = -0.8;
@@ -28,7 +28,7 @@ public class IntakeController {
         intakeMotor = robot.intakeMotor;
     }
 
-    public update()
+    public void update()
     {
         if (currentStatus != previousStatus )
         {

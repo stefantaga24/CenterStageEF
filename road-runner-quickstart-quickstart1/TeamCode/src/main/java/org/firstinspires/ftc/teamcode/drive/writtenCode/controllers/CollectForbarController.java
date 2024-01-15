@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
@@ -10,8 +11,8 @@ public class CollectForbarController {
         COLLECT_DRIVE,
     }
 
-    public double currentStatus = CollectStatus.INIT;
-    public double previousStatus = null;
+    public CollectStatus currentStatus = CollectStatus.INIT;
+    public CollectStatus previousStatus = null;
 
     public double initPosition = 0.5; // De modificat
     public double collectPosition = 0.3; // De modificat
@@ -23,7 +24,7 @@ public class CollectForbarController {
         forbarIntake = robot.forbarIntake;
     }
 
-    public update()
+    public void update()
     {
         if (currentStatus != previousStatus)
         {

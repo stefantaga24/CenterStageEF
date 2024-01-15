@@ -41,10 +41,10 @@ public class RobotMap {
     public DcMotorEx leftExtension = null;
     public Servo airplaneServo = null;
 
-    public Servo brakeOuttake = null;
+    public Servo sigurantaOuttake = null;
     public Servo clawRotate = null;
     public Servo parbrizOuttake = null;
-    public Servo dropOuttake = null;
+    public Servo pixel2Outtake = null;
     public Servo forbarOuttake = null;
     public Servo forbarCutieIntake = null;
     public Servo leftTransferServo = null;
@@ -58,6 +58,11 @@ public class RobotMap {
         /// Motoare
 
         liftMotor = Init.get(DcMotorEx.class , "liftMotor");
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         intakeMotor = Init.get(DcMotorEx.class , "intakeMotor");
 
         /// Motoarele de la extensie
@@ -79,10 +84,10 @@ public class RobotMap {
 
         /// Control Hub
         airplaneServo = Init.get(Servo.class,"airplane");
-        brakeOuttake = Init.get(Servo.class, "brakeOuttake");
+        sigurantaOuttake = Init.get(Servo.class, "sigurantaOuttake"); /// Tot timpul inchis dupa transfer
         clawRotate = Init.get(Servo.class, "clawRotate");
-        parbrizOuttake = Init.get(Servo.class , "parbrizOuttake");
-        dropOuttake = Init.get(Servo.class , "dropOuttake");
+        parbrizOuttake = Init.get(Servo.class , "parbrizOuttake"); /// Pentru cand vreti sa puneti pixeli orizontal
+        pixel2Outtake = Init.get(Servo.class , "pixel2Outtake"); /// Pentru al doilea pixel , de obicei deschis
         forbarOuttake = Init.get(Servo.class, "forbarOuttake");
 
         /// Expansion Hub

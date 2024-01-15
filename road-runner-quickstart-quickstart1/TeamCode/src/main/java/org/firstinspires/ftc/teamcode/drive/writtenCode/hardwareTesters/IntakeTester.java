@@ -29,13 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.drive.writtenCode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 
 
 /*
@@ -51,9 +49,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Config
-@TeleOp(name="TeleOpCode", group="Linear OpMode")
-public class TeleOpCode extends LinearOpMode {
+
+@TeleOp(name="IntakeTester", group="Linear OpMode")
+public class IntakeTester extends LinearOpMode {
     public static double intakePower = 0.8;
     @Override
     public void runOpMode() {
