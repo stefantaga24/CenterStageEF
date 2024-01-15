@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.BoxController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
@@ -157,11 +158,13 @@ public class TeleOpCode extends LinearOpMode {
         Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
-        LiftMotorController liftMotorController = new LiftMotorController(robot);
+        ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
+        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,robot);
+
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController,robot);
 
-
+        forbarOuttakeController.update();
         liftMotorController.update();
         intakeController.update();
         collectForbarController.update();
@@ -220,6 +223,9 @@ public class TeleOpCode extends LinearOpMode {
         while (opModeIsActive()) {
             if (isStopRequested()) return;
 
+            double liftCurrentPosition = robot.liftMotor.getCurrentPosition();
+
+
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
             /// Doar am pus-o in alta functie pentru ca nu prea o sa o modificam des
@@ -265,15 +271,16 @@ public class TeleOpCode extends LinearOpMode {
 
             /// Apas pe right_trigger
             /// Se blocheaza + Reverse colectare
-            /// Flip
-            /// Asteapta
-            /// Transfer
-            /// Revine la intake
+            /// Flip , dupa flip opresc colectarea
+            /// Asteapta flip ul sa se termine
+            /// Transfer pixelii dintr-o cutie in alta si apoi inchid siguranta
+            /// Cutia de la intake revine la pozitia de colectare
 
             if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
             {
                 if (transferController.currentStatus == TransferController.TransferStatus.INIT &&
-                    liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
+                        liftCurrentPosition<=0 &&
+                    forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS)
                 {
                     // Cand fac transferul vreau sa fie inchis parbrizul
                     parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
@@ -318,6 +325,32 @@ public class TeleOpCode extends LinearOpMode {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
                 }
             }
+            // Apas pe left_bumper vreau sa-mi pice doar un singur pixel cand e in pozitie verticala
+            // Apas pe right_bumper vreau sa-mi pice ambii
+
+            // Eu sunt cu pixelii ambii in cutie doar cu siguranta de la outtake pusa
+            // Siguranta de la outtake , pabriz , pixel2 (dreapta)
+
+            // left_bumper - > pixel2 closed + delay + siguranta outtake
+            // right_bumper - > siguranta + pixel2 open
+
+
+            if (gamepad2.left_stick_y >0)
+            {
+                /// Ii dau clip la currentPosition intre initPosition si highPosition.
+                liftMotorController.currentPosition =
+                        Math.max(liftMotorController.initPosition,Math.min(liftMotorController.currentPosition+10,
+                                liftMotorController.highPosition));
+            }
+            else
+            if (gamepad2.left_stick_y <0)
+            {
+                /// Ii dau clip la currentPosition intre initPosition si highPosition.
+                liftMotorController.currentPosition =
+                        Math.max(liftMotorController.initPosition,Math.min(liftMotorController.currentPosition-10,
+                                liftMotorController.highPosition));
+            }
+            forbarOuttakeController.update();
             liftMotorController.update();
             sigurantaOuttakeController.update();
             pixel2Controller.update();
