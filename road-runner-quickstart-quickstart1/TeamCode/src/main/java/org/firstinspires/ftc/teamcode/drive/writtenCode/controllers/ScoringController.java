@@ -61,6 +61,7 @@ public class ScoringController {
                 case DROP_BOTTOM_PIXEL:
                 {
                     sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.OPEN;
+                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.CLOSED;
                     currentStatus = INIT;
                     break;
                 }
@@ -73,9 +74,11 @@ public class ScoringController {
                     /// Daca am cutia orizontal clar trebuie sa deschid parbrizul.
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
                     {
+                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.OPEN;
                     }
                     currentStatus = INIT;
+                    break;
                 }
             }
         }

@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.IDLE;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.INIT;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.WAIT_TO_LIFT_FORBAR;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
 public class LiftMotorController {
     public enum LiftStatus{
-        IDLE,
         INIT,
         LOW,
         MID,
@@ -20,14 +19,16 @@ public class LiftMotorController {
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
-    public int initPosition = -20;
-    public int lowPosition = 450;
+    public int initPosition = -10;
+    public int lowPosition = 700;
     public int midPosition = 700;
-    public int highPosition = 900;
+    public int highPosition = 1630;
+
+    public int retardPosition = -100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
     public DcMotor liftMotor = null;
-
+    public MotorConfigurationType mct1;
 
 
     public LiftMotorController(ForbarOuttakeController forbarOuttakeController, RobotMap robot)
@@ -37,6 +38,10 @@ public class LiftMotorController {
     }
     public void update()
     {
+        mct1 = liftMotor.getMotorType().clone();
+        mct1.setAchieveableMaxRPMFraction(1.0);
+        liftMotor.setMotorType(mct1);
+
         this.liftMotor.setTargetPosition(currentPosition);
         this.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.liftMotor.setPower(1);
@@ -51,7 +56,6 @@ public class LiftMotorController {
                 {
                     forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
                     currentPosition = initPosition;
-                    currentStatus = IDLE;
                     break;
                 }
                 case LOW:
@@ -65,7 +69,6 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
-                    currentStatus = IDLE;
                     break;
                 }
                 case MID:
@@ -79,7 +82,6 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
-                    currentStatus = IDLE;
                     break;
                 }
                 case HIGH:
@@ -93,7 +95,6 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
-                    currentStatus = IDLE;
                     break;
                 }
             }

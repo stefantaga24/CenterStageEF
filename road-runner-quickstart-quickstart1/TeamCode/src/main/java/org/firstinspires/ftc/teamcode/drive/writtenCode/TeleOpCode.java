@@ -29,15 +29,11 @@
 
 package org.firstinspires.ftc.teamcode.drive.writtenCode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.BoxController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ExtenderController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
@@ -123,13 +119,14 @@ public class TeleOpCode extends LinearOpMode {
      * @param rightBack - Motorul dreapta spate
      */
     public void robotCentricDrive(DcMotor leftFront , DcMotor leftBack,
-                                  DcMotor rightFront ,DcMotor rightBack)
+                                  DcMotor rightFront ,DcMotor rightBack,
+                                  double leftTrigger, double rightTrigger)
     {
         /// O sa va intrebati cum putem accesa gamepad1 si gamepad2 ?
         /// Probabil sunt variabile globale , n-ar trebui sa va faceti multe griji
 
-        double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+        double x = (-gamepad1.left_trigger + gamepad1.right_trigger)* 1.05; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
         // Denominator is the largest motor power (absolute value) or 1
@@ -151,13 +148,12 @@ public class TeleOpCode extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
+        double initPosition = 0.93;
         RobotMap robot = new RobotMap(hardwareMap);
 
         IntakeController intakeController = new IntakeController(robot);
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
-        BoxController boxController = new BoxController(robot);
         Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
@@ -165,7 +161,7 @@ public class TeleOpCode extends LinearOpMode {
         LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,robot);
         RotateClawController rotateClawController = new RotateClawController(robot);
         ExtenderController extenderController = new ExtenderController(robot);
-
+        robot.forbarCutieIntake.setPosition(initPosition);
 
 
         TransferController transferController = new TransferController(
@@ -180,7 +176,6 @@ public class TeleOpCode extends LinearOpMode {
         intakeController.update();
         collectForbarController.update();
         tubuleteController.update();
-        boxController.update();
         transferController.update();
         pixel2Controller.update();
         parbrizController.update();
@@ -230,7 +225,8 @@ public class TeleOpCode extends LinearOpMode {
         boolean usesBeam = true;
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+        collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
+        collectForbarController.update();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (isStopRequested()) return;
@@ -241,7 +237,7 @@ public class TeleOpCode extends LinearOpMode {
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
             /// Doar am pus-o in alta functie pentru ca nu prea o sa o modificam des
-            robotCentricDrive(leftFront,leftBack,rightFront,rightBack);
+            robotCentricDrive(leftFront,leftBack,rightFront,rightBack,gamepad1.left_trigger,gamepad1.right_trigger);
 
 
 
@@ -252,6 +248,27 @@ public class TeleOpCode extends LinearOpMode {
 
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
+
+
+            /// Pozitii stack forbar
+
+            if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up)
+            {
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
+
+            }
+            if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down)
+            {
+                if (collectForbarController.currentStatus == CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK)
+                {
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                }
+            }
+
+
+
+
+
 
             /// Am apasat dpad_left ->
             // 4Bar ul intake se duce in pozitie
@@ -266,13 +283,16 @@ public class TeleOpCode extends LinearOpMode {
                 {
                     tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
                     intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                    if (collectForbarController.currentStatus == CollectForbarController.CollectStatus.PLAY)
+                    {
+                        collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                    }
                 }
                 else
                 {
                     tubuleteController.currentStatus = TubuleteController.CollectStatus.BLOCARE;
                     intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.INIT;
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
                 }
             }
 
@@ -305,15 +325,27 @@ public class TeleOpCode extends LinearOpMode {
             /// Lift going to low
             if (currentGamepad2.a && !previousGamepad2.a)
             {
+                if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                }
+
                 if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
                 }
+
                 else
                 {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
                     {
                         liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                    }
+                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                    {
+                        rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
                     }
                 }
             }
@@ -322,16 +354,18 @@ public class TeleOpCode extends LinearOpMode {
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
                 liftMotorController.currentPosition =
-                        Math.max(liftMotorController.initPosition,Math.min(liftMotorController.currentPosition+10,
+                        Math.max(liftMotorController.retardPosition,Math.min(liftMotorController.currentPosition-10,//era +10, dar mergea invers
                                 liftMotorController.highPosition));
+                extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
             else
             if (gamepad2.left_stick_y <0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
                 liftMotorController.currentPosition =
-                        Math.max(liftMotorController.initPosition,Math.min(liftMotorController.currentPosition-10,
+                        Math.max(liftMotorController.retardPosition,Math.min(liftMotorController.currentPosition+10,//era -10, dar mergea invers
                                 liftMotorController.highPosition));
+                extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
 
             /*/// Lift going to mid
@@ -457,7 +491,9 @@ public class TeleOpCode extends LinearOpMode {
                         // Fac transferul cu extendo
 
                         // Cand fac transferul vreau sa fie inchis parbrizul
-                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        //parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        //am parbrizul mereu inchis cand liftul e jos
+
                         // Sa fie deschis pixel2 ca sa nu impiedice colectarea
                         pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
@@ -465,6 +501,9 @@ public class TeleOpCode extends LinearOpMode {
                         transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
 
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+
+                        //inchid extendo
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     }
                 }
             }
@@ -476,7 +515,6 @@ public class TeleOpCode extends LinearOpMode {
             intakeController.update();
             collectForbarController.update();
             tubuleteController.update();
-            boxController.update();
             transferController.update();
             pixel2Controller.update();
             parbrizController.update();

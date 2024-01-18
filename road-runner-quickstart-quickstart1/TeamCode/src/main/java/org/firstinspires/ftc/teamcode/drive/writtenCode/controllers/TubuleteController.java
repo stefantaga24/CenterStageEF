@@ -15,13 +15,13 @@ public class TubuleteController {
     public CollectStatus currentStatus = CollectStatus.COLECTARE;
     public CollectStatus previousStatus = null;
 
-    public double collectPosition1 = 0.9;
+    public double collectPosition1 = 0.13;
     public double collectPosition2 = 1-collectPosition1;
 
-    public double transferPosition1 = 0;
+    public double transferPosition1 = 1;
     public double transferPosition2 = 1-transferPosition1;
 
-    public double blocarePosition1 = 1;
+    public double blocarePosition1 = 0.05;
     public double blocarePosition2 = 1- blocarePosition1;
 
     private Servo leftTransferServo = null;

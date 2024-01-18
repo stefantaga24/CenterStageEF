@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.drive.writtenCode.hardwareTesters;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
@@ -50,9 +51,9 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
  */
 
 
-@TeleOp(name="ParbrizServoTester", group="Linear OpMode")
-public class ParbrizServoTester extends LinearOpMode {
-    public static double servoPosition = 0.75;
+@TeleOp(name="ExtenderTester", group="Linear OpMode")
+public class ExtenderTester extends LinearOpMode {
+    public static double servoPosition = 0.5;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -68,7 +69,8 @@ public class ParbrizServoTester extends LinearOpMode {
         Gamepad previousGamepad2 = new Gamepad();
 
 
-
+        robot.leftExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        robot.rightExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -81,12 +83,11 @@ public class ParbrizServoTester extends LinearOpMode {
 
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
-            robot.forbarIntake.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
-            if (currentGamepad1.y == true)
-            {
-              //  robot.intakeMotor.setPower(1);
-            }
-            telemetry.addData("Servo position is : ", robot.forbarIntake.getPosition());
+
+///salut<3
+            ///<3 pupici
+            telemetry.addData("Left extension position is : ", robot.leftExtension.getCurrentPosition());
+            telemetry.addData("Right extension position is : ", robot.rightExtension.getCurrentPosition());
             telemetry.update();
         }
     }

@@ -35,14 +35,14 @@ public class TransferController {
     public double timerReverseIntake = 0.1;
 
     /// Cat timp in plus sa astepte pana baga in outtake daca se da reverse la cutie
-    public static double timerExtendoToInit = 1.25;
+    public static double timerExtendoToInit = 0.3;
 
 
     public double actualTimeForExtendo = 0; /// Nu modificati
 
     // Pozitii pentru forbar cutie intake
-    public double transferPosition = 0.294;
-    public double collectPosition = 1;
+    public double transferPosition = 0.19;
+    public double collectPosition = 0.93;
 
 
     public ElapsedTime asteaptaCutie = new ElapsedTime();
@@ -103,6 +103,8 @@ public class TransferController {
                 {
                     if (asteaptaPixeli.seconds()>timerAsteaptaPixeli)
                     {
+                        // esti aici?
+                        tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
                         sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.CLOSED;
                         forbarCutieIntake.setPosition(collectPosition);
                         currentStatus = INIT;

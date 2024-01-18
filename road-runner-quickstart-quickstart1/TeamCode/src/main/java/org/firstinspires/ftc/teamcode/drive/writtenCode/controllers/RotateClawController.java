@@ -13,10 +13,9 @@ public class RotateClawController {
     public RotateStatus currentStatus = RotateStatus.VERTICAL;
     public RotateStatus previousStatus = null;
 
-    public double verticalServoPosition = 0.115; // De modificat
-    public double horizontalServoPosition = 0.3; // De modificat
-
-    private Servo clawRotate = null;
+    public double verticalServoPosition = 0.115;
+    public double horizontalServoPosition = 0.39;
+        private Servo clawRotate = null;
     public RotateClawController(RobotMap robot)
     {
         clawRotate = robot.clawRotate;

@@ -14,10 +14,10 @@ public class ForbarOuttakeController {
     }
     public ForbarStatus currentStatus = ForbarStatus.GET_COLLECTED_PIXELS;
     public ForbarStatus previousStatus = null;
-    public double getPixelsPosition = 0;
-    public double placePixelsPosition = 0.5;
+    public double getPixelsPosition = 0.07;
+    public double placePixelsPosition = 0.65;
     private ElapsedTime waitForTheLift = new ElapsedTime();
-    private double timerPentruForbarOuttake = 0.3; // Modificati asta in functie de cat sa stea forbarul pana se ridica.
+    private double timerPentruForbarOuttake = 0.05; // Modificati asta in functie de cat sa stea forbarul pana se ridica.
     private Servo forbarOuttake = null;
     public ForbarOuttakeController(RobotMap robot)
     {
