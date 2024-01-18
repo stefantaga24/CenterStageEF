@@ -249,27 +249,6 @@ public class TeleOpCode extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-
-            /// Pozitii stack forbar
-
-            if (currentGamepad2.dpad_up && !previousGamepad2.dpad_up)
-            {
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
-
-            }
-            if (currentGamepad2.dpad_down && !previousGamepad2.dpad_down)
-            {
-                if (collectForbarController.currentStatus == CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK)
-                {
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                }
-            }
-
-
-
-
-
-
             /// Am apasat dpad_left ->
             // 4Bar ul intake se duce in pozitie
             // Colectare incepe.
@@ -501,9 +480,6 @@ public class TeleOpCode extends LinearOpMode {
                         transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
 
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-
-                        //inchid extendo
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     }
                 }
             }
