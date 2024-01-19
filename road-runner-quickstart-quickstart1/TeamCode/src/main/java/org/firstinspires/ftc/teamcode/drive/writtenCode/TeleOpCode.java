@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.AvionController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CataratController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ExtenderController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
@@ -151,6 +153,8 @@ public class TeleOpCode extends LinearOpMode {
         double initPosition = 0.93;
         RobotMap robot = new RobotMap(hardwareMap);
 
+        CataratController cataratController = new CataratController(robot);
+        AvionController avionController = new AvionController(robot);
         IntakeController intakeController = new IntakeController(robot);
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
@@ -168,7 +172,8 @@ public class TeleOpCode extends LinearOpMode {
                 intakeController,tubuleteController,sigurantaOuttakeController,robot);
         ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
-
+        cataratController.update();
+        avionController.update();
         extenderController.update();
         rotateClawController.update();
         forbarOuttakeController.update();
@@ -333,8 +338,8 @@ public class TeleOpCode extends LinearOpMode {
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
                 liftMotorController.currentPosition =
-                        Math.max(liftMotorController.retardPosition,Math.min(liftMotorController.currentPosition-10,//era +10, dar mergea invers
-                                liftMotorController.highPosition));
+                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition+10,//era +10, dar mergea invers
+                                liftMotorController.retardPosition));
                 extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
             else
@@ -342,8 +347,8 @@ public class TeleOpCode extends LinearOpMode {
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
                 liftMotorController.currentPosition =
-                        Math.max(liftMotorController.retardPosition,Math.min(liftMotorController.currentPosition+10,//era -10, dar mergea invers
-                                liftMotorController.highPosition));
+                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-10,//era -10, dar mergea invers
+                                liftMotorController.retardPosition));
                 extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
 
@@ -484,6 +489,37 @@ public class TeleOpCode extends LinearOpMode {
                 }
             }
 
+            if(currentGamepad1.y && !previousGamepad1.y)
+            {
+                if (avionController.currentStatus == AvionController.LaunchStatus.INIT)
+                {
+                    avionController.currentStatus = AvionController.LaunchStatus.LAUNCH;
+                }
+                else
+                {
+                    avionController.currentStatus = AvionController.LaunchStatus.INIT;
+                }
+            }
+            if(currentGamepad1.dpad_down==true)
+            {
+                if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
+                {
+                    cataratController.currentStatus = CataratController.CataratStatus.DOWN;
+                }
+            }
+            else
+            {
+                cataratController.currentStatus = CataratController.CataratStatus.STOP;
+            }
+            if(currentGamepad1.dpad_up==true)
+            {
+                if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
+                {
+                    cataratController.currentStatus = CataratController.CataratStatus.UP;
+                }
+            }
+            cataratController.update();
+            avionController.update();
             extenderController.update();
             rotateClawController.update();
             forbarOuttakeController.update();

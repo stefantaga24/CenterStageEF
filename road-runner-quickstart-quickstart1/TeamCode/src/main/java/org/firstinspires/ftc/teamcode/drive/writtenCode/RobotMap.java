@@ -51,8 +51,8 @@ public class RobotMap {
     public Servo rightTransferServo;
 
     public Servo forbarIntake;
-    public Servo hangingLeft;
-    public Servo hangingRight;
+    public CRServo hangingLeft;
+    public CRServo hangingRight;
 
     public DigitalChannel beamFront;
     public DigitalChannel beamBack;
@@ -121,8 +121,8 @@ public class RobotMap {
         leftTransferServo = Init.get(Servo.class, "leftTransferServo");
         rightTransferServo = Init.get(Servo.class,"rightTransferServo");
         forbarIntake = Init.get(Servo.class, "forbarIntake");
-        hangingLeft = Init.get(Servo.class, "hangingLeft");
-        hangingRight = Init.get(Servo.class, "hangingRight");
+        hangingLeft = Init.get(CRServo.class, "hangingLeft");
+        hangingRight = Init.get(CRServo.class, "hangingRight");
 
         /// Beam-uri
         beamFront = Init.get(DigitalChannel.class, "beamfront");

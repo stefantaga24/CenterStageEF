@@ -20,11 +20,11 @@ public class LiftMotorController {
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
     public int initPosition = -10;
-    public int lowPosition = 700;
-    public int midPosition = 700;
-    public int highPosition = 1630;
+    public int lowPosition = -700;
+    public int midPosition = -700;
+    public int highPosition = -1630;
 
-    public int retardPosition = -100;
+    public int retardPosition = 100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
     public DcMotor liftMotor = null;
@@ -61,7 +61,7 @@ public class LiftMotorController {
                 case LOW:
                 {
                     currentPosition = lowPosition;
-                    if (liftCurrentPosition <=0)
+                    if (liftCurrentPosition >=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -74,7 +74,7 @@ public class LiftMotorController {
                 case MID:
                 {
                     currentPosition = midPosition;
-                    if (liftCurrentPosition <=0)
+                    if (liftCurrentPosition >=0)
                     {
                         forbarOuttakeController.currentStatus =  ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -87,7 +87,7 @@ public class LiftMotorController {
                 case HIGH:
                 {
                     currentPosition = highPosition;
-                    if (liftCurrentPosition <=0)
+                    if (liftCurrentPosition >=0)
                     {
                         forbarOuttakeController.currentStatus =  ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
