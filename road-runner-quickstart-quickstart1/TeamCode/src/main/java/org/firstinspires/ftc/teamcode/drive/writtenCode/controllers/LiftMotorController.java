@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.INIT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.WAIT_TO_LIFT_FORBAR;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -15,7 +14,7 @@ public class LiftMotorController {
         LOW,
         MID,
         HIGH,
-        WAIT_TO_LIFT_FORBAR
+        LOW_AUTO,
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
@@ -24,15 +23,19 @@ public class LiftMotorController {
     public int midPosition = -700;
     public int highPosition = -1630;
 
+    public int lowAuto = -300;
+
     public int retardPosition = 100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
+    private ExtenderController extenderController;
     public DcMotor liftMotor = null;
     public MotorConfigurationType mct1;
 
 
-    public LiftMotorController(ForbarOuttakeController forbarOuttakeController, RobotMap robot)
+    public LiftMotorController(ForbarOuttakeController forbarOuttakeController, ExtenderController extenderController, RobotMap robot)
     {
+        this.extenderController = extenderController;
         this.forbarOuttakeController = forbarOuttakeController;
         this.liftMotor = robot.liftMotor;
     }
@@ -55,11 +58,16 @@ public class LiftMotorController {
                 case INIT:
                 {
                     forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     currentPosition = initPosition;
                     break;
                 }
                 case LOW:
                 {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
                     currentPosition = lowPosition;
                     if (liftCurrentPosition >=0)
                     {
@@ -73,6 +81,10 @@ public class LiftMotorController {
                 }
                 case MID:
                 {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
                     currentPosition = midPosition;
                     if (liftCurrentPosition >=0)
                     {
@@ -86,10 +98,31 @@ public class LiftMotorController {
                 }
                 case HIGH:
                 {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
                     currentPosition = highPosition;
                     if (liftCurrentPosition >=0)
                     {
                         forbarOuttakeController.currentStatus =  ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case LOW_AUTO:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = lowAuto;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
                     else
                     {

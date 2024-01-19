@@ -43,7 +43,7 @@ public class TransferController {
     // Pozitii pentru forbar cutie intake
     public double transferPosition = 0.19;
     public double collectPosition = 0.93;
-
+    public static double initPosition = 0.93;
 
     public ElapsedTime asteaptaCutie = new ElapsedTime();
     public ElapsedTime asteaptaPixeli = new ElapsedTime();

@@ -9,6 +9,7 @@ public class IntakeController {
         STOP,
         COLLECT_DRIVE,
         REVERSE,
+        REVERSE_AUTO,
     }
 
     public IntakeStatus currentStatus = IntakeStatus.STOP;
@@ -16,6 +17,7 @@ public class IntakeController {
 
     public double driveCollectPower = 1;
     public double reverseCollectPower = -1;
+    public double reverseAutoPower = -0.6;
     private DcMotorEx intakeMotor = null;
 
     /**
@@ -48,6 +50,11 @@ public class IntakeController {
                 case REVERSE:
                 {
                     intakeMotor.setPower(reverseCollectPower);
+                    break;
+                }
+                case REVERSE_AUTO:
+                {
+                    intakeMotor.setPower(reverseAutoPower);
                     break;
                 }
             }

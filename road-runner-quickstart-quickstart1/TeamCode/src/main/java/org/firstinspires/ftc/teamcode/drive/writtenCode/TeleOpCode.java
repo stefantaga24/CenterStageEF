@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.drive.writtenCode;
 
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -150,7 +152,7 @@ public class TeleOpCode extends LinearOpMode {
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        double initPosition = 0.93;
+
         RobotMap robot = new RobotMap(hardwareMap);
 
         CataratController cataratController = new CataratController(robot);
@@ -162,9 +164,9 @@ public class TeleOpCode extends LinearOpMode {
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
         ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
-        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,robot);
         RotateClawController rotateClawController = new RotateClawController(robot);
         ExtenderController extenderController = new ExtenderController(robot);
+        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot);
         robot.forbarCutieIntake.setPosition(initPosition);
 
 
@@ -309,11 +311,6 @@ public class TeleOpCode extends LinearOpMode {
             /// Lift going to low
             if (currentGamepad2.a && !previousGamepad2.a)
             {
-                if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                {
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                }
-
                 if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
@@ -321,7 +318,6 @@ public class TeleOpCode extends LinearOpMode {
 
                 else
                 {
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
                     {
                         liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
