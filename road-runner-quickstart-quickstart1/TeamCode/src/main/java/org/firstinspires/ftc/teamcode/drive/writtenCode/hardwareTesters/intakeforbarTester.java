@@ -29,16 +29,35 @@
 
 package org.firstinspires.ftc.teamcode.drive.writtenCode.hardwareTesters;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
-@Config
-@TeleOp(name="ParbrizServoTester", group="Linear OpMode")
-public class ParbrizServoTester extends LinearOpMode {
-    public static double servoPosition = 1;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
+
+
+/*
+ * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
+ * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
+ * of the FTC Driver Station. When a selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
+ *
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all linear OpModes contain.
+ *
+ * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
+ */
+
+
+@TeleOp(name="intakeforbarTester", group="Linear OpMode")
+public class intakeforbarTester extends LinearOpMode {
+    public static double servoPosition = 0.5;
+    Servo forbar;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -46,16 +65,20 @@ public class ParbrizServoTester extends LinearOpMode {
 
         RobotMap robot = new RobotMap(hardwareMap);
 
+        CollectForbarController collectForbarController = new CollectForbarController(robot);
+        IntakeController intakeController = new IntakeController(robot);
+        intakeController.update();
+
 
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad currentGamepad2 = new Gamepad();
 
         Gamepad previousGamepad1 = new Gamepad();
         Gamepad previousGamepad2 = new Gamepad();
-
-
+        forbar = hardwareMap.get(Servo.class, "forbarIntake");
 
         // Wait for the game to start (driver presses PLAY)
+        forbar.setPosition(1f);
         waitForStart();
 
         // run until the end of the match (driver presses STOP)
@@ -67,17 +90,17 @@ public class ParbrizServoTester extends LinearOpMode {
 
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
-            robot.forbarIntake.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
-            if (currentGamepad1.y == true)
-            {
-              robot.intakeMotor.setPower(0.8);
-            }
-            else
-            {
-                robot.intakeMotor.setPower(0);
-            }
-            telemetry.addData("Servo position is : ", robot.forbarIntake.getPosition());
+
+            if(currentGamepad1.dpad_up && !previousGamepad1.dpad_up) forbar.setPosition(forbar.getPosition()+0.025f);
+            if(currentGamepad1.dpad_down && !previousGamepad1.dpad_down) forbar.setPosition(forbar.getPosition()-0.025f);
+            if(currentGamepad1.a) intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
+
+///salut<3
+            ///<3 pupici
+            telemetry.addData("poz", forbar.getPosition());
             telemetry.update();
+            intakeController.update();
+
         }
     }
 }

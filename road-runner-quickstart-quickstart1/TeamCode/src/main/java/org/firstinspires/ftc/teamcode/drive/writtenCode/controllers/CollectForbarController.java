@@ -19,9 +19,8 @@ public class CollectForbarController {
 
     public double initPosition = 1f;
     public double collectPosition = 0.59f;
-    public double collectStackPosition = 0.77f; /// Trebuie sa modificati pozitia asta pt stack
+    public double collectStackPosition = 0.73f; /// Trebuie sa modificati pozitia asta pt stack
     public double playPosition = 0.7f;
-    public double jerkPosition = 0.9f;
     public double autoPosition = 1f;
 
     private Servo forbarIntake = null;
@@ -38,11 +37,6 @@ public class CollectForbarController {
             previousStatus = currentStatus;
             switch (currentStatus)
             {
-                case JERK:
-                {
-                    forbarIntake.setPosition(jerkPosition);
-                    break;
-                }
                 case INIT:
                 {
                     forbarIntake.setPosition(initPosition);

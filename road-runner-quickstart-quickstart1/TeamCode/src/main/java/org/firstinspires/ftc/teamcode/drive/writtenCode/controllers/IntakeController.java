@@ -1,23 +1,27 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
+@Config
 public class IntakeController {
     public enum IntakeStatus{
         STOP,
         COLLECT_DRIVE,
         REVERSE,
         REVERSE_AUTO,
+        STACK,
     }
 
     public IntakeStatus currentStatus = IntakeStatus.STOP;
     public IntakeStatus previousStatus = null;
 
-    public double driveCollectPower = 1;
-    public double reverseCollectPower = -1;
-    public double reverseAutoPower = -0.6;
+    public static double driveCollectPower = 1;
+    public static double reverseCollectPower = -1;
+    public static double reverseAutoPower = -0.3;
+    public static double stackPower = 0.8;
     private DcMotorEx intakeMotor = null;
 
     /**
@@ -55,6 +59,11 @@ public class IntakeController {
                 case REVERSE_AUTO:
                 {
                     intakeMotor.setPower(reverseAutoPower);
+                    break;
+                }
+                case STACK:
+                {
+                    intakeMotor.setPower(stackPower);
                     break;
                 }
             }

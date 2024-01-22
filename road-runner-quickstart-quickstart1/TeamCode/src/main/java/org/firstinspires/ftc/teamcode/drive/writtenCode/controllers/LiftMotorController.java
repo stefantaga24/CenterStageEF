@@ -2,15 +2,18 @@ package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.INIT;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
+@Config
 public class LiftMotorController {
     public enum LiftStatus{
         INIT,
+        GOING_DOWN,
         LOW,
         MID,
         HIGH,
@@ -18,12 +21,13 @@ public class LiftMotorController {
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
-    public int initPosition = -10;
-    public int lowPosition = -700;
-    public int midPosition = -700;
-    public int highPosition = -1630;
+    public static int initPosition = 10;
+    public static int downPosition = -100;
+    public static int lowPosition = -700;
+    public static int midPosition = -700;
+    public static int highPosition = -1630;
 
-    public int lowAuto = -300;
+    public static int lowAuto = -315;
 
     public int retardPosition = 100;
     public int currentPosition = initPosition;
@@ -57,9 +61,24 @@ public class LiftMotorController {
             {
                 case INIT:
                 {
+//                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+//                    if(liftCurrentPosition<=-200)
+//                    {
+//                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.DOWN;
+//                    }
+//                    else
+//                    {
+//                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
+//                    }
                     forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     currentPosition = initPosition;
+                    break;
+                }
+                case GOING_DOWN:
+                {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+                    forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.DOWN;
+                    currentPosition=downPosition;
                     break;
                 }
                 case LOW:

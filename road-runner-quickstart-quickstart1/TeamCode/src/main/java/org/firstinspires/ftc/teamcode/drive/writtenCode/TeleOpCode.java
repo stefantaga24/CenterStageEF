@@ -294,9 +294,10 @@ public class TeleOpCode extends LinearOpMode {
             /// Transfer pixelii dintr-o cutie in alta si apoi inchid siguranta
             /// Cutia de la intake revine la pozitia de colectare
 
-            if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
+            //if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
+            if(currentGamepad2.b && !previousGamepad2.b)
             {
-                if (transferController.currentStatus == TransferController.TransferStatus.INIT && liftCurrentPosition<=0 &&
+                if (transferController.currentStatus == TransferController.TransferStatus.INIT && liftCurrentPosition>=0 &&
                     forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS &&
                     extenderCurrentPosition <= 0)
                 {
@@ -320,7 +321,7 @@ public class TeleOpCode extends LinearOpMode {
                 {
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
                     {
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                     }
                     else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
@@ -328,6 +329,10 @@ public class TeleOpCode extends LinearOpMode {
                         rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
                     }
                 }
+            }
+            if(liftCurrentPosition>=-120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN)
+            {
+                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
             }
             /// Control lift manual
             if (gamepad2.left_stick_y >0)
@@ -481,6 +486,7 @@ public class TeleOpCode extends LinearOpMode {
                         transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
 
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     }
                 }
             }
@@ -496,7 +502,7 @@ public class TeleOpCode extends LinearOpMode {
                     avionController.currentStatus = AvionController.LaunchStatus.INIT;
                 }
             }
-            if(currentGamepad1.dpad_down==true)
+            if(currentGamepad2.dpad_down==true)
             {
                 if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
                 {
@@ -507,12 +513,23 @@ public class TeleOpCode extends LinearOpMode {
             {
                 cataratController.currentStatus = CataratController.CataratStatus.STOP;
             }
-            if(currentGamepad1.dpad_up==true)
+            if(currentGamepad2.dpad_up==true)
             {
                 if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
                 {
                     cataratController.currentStatus = CataratController.CataratStatus.UP;
                 }
+            }
+
+            if(gamepad2.right_stick_button == true)
+            {
+                intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
+                tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
+                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
+            }
+            else
+            {
+                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
             }
             cataratController.update();
             avionController.update();

@@ -15,7 +15,7 @@ public class AvionController {
     public LaunchStatus currentStatus = AvionController.LaunchStatus.INIT;
     public LaunchStatus previousStatus = null;
 
-    public double initPosition = 0.5;
+    public double initPosition = 0.7;
     public double launchPosition = 0;
     private Servo airplaneServo = null;
     public AvionController(RobotMap robot)

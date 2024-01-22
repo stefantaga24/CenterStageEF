@@ -1,21 +1,25 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
+@Config
 public class ForbarOuttakeController {
     public enum ForbarStatus{
         GET_COLLECTED_PIXELS, // Cand putem efectua transfer
         PLACE_ON_BACKBOARD, // Cand pui pe backboard
         MOVE_TO_BACKBOARD_DELAY, // Cand vrei sa-l misti cu un delay
         PLACE_ON_BACKBOARD_WITH_DELAY,
+        DOWN,
     }
     public ForbarStatus currentStatus = ForbarStatus.GET_COLLECTED_PIXELS;
     public ForbarStatus previousStatus = null;
-    public double getPixelsPosition = 0.07;
-    public double placePixelsPosition = 0.65;
+    public static double getPixelsPosition = 0.07;
+    public static double placePixelsPosition = 0.69;
+    public static double  downPosition = 0.25;
     private ElapsedTime waitForTheLift = new ElapsedTime();
     private double timerPentruForbarOuttake = 0.05; // Modificati asta in functie de cat sa stea forbarul pana se ridica.
     private Servo forbarOuttake = null;
@@ -53,6 +57,11 @@ public class ForbarOuttakeController {
                     {
                         currentStatus = ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    break;
+                }
+                case DOWN:
+                {
+                    this.forbarOuttake.setPosition(downPosition);
                     break;
                 }
             }
