@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
@@ -18,11 +19,13 @@ public class IntakeController {
     public IntakeStatus currentStatus = IntakeStatus.STOP;
     public IntakeStatus previousStatus = null;
 
-    public static double driveCollectPower = 1;
+    public static double driveCollectPower = 1 ;
     public static double reverseCollectPower = -1;
-    public static double reverseAutoPower = -0.3;
+    public static double reverseAutoPower = -0.45; //-0.3
     public static double stackPower = 0.8;
     private DcMotorEx intakeMotor = null;
+    public MotorConfigurationType mct1;
+
 
     /**
      * Constructor pentru clasa IntakeController
@@ -36,6 +39,9 @@ public class IntakeController {
 
     public void update()
     {
+        mct1 = intakeMotor.getMotorType().clone();
+        mct1.setAchieveableMaxRPMFraction(1.0);
+        intakeMotor.setMotorType(mct1);
         if (currentStatus != previousStatus )
         {
             previousStatus = currentStatus;

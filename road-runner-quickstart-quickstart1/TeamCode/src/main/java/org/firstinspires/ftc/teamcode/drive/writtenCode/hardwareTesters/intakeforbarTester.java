@@ -91,9 +91,10 @@ public class intakeforbarTester extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            if(currentGamepad1.dpad_up && !previousGamepad1.dpad_up) forbar.setPosition(forbar.getPosition()+0.025f);
-            if(currentGamepad1.dpad_down && !previousGamepad1.dpad_down) forbar.setPosition(forbar.getPosition()-0.025f);
-            if(currentGamepad1.a) intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
+            if(currentGamepad1.dpad_up && !previousGamepad1.dpad_up) forbar.setPosition(forbar.getPosition()+0.01f);
+            if(currentGamepad1.dpad_down && !previousGamepad1.dpad_down) forbar.setPosition(forbar.getPosition()-0.01f);
+            if(currentGamepad1.a) intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
+            if(currentGamepad1.b) intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
 
 ///salut<3
             ///<3 pupici

@@ -38,7 +38,7 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 @Config
 @TeleOp(name="ParbrizServoTester", group="Linear OpMode")
 public class ParbrizServoTester extends LinearOpMode {
-    public static double servoPosition = 1;
+    public static double servoPosition = 0.115;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -67,7 +67,7 @@ public class ParbrizServoTester extends LinearOpMode {
 
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
-            robot.forbarIntake.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
+            robot.clawRotate.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
             if (currentGamepad1.y == true)
             {
               robot.intakeMotor.setPower(0.8);
@@ -76,7 +76,7 @@ public class ParbrizServoTester extends LinearOpMode {
             {
                 robot.intakeMotor.setPower(0);
             }
-            telemetry.addData("Servo position is : ", robot.forbarIntake.getPosition());
+            telemetry.addData("Servo position is : ", robot.clawRotate.getPosition());
             telemetry.update();
         }
     }

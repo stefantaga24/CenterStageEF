@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.teleops;
+package org.firstinspires.ftc.teamcode.drive.writtenCode.hardwareTesters;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -14,14 +14,16 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 //s0Ft ArabEsc
 public class BreakBeamTest extends LinearOpMode {
     // SampleMecanumDrive drive;
-    DigitalChannel sensor;
+    DigitalChannel sensor,sensor2;
 
     public void runOpMode() {
         sensor = hardwareMap.digitalChannel.get("beamfront");
+        sensor2 = hardwareMap.digitalChannel.get("beamback");
         waitForStart();
         while(opModeIsActive() && !isStopRequested()) {
             telemetry.addData("time", "elapsed time: " + Double.toString(this.time));
-            telemetry.addData("state", ":  " + sensor.getState());
+            telemetry.addData("beamfront", ":  " + sensor.getState());
+            telemetry.addData("beamback",": " + sensor2.getState());
             telemetry.update();
         }
     }

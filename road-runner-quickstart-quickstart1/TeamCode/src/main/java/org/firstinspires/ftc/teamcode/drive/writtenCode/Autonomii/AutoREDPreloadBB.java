@@ -44,27 +44,27 @@ public class AutoREDPreloadBB extends LinearOpMode {
 
     public static double forwardLeft = 6.75;
     public static  double PRELOAD_LEFT_X = 15;
-    public static  double PRELOAD_LEFT_Y = -34;
+    public static  double PRELOAD_LEFT_Y = -36.5;
     public static  double PRELOAD_ANGLE_LEFT = -5;
-    public static  double PLACE_SPIKE_LEFT_X = 49.65;
-    public static  double PLACE_SPIKE_LEFT_Y = -32;
+    public static  double PLACE_SPIKE_LEFT_X = 49;
+    public static  double PLACE_SPIKE_LEFT_Y = -31;
     public static  double ANGLE_SPIKE_LEFT = 0;
     public static  double PARK_LEFT_X = 48;
-    public static  double PARK_LEFT_Y = -17;
+    public static  double PARK_LEFT_Y = -17; //-65
     public static  double ANGLE_PARK_LEFT = 0;
-    public static  double PRELOAD_MID_X = 20;
-    public static  double PRELOAD_MID_Y = -24.5;
+    public static  double PRELOAD_MID_X = 25;
+    public static  double PRELOAD_MID_Y = -25;
     public static  double PRELOAD_ANGLE_MID = -5;
-    public static  double PLACE_SPIKE_MID_X = 49.65;
-    public static  double PLACE_SPIKE_MID_Y = -40;
+    public static  double PLACE_SPIKE_MID_X = 49;
+    public static  double PLACE_SPIKE_MID_Y = -37.5;
     public static  double ANGLE_SPIKE_MID = 0;
     public static  double PARK_MID_X = 48;
     public static  double PARK_MID_Y = -17;
     public static  double ANGLE_PARK_MID = 0;
     public static  double PRELOAD_RIGHT_X = 32;
-    public static  double PRELOAD_RIGHT_Y = -33;
+    public static  double PRELOAD_RIGHT_Y = -35.5;
     public static  double PRELOAD_ANGLE_RIGHT = -5;
-    public static  double PLACE_SPIKE_RIGHT_X = 49.85;
+    public static  double PLACE_SPIKE_RIGHT_X = 49;
     public static  double PLACE_SPIKE_RIGHT_Y = -46;
     public static double ANGLE_SPIKE_RIGHT = 0;
     public static double PARK_RIGHT_X = 48;
@@ -145,6 +145,7 @@ public class AutoREDPreloadBB extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_LEFT_X, PLACE_SPIKE_LEFT_Y,Math.toRadians(ANGLE_SPIKE_LEFT)))
                 .build();
         TrajectorySequence PARK_ROBOT_LEFT = drive.trajectorySequenceBuilder(PLACE_SPIKE_LEFT.end())
+                .back(5)
                 .lineToLinearHeading(new Pose2d(PARK_LEFT_X, PARK_LEFT_Y,Math.toRadians(ANGLE_PARK_LEFT)))
                 .strafeLeft(5)
                 .forward(10)
@@ -159,6 +160,7 @@ public class AutoREDPreloadBB extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y,Math.toRadians(ANGLE_SPIKE_MID)))
                 .build();
         TrajectorySequence PARK_ROBOT_MID = drive.trajectorySequenceBuilder(PLACE_SPIKE_MID.end())
+                .back(5)
                 .lineToLinearHeading(new Pose2d(PARK_MID_X, PARK_MID_Y,Math.toRadians(ANGLE_PARK_MID)))
                 .strafeLeft(5)
                 .forward(10)
@@ -172,6 +174,7 @@ public class AutoREDPreloadBB extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_RIGHT_X, PLACE_SPIKE_RIGHT_Y,Math.toRadians(ANGLE_SPIKE_RIGHT)))
                 .build();
         TrajectorySequence PARK_ROBOT_RIGHT = drive.trajectorySequenceBuilder(PLACE_SPIKE_RIGHT.end())
+                .back(5)
                 .lineToLinearHeading(new Pose2d(PARK_RIGHT_X, PARK_RIGHT_Y,Math.toRadians(ANGLE_PARK_RIGHT)))
                 .strafeLeft(5)
                 .forward(10)

@@ -65,8 +65,8 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TubuleteCont
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="TeleOpCode", group="Linear OpMode")
-public class TeleOpCode extends LinearOpMode {
+@TeleOp(name="extRetard", group="Linear OpMode")
+public class extRetard extends LinearOpMode {
     // Putine disclaimere :
 
     // Ce este loop time-ul?
@@ -143,10 +143,10 @@ public class TeleOpCode extends LinearOpMode {
         double rightBackPower = (y + x - rx) / denominator;
 
 
-        leftFront.setPower(leftFrontPower);
-        leftBack.setPower(leftBackPower);
-        rightFront.setPower(rightFrontPower);
-        rightBack.setPower(rightBackPower);
+//        leftFront.setPower(leftFrontPower);
+//        leftBack.setPower(leftBackPower);
+//        rightFront.setPower(rightFrontPower);
+//        rightBack.setPower(rightBackPower);
     }
     @Override
     public void runOpMode() {
@@ -256,288 +256,37 @@ public class TeleOpCode extends LinearOpMode {
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
 
-            /// Am apasat dpad_left ->
-            // 4Bar ul intake se duce in pozitie
-            // Colectare incepe.
-            // Switch/Toggle - Continous press
-            // Dpad_left- > 4Bar-ul se duce , incepe colectare , Dpad_left - > 4barul se intoarce (Switch)
-            // Cat timp e apasat se intampla ce s-a scris mai sus (Continous)
 
-            if (currentGamepad2.dpad_left && !previousGamepad2.dpad_left)
-            {
-                if (intakeController.currentStatus == IntakeController.IntakeStatus.STOP)
-                {
-                    tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
-                    intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
-                    if (collectForbarController.currentStatus == CollectForbarController.CollectStatus.PLAY)
-                    {
-                        collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                    }
-                }
-                else
-                {
-                    tubuleteController.currentStatus = TubuleteController.CollectStatus.BLOCARE;
-                    intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
-                }
-            }
-
-            if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
-            {
-                intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
-            }
-
-            /// Apas pe right_trigger
-            /// Se blocheaza + Reverse colectare
-            /// Flip , dupa flip opresc colectarea
-            /// Asteapta flip ul sa se termine
-            /// Transfer pixelii dintr-o cutie in alta si apoi inchid siguranta
-            /// Cutia de la intake revine la pozitia de colectare
-
-            //if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
-            if(currentGamepad2.b && !previousGamepad2.b)
-            {
-                if (transferController.currentStatus == TransferController.TransferStatus.INIT && liftCurrentPosition>=0 &&
-                    forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS &&
-                    extenderCurrentPosition <= 0)
-                {
-                    transferController.actualTimeForExtendo = 0;
-                    // Cand fac transferul vreau sa fie inchis parbrizul
-                    parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                    // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
-                    transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-                }
-            }
-            /// Lift going to low
-            if (currentGamepad2.a && !previousGamepad2.a)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
-                }
-
-                else
-                {
-                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
-                    {
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
-                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                    }
-                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
-                    {
-                        rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
-                    }
-                }
-            }
             if(liftCurrentPosition>=-120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN)
             {
-                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
             }
             /// Control lift manual
             if (gamepad2.left_stick_y >0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                liftMotorController.currentPosition =
-                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition+10,//era +10, dar mergea invers
-                                liftMotorController.retardPosition));
+                liftMotorController.currentPosition = liftMotorController.currentPosition+10;
                 extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
             else
             if (gamepad2.left_stick_y <0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                liftMotorController.currentPosition =
-                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-10,//era -10, dar mergea invers
-                                liftMotorController.retardPosition));
+                liftMotorController.currentPosition = liftMotorController.currentPosition-10;
                 extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
-
+            if (gamepad2.right_stick_y >0)
+            {
+                /// Ii dau clip la currentPosition intre initPosition si highPosition.
+                extenderController.currentPosition = extenderController.currentPosition-5;
+            }
+            if (gamepad2.right_stick_y <0)
+            {
+                /// Ii dau clip la currentPosition intre initPosition si highPosition.
+                extenderController.currentPosition = extenderController.currentPosition+5;
+            }
             /// Lift going to mosaic
-            if (currentGamepad2.x && !previousGamepad2.x)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.liftMosaic;
-                    rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
-                }
 
-                else
-                {
-                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
-                    {
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
-                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                    }
-                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
-                    {
-                        rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
-                    }
-                }
-            }
-
-
-            /*/// Lift going to high
-            if (currentGamepad2.y && !previousGamepad2.y)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.HIGH;
-                }
-                else
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
-                }
-            }*/
-
-
-            // Apas pe left_bumper vreau sa-mi pice doar un singur pixel cand e in pozitie verticala
-            // Apas pe right_bumper vreau sa-mi pice ambii
-
-            // Eu sunt cu pixelii ambii in cutie doar cu siguranta de la outtake pusa
-            // Siguranta de la outtake , pabriz , pixel2 (dreapta)
-
-            // left_bumper -> pixel2 closed + delay + siguranta outtake
-            // right_bumper -> siguranta + pixel2 open
-
-            if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper)
-            {
-                if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT &&
-                    rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
-                {
-                    scoringController.currentStatus = ScoringController.ScoringStatus.DROP_ONE_PIXEL;
-                }
-            }
-            if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper)
-            {
-                if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT)
-                {
-                    scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
-                }
-            }
-
-            if (currentGamepad2.y && !previousGamepad2.y
-                && forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD)
-            {
-                if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
-                {
-                    rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
-                }
-                else
-                {
-                    rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
-                }
-            }
-
-
-            if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper)
-            {
-                if (extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                {
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.FAR;
-                    tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
-                    intakeController.currentStatus = IntakeController.IntakeStatus.COLLECT_DRIVE;
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                }
-                else
-                {
-
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
-
-                    // Fac transferul cu extendo
-
-                    // Cand fac transferul vreau sa fie inchis parbrizul
-                    parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                    // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
-
-                    // Pun timpul pentru extendo
-                    transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
-
-                    transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-                }
-            }
-            if (currentGamepad1.x && !previousGamepad1.x)
-            {
-                usesBeam = !usesBeam;
-            }
-            /// Daca robotul vede doi pixeli in fata , folosim break beam - uri
-            if (usesBeam && robot.beamFront.getState() == false && robot.beamBack.getState() == false)
-            {
-                if (transferController.currentStatus == TransferController.TransferStatus.INIT)
-                {
-                    if (extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        // Cand fac transferul vreau sa fie inchis parbrizul
-                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                        // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
-
-                        // Nu trebuie sa tin cont de extendo
-                        transferController.actualTimeForExtendo = 0;
-
-                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-                    }
-                    else
-                    {
-                        // Fac transferul cu extendo
-
-                        // Cand fac transferul vreau sa fie inchis parbrizul
-                        //parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                        //am parbrizul mereu inchis cand liftul e jos
-
-                        // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
-
-                        // Pun timpul pentru extendo
-                        transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
-
-                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
-                    }
-                }
-            }
-
-            if(currentGamepad1.y && !previousGamepad1.y)
-            {
-                if (avionController.currentStatus == AvionController.LaunchStatus.INIT)
-                {
-                    avionController.currentStatus = AvionController.LaunchStatus.LAUNCH;
-                }
-                else
-                {
-                    avionController.currentStatus = AvionController.LaunchStatus.INIT;
-                }
-            }
-            if(currentGamepad2.dpad_down==true)
-            {
-                if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
-                {
-                    cataratController.currentStatus = CataratController.CataratStatus.DOWN;
-                }
-            }
-            else
-            {
-                cataratController.currentStatus = CataratController.CataratStatus.STOP;
-            }
-            if(currentGamepad2.dpad_up==true)
-            {
-                if(cataratController.currentStatus == CataratController.CataratStatus.STOP)
-                {
-                    cataratController.currentStatus = CataratController.CataratStatus.UP;
-                }
-            }
-
-            if(gamepad2.right_stick_button == true)
-            {
-                intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
-                tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
-                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
-            }
-            else
-            {
-                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-            }
             cataratController.update();
             avionController.update();
             extenderController.update();

@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.INIT;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE1_C23;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
@@ -18,6 +17,12 @@ public class LiftMotorController {
         MID,
         HIGH,
         LOW_AUTO,
+        AUTO_CYCLE2_C1,
+        AUTO_CYCLE1_C1,
+        AUTO_CYCLE1_C23,
+        AUTO_CYCLE2_C23,
+        liftMosaic,
+
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
@@ -27,7 +32,12 @@ public class LiftMotorController {
     public static int midPosition = -700;
     public static int highPosition = -1630;
 
-    public static int lowAuto = -315;
+    public static int lowAuto = -360;
+    public static int mosaicPosition = -317;
+    public static int autoCycle1_C1 = -570;
+    public static int autoCycle2_C1 = -900;
+    public static int autoCycle1_C23 = -540;
+    public static int autoCycle2_C23 = -800;
 
     public int retardPosition = 100;
     public int currentPosition = initPosition;
@@ -149,8 +159,95 @@ public class LiftMotorController {
                     }
                     break;
                 }
+                case AUTO_CYCLE2_C1:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = autoCycle2_C1;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case AUTO_CYCLE1_C1:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = autoCycle1_C1;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case AUTO_CYCLE1_C23:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = autoCycle1_C23;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case AUTO_CYCLE2_C23:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = autoCycle2_C23;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case liftMosaic:
+                {
+                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    {
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    }
+                    currentPosition = mosaicPosition;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+
+                }
             }
+
+        }
             previousStatus = currentStatus;
         }
     }
-}
