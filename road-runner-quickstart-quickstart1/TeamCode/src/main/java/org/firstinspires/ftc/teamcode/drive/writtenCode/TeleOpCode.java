@@ -130,7 +130,7 @@ public class TeleOpCode extends LinearOpMode {
         /// Probabil sunt variabile globale , n-ar trebui sa va faceti multe griji
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = (-gamepad1.left_trigger + gamepad1.right_trigger)* 1.05; // Counteract imperfect strafing
+        double x = (-gamepad1.left_trigger + gamepad1.right_trigger)* 1.035; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
         // Denominator is the largest motor power (absolute value) or 1
@@ -341,7 +341,7 @@ public class TeleOpCode extends LinearOpMode {
                 liftMotorController.currentPosition =
                         Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition+10,//era +10, dar mergea invers
                                 liftMotorController.retardPosition));
-                extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+              //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
             else
             if (gamepad2.left_stick_y <0)
@@ -350,7 +350,7 @@ public class TeleOpCode extends LinearOpMode {
                 liftMotorController.currentPosition =
                         Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-10,//era -10, dar mergea invers
                                 liftMotorController.retardPosition));
-                extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+               // extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
 
             /// Lift going to mosaic

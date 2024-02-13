@@ -22,7 +22,7 @@ public class IntakeController {
     public static double driveCollectPower = 1 ;
     public static double reverseCollectPower = -1;
     public static double reverseAutoPower = -0.45; //-0.3
-    public static double stackPower = 0.8;
+    public static double stackPower = 1;
     private DcMotorEx intakeMotor = null;
     public MotorConfigurationType mct1;
 

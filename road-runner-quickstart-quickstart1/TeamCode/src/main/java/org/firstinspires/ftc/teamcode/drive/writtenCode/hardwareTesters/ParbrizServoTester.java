@@ -38,7 +38,7 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 @Config
 @TeleOp(name="ParbrizServoTester", group="Linear OpMode")
 public class ParbrizServoTester extends LinearOpMode {
-    public static double servoPosition = 0.115;
+    public static double servoPosition = 0.395 ;
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");

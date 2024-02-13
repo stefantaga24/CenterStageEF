@@ -93,10 +93,10 @@ public class LiftMotorController {
                 }
                 case LOW:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                   // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                      //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = lowPosition;
                     if (liftCurrentPosition >=0)
                     {
@@ -110,10 +110,10 @@ public class LiftMotorController {
                 }
                 case MID:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                   // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                    //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                  //  }
                     currentPosition = midPosition;
                     if (liftCurrentPosition >=0)
                     {
@@ -127,10 +127,10 @@ public class LiftMotorController {
                 }
                 case HIGH:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                  //  if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                      //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = highPosition;
                     if (liftCurrentPosition >=0)
                     {
@@ -144,10 +144,10 @@ public class LiftMotorController {
                 }
                 case LOW_AUTO:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                   // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                      //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = lowAuto;
                     if (liftCurrentPosition >=0)
                     {
@@ -161,10 +161,10 @@ public class LiftMotorController {
                 }
                 case AUTO_CYCLE2_C1:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                  //  if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                   // {
+                     //   extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = autoCycle2_C1;
                     if (liftCurrentPosition >=0)
                     {
@@ -178,10 +178,10 @@ public class LiftMotorController {
                 }
                 case AUTO_CYCLE1_C1:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                   // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                      //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = autoCycle1_C1;
                     if (liftCurrentPosition >=0)
                     {
@@ -195,10 +195,10 @@ public class LiftMotorController {
                 }
                 case AUTO_CYCLE1_C23:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                   // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                   // {
+                     //   extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                  //  }
                     currentPosition = autoCycle1_C23;
                     if (liftCurrentPosition >=0)
                     {
@@ -212,10 +212,10 @@ public class LiftMotorController {
                 }
                 case AUTO_CYCLE2_C23:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                  //  if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                   // {
+                   //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
                     currentPosition = autoCycle2_C23;
                     if (liftCurrentPosition >=0)
                     {
@@ -229,10 +229,10 @@ public class LiftMotorController {
                 }
                 case liftMosaic:
                 {
-                    if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
-                    }
+                  //  if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                 //   {
+                   //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                   // }
                     currentPosition = mosaicPosition;
                     if (liftCurrentPosition >=0)
                     {

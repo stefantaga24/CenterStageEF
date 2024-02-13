@@ -14,7 +14,7 @@ public class ExtenderController {
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
     public ExtenderStatus previousStatus = null;
     public int extenderInit =-5; /// Pozitia de init a extenderului
-    public int extenderFar = 965; /// Pozitia de extensie a extenderului
+    public int extenderFar = 960; /// Pozitia de extensie a extenderului
     public int currentPosition = -5;
     public int extenderFix = 50;
     public int extenderFailsafe = 300;
