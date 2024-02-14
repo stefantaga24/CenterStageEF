@@ -5,12 +5,13 @@ import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Trans
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.TransferStatus.PLACE_BOX_IN_COLLECT;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.TransferStatus.TRANSFER_PIXELS;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
-
+@Config
 public class TransferController {
     public enum TransferStatus{
         INIT,
@@ -41,9 +42,9 @@ public class TransferController {
     public double actualTimeForExtendo = 0; /// Nu modificati
 
     // Pozitii pentru forbar cutie intake
-    public double transferPosition = 0.19;
-    public double collectPosition = 0.96;
-    public static double initPosition = 0.96;
+    public static double transferPosition = 0.19;
+    public static double collectPosition = 1;
+    public static double initPosition = 1;
 
     public ElapsedTime asteaptaCutie = new ElapsedTime();
     public ElapsedTime asteaptaPixeli = new ElapsedTime();

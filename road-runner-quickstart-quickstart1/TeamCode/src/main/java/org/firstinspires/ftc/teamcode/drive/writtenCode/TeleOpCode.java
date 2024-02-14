@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.AvionController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CataratController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CollectForbarController;
@@ -530,13 +531,7 @@ public class TeleOpCode extends LinearOpMode {
 
             if(gamepad2.right_stick_button == true)
             {
-                intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
-                tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
                 collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
-            }
-            else
-            {
-                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
             }
             cataratController.update();
             avionController.update();
@@ -552,6 +547,13 @@ public class TeleOpCode extends LinearOpMode {
             parbrizController.update();
             sigurantaOuttakeController.update();
             scoringController.update();
+
+            telemetry.addData("Motor extensie stanga", robot.leftExtension.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Motor extensie dreapta", robot.rightExtension.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Motor extensie outtake", robot.liftMotor.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Motor intake", robot.intakeMotor.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Servo forbar Intake",robot.forbarIntake.getPosition());
+            telemetry.update();
         }
     }
 }

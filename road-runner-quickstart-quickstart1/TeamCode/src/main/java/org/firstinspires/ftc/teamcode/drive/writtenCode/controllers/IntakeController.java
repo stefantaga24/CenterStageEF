@@ -19,10 +19,10 @@ public class IntakeController {
     public IntakeStatus currentStatus = IntakeStatus.STOP;
     public IntakeStatus previousStatus = null;
 
-    public static double driveCollectPower = 1 ;
+    public static double driveCollectPower = 0.7 ;
     public static double reverseCollectPower = -1;
     public static double reverseAutoPower = -0.45; //-0.3
-    public static double stackPower = 1;
+    public static double stackPower = 0.7;
     private DcMotorEx intakeMotor = null;
     public MotorConfigurationType mct1;
 
