@@ -22,7 +22,7 @@ public class CollectForbarController {
 
     public static double initPosition = 1f;
     public static double collectPosition = 0.278f;
-    public static double collectStackPosition = 0.58f; /// 0.75 - OK
+    public static double collectStackPosition = 0.36f; /// 0.75 - OK
     public static double collectStackPixel5 = 0.74f;
     public static double collectStackPixel4 = 0.71f;
     public static double collectStackAutoLowPosition = 0.62f;
