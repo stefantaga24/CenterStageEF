@@ -14,6 +14,7 @@ public class IntakeController {
         REVERSE,
         REVERSE_AUTO,
         STACK,
+        FULL,
     }
 
     public IntakeStatus currentStatus = IntakeStatus.STOP;
@@ -22,6 +23,7 @@ public class IntakeController {
     public static double driveCollectPower = 0.7 ;
     public static double reverseCollectPower = -1;
     public static double reverseAutoPower = -0.45; //-0.3
+    public static double fullPower = 1;
     public static double stackPower = 0.7;
     private DcMotorEx intakeMotor = null;
     public MotorConfigurationType mct1;
@@ -70,6 +72,11 @@ public class IntakeController {
                 case STACK:
                 {
                     intakeMotor.setPower(stackPower);
+                    break;
+                }
+                case FULL:
+                {
+                    intakeMotor.setPower(fullPower);
                     break;
                 }
             }
