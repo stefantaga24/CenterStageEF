@@ -13,10 +13,10 @@ public class ExtenderController {
     }
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
     public ExtenderStatus previousStatus = null;
-    public static int extenderInit =-5; /// Pozitia de init a extenderului
+    public static int extenderInit =-20; /// Pozitia de init a extenderului
     public int extenderFar = 960; /// Pozitia de extensie a extenderului
-    public static double Kp = 0; //0.00325;
-    public static double Ki = 0; //0.0022;
+    public static double Kp = 0.0028; //0.00325;
+    public static double Ki = 0.0006; //0.0022;
     public static double Kd = 0;
     public int CurrentPosition = -5;
     public int extenderFix = 50;

@@ -166,6 +166,8 @@ public class AutoBlueSplineClose extends LinearOpMode {
         robot.rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.leftExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.rightExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.leftExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         CataratController cataratController = new CataratController(robot);
         AvionController avionController = new AvionController(robot);
         IntakeController intakeController = new IntakeController(robot);
@@ -187,7 +189,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update(ExtenderController.extenderInit);
+        extenderController.update(0);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -633,6 +635,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
             telemetry.addData("Status",status);
             telemetry.addData("AutoTimer", AutoTimer.seconds());
             telemetry.addData("Extender status", extenderController.currentStatus);
+            telemetry.addData("pozitie", extenderCurrentPosition);
             telemetry.update();
         }
     }

@@ -176,7 +176,7 @@ public class extRetard extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update();
+        extenderController.update(ExtenderController.extenderInit);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -239,7 +239,7 @@ public class extRetard extends LinearOpMode {
             if (isStopRequested()) return;
 
             int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
@@ -278,18 +278,18 @@ public class extRetard extends LinearOpMode {
             if (gamepad2.right_stick_y >0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                extenderController.currentPosition = extenderController.currentPosition-5;
+                extenderController.CurrentPosition = extenderController.CurrentPosition-5;
             }
             if (gamepad2.right_stick_y <0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                extenderController.currentPosition = extenderController.currentPosition+5;
+                extenderController.CurrentPosition = extenderController.CurrentPosition+5;
             }
             /// Lift going to mosaic
 
             cataratController.update();
             avionController.update();
-            extenderController.update();
+            extenderController.update(extenderCurrentPosition);
             rotateClawController.update();
             forbarOuttakeController.update();
             liftMotorController.update();
