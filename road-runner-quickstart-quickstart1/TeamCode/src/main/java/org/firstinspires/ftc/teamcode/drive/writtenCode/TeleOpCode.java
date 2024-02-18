@@ -179,7 +179,7 @@ public class TeleOpCode extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update();
+        extenderController.update(ExtenderController.extenderInit);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -244,7 +244,7 @@ public class TeleOpCode extends LinearOpMode {
             if (isStopRequested()) return;
 
             int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
@@ -562,7 +562,7 @@ public class TeleOpCode extends LinearOpMode {
             }
             cataratController.update();
             avionController.update();
-            extenderController.update();
+            extenderController.update(extenderCurrentPosition);
             rotateClawController.update();
             forbarOuttakeController.update();
             liftMotorController.update();

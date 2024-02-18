@@ -142,7 +142,7 @@ public class Auto2_10BB extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update();
+        extenderController.update(ExtenderController.extenderInit);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -230,6 +230,7 @@ public class Auto2_10BB extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
             switch (status)
             {
                 case START:
@@ -400,7 +401,7 @@ public class Auto2_10BB extends LinearOpMode {
                     break;
                 }
                 case FAILSAFE_NO_PIXELS: {
-                    if (Math.abs(extenderController.currentPosition - ExtenderController.extenderFailsafe) <= 3)
+                    if (Math.abs(extenderController.CurrentPosition - ExtenderController.extenderFailsafe) <= 3)
                     {
                         extenderController.currentStatus= ExtenderController.ExtenderStatus.FAR;
                         status = GO_COLLECT_PIXELS;
@@ -505,7 +506,7 @@ public class Auto2_10BB extends LinearOpMode {
 
             cataratController.update();
             avionController.update();
-            extenderController.update();
+            extenderController.update(extenderCurrentPosition);
             rotateClawController.update();
             forbarOuttakeController.update();
             liftMotorController.update();

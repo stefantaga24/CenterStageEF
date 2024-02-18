@@ -115,7 +115,7 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update();
+        extenderController.update(ExtenderController.extenderInit);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -189,7 +189,8 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
-        {
+        {            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+
             switch (status)
             {
                 case START:
@@ -297,7 +298,7 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
 
             cataratController.update();
             avionController.update();
-            extenderController.update();
+            extenderController.update(extenderCurrentPosition);
             rotateClawController.update();
             forbarOuttakeController.update();
             liftMotorController.update();

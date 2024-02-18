@@ -79,7 +79,7 @@ public class RobotMap {
         /// Motoarele de la extensie
         leftExtension = Init.get(DcMotorEx.class, "leftExtension");
         leftExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Important ca sa utilizam encoderele
+        leftExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Important ca sa utilizam encoderele
         leftExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         /// Este clar ca motorul din stanga si cel din dreapta trebuie sa se invarteasca invers
         /// Astfel ca sa putem da aceeasi pozitie in ambele dam reverse din cod la pozitia unuia.
@@ -96,7 +96,7 @@ public class RobotMap {
 
         rightExtension = Init.get(DcMotorEx.class , "rightExtension");
         rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightExtension.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // Important ca sa utilizam encoderele
+        rightExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Important ca sa utilizam encoderele
         rightExtension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //overclock

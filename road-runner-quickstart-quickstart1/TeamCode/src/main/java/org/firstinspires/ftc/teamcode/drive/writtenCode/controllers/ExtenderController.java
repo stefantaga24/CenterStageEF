@@ -13,35 +13,34 @@ public class ExtenderController {
     }
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
     public ExtenderStatus previousStatus = null;
-    public int extenderInit =-5; /// Pozitia de init a extenderului
+    public static int extenderInit =-5; /// Pozitia de init a extenderului
     public int extenderFar = 960; /// Pozitia de extensie a extenderului
-    public int currentPosition = -5;
+    public static double Kp = 0; //0.00325;
+    public static double Ki = 0; //0.0022;
+    public static double Kd = 0;
+    public int CurrentPosition = -5;
     public int extenderFix = 50;
     public static int extenderFailsafe = 300;
-
+    public static double PowerCap = 1;
+    public static double maxSpeed = 1;
     private DcMotor leftExtension;
     private DcMotor rightExtension;
+    SimplePIDController MotorColectarePID = null;
     public ExtenderController(RobotMap robot)
     {
         this.leftExtension = robot.leftExtension;
         this.rightExtension = robot.rightExtension;
+        MotorColectarePID = new SimplePIDController(Kp,Ki,Kd);
+        MotorColectarePID.targetValue= extenderInit;
+        MotorColectarePID.maxOutput = maxSpeed;
     }
 
-    public void update() {
-        if (currentStatus == ExtenderStatus.FAR)
-        {
-            this.leftExtension.setTargetPosition(currentPosition - 30);
-        }
-        else
-        {
-            this.leftExtension.setTargetPosition(currentPosition);
-        }
-        this.leftExtension.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.leftExtension.setPower(1);
-
-        this.rightExtension.setTargetPosition(currentPosition);
-        this.rightExtension.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.rightExtension.setPower(1);
+    public void update(int ColectarePosition) {
+        CurrentPosition = ColectarePosition;
+        double powerColectare = MotorColectarePID.update(ColectarePosition);
+        powerColectare = Math.max(-PowerCap,Math.min(powerColectare,PowerCap));
+        this.leftExtension.setPower(powerColectare);
+        this.rightExtension.setPower(powerColectare);
 
         if (currentStatus != previousStatus)
         {
@@ -50,22 +49,22 @@ public class ExtenderController {
             {
                 case FIX:
                 {
-                    currentPosition = extenderFix;
+                    MotorColectarePID.targetValue = extenderFix;
                     break;
                 }
                 case INIT:
                 {
-                    currentPosition = extenderInit;
+                    MotorColectarePID.targetValue = extenderInit;
                     break;
                 }
                 case FAR:
                 {
-                    currentPosition = extenderFar;
+                    MotorColectarePID.targetValue = extenderFar;
                     break;
                 }
                 case FAILSAFE:
                 {
-                    currentPosition = extenderFailsafe;
+                    MotorColectarePID.targetValue = extenderFailsafe;
                     break;
                 }
             }
