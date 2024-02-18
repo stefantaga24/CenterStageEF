@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.AvionController;
@@ -131,7 +132,7 @@ public class TeleOpCode extends LinearOpMode {
         /// Probabil sunt variabile globale , n-ar trebui sa va faceti multe griji
 
         double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-        double x = (-gamepad1.left_trigger + gamepad1.right_trigger)* 1.035; // Counteract imperfect strafing
+        double x = (-gamepad1.left_trigger + gamepad1.right_trigger)* 1.05; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
         // Denominator is the largest motor power (absolute value) or 1
@@ -149,6 +150,7 @@ public class TeleOpCode extends LinearOpMode {
         rightFront.setPower(rightFrontPower);
         rightBack.setPower(rightBackPower);
     }
+    ElapsedTime GlobalTimer = new ElapsedTime();
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
@@ -233,6 +235,8 @@ public class TeleOpCode extends LinearOpMode {
         boolean usesBeam = true;
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+        double differentThanFalseFalse =0;
+        GlobalTimer.reset();
         collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
         collectForbarController.update();
         // run until the end of the match (driver presses STOP)
@@ -462,6 +466,10 @@ public class TeleOpCode extends LinearOpMode {
             {
                 usesBeam = !usesBeam;
             }
+//            if (!(robot.beamFront.getState() == false&& robot.beamBack.getState() == false))
+//            {
+//                differentThanFalseFalse = GlobalTimer.seconds();
+//            }
             /// Daca robotul vede doi pixeli in fata , folosim break beam - uri
             if (usesBeam && robot.beamFront.getState() == false && robot.beamBack.getState() == false)
             {
@@ -529,9 +537,28 @@ public class TeleOpCode extends LinearOpMode {
                 }
             }
 
-            if(gamepad2.right_stick_button == true)
+            if(gamepad2.right_trigger != 0)
             {
                 collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
+            }
+            else
+            {
+                if(collectForbarController.currentStatus == CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK)
+                {
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                }
+            }
+
+            if(gamepad2.left_trigger != 0)
+            {
+                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK_LOW;
+            }
+            else
+            {
+                if(collectForbarController.currentStatus == CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK_LOW)
+                {
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                }
             }
             cataratController.update();
             avionController.update();
@@ -553,6 +580,11 @@ public class TeleOpCode extends LinearOpMode {
             telemetry.addData("Motor extensie outtake", robot.liftMotor.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Motor intake", robot.intakeMotor.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Servo forbar Intake",robot.forbarIntake.getPosition());
+            telemetry.addData("Beam Back",robot.beamBack.getState());
+            telemetry.addData("Beam Front",robot.beamFront.getState());
+            telemetry.addData("Right Trigger" , gamepad2.right_trigger);
+            telemetry.addData("Left Trigger", gamepad2.left_trigger);
+            telemetry.addData("Collect Forbar status", collectForbarController.currentStatus);
             telemetry.update();
         }
     }

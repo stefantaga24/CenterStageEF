@@ -17,7 +17,7 @@ public class ExtenderController {
     public int extenderFar = 960; /// Pozitia de extensie a extenderului
     public int currentPosition = -5;
     public int extenderFix = 50;
-    public int extenderFailsafe = 300;
+    public static int extenderFailsafe = 300;
 
     private DcMotor leftExtension;
     private DcMotor rightExtension;
@@ -27,9 +27,15 @@ public class ExtenderController {
         this.rightExtension = robot.rightExtension;
     }
 
-    public void update()
-    {
-        this.leftExtension.setTargetPosition(currentPosition);
+    public void update() {
+        if (currentStatus == ExtenderStatus.FAR)
+        {
+            this.leftExtension.setTargetPosition(currentPosition - 30);
+        }
+        else
+        {
+            this.leftExtension.setTargetPosition(currentPosition);
+        }
         this.leftExtension.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.leftExtension.setPower(1);
 

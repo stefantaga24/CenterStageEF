@@ -21,6 +21,7 @@ public class LiftMotorController {
         AUTO_CYCLE1_C1,
         AUTO_CYCLE1_C23,
         AUTO_CYCLE2_C23,
+        AUTO_CYCLE3,
         liftMosaic,
 
     }
@@ -38,6 +39,7 @@ public class LiftMotorController {
     public static int autoCycle2_C1 = -900;
     public static int autoCycle1_C23 = -540;
     public static int autoCycle2_C23 = -800;
+    public static int autoCycle3= -1000;
 
     public int retardPosition = 100;
     public int currentPosition = initPosition;
@@ -217,6 +219,23 @@ public class LiftMotorController {
                    //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle2_C23;
+                    if (liftCurrentPosition >=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case AUTO_CYCLE3:
+                {
+                    //  if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    // {
+                    //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
+                    currentPosition = autoCycle3;
                     if (liftCurrentPosition >=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;

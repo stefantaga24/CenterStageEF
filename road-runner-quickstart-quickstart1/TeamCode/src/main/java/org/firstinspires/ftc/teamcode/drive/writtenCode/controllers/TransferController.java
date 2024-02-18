@@ -31,9 +31,9 @@ public class TransferController {
     /// Aici modifici cat timp ia sa-si dea flip cutia
     public double timerFlipCutie = 0.8;
     /// Aici modifici cat timp ia sa se duca pixelii din cutia de intake in cutia de outtake
-    public double timerAsteaptaPixeli = 0.3;
+    public double timerAsteaptaPixeli = 0.35;
     /// Cat timp sa astepte pana da reverse la colectare
-    public double timerReverseIntake = 0.1;
+    public double timerReverseIntake = 0;
 
     /// Cat timp in plus sa astepte pana baga in outtake daca se da reverse la cutie
     public static double timerExtendoToInit = 0.3;
@@ -49,6 +49,7 @@ public class TransferController {
     public ElapsedTime asteaptaCutie = new ElapsedTime();
     public ElapsedTime asteaptaPixeli = new ElapsedTime();
     public ElapsedTime asteaptaPentruReverse = new ElapsedTime();
+    public ElapsedTime asteaptaFlip = new ElapsedTime();
     public TransferController(IntakeController intakeController,
                               TubuleteController tubuleteController,
                               SigurantaOuttakeController sigurantaOuttakeController,
@@ -62,7 +63,7 @@ public class TransferController {
 
     public void update()
     {
-        if (currentStatus != previousStatus || currentStatus == TRANSFER_PIXELS || currentStatus == PLACE_BOX_IN_COLLECT)
+        if (currentStatus != previousStatus || currentStatus == FLIP_BOX || currentStatus == TRANSFER_PIXELS || currentStatus == PLACE_BOX_IN_COLLECT)
         {
             previousStatus = currentStatus;
             switch (currentStatus)
@@ -74,14 +75,18 @@ public class TransferController {
                     /// Puteti scoate daca nu vreti sa opriti colectare
                     intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
                     currentStatus = FLIP_BOX;
+                    asteaptaFlip.reset();
                     break;
                 }
                 case FLIP_BOX: // Imi da flip la cutia de intake
                 {
-                    forbarCutieIntake.setPosition(transferPosition);
-                    asteaptaCutie.reset(); /// start la timp
-                    asteaptaPentruReverse.reset();
-                    currentStatus = TRANSFER_PIXELS;
+
+                    if(asteaptaFlip.seconds()>0.15) {
+                        forbarCutieIntake.setPosition(transferPosition);
+                        asteaptaCutie.reset(); /// start la timp
+                        asteaptaPentruReverse.reset();
+                        currentStatus = TRANSFER_PIXELS;
+                    }
                     break;
                 }
                 case TRANSFER_PIXELS: // Astept sa dea flip cutia si apoi fac transferul cu tubuletele
@@ -93,7 +98,7 @@ public class TransferController {
                     if (asteaptaCutie.seconds()>timerFlipCutie + actualTimeForExtendo)
                     {
                         /// Dupa ce si-a dat flip cutia il opresc.
-                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
+//                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
                         tubuleteController.currentStatus = TubuleteController.CollectStatus.TRANSFER;
                         currentStatus = PLACE_BOX_IN_COLLECT;
                         asteaptaPixeli.reset();
@@ -105,6 +110,7 @@ public class TransferController {
                     if (asteaptaPixeli.seconds()>timerAsteaptaPixeli)
                     {
                         // esti aici?
+                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
                         tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
                         sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.CLOSED;
                         forbarCutieIntake.setPosition(collectPosition);

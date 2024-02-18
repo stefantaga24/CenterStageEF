@@ -95,7 +95,8 @@ public class intakeforbarTester extends LinearOpMode {
             if(currentGamepad1.dpad_down && !previousGamepad1.dpad_down) forbar.setPosition(forbar.getPosition()-0.01f);
             if(currentGamepad1.a) intakeController.currentStatus = IntakeController.IntakeStatus.FULL;
             if(currentGamepad1.b) intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
-
+            if(currentGamepad1.right_bumper && !previousGamepad1.right_bumper) {forbar.setPosition(forbar.getPosition()-0.05f);}
+            if(currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {forbar.setPosition(forbar.getPosition()+0.05f);}
 ///salut<3
             ///<3 pupici
             telemetry.addData("poz", forbar.getPosition());
