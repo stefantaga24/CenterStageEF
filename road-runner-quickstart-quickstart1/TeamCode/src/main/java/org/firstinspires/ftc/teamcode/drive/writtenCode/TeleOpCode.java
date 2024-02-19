@@ -174,7 +174,7 @@ public class TeleOpCode extends LinearOpMode {
 
 
         TransferController transferController = new TransferController(
-                intakeController,tubuleteController,sigurantaOuttakeController,robot);
+                intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
         ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();
@@ -502,7 +502,7 @@ public class TeleOpCode extends LinearOpMode {
                         transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
 
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+                       // extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     }
                 }
             }

@@ -171,7 +171,7 @@ public class extRetard extends LinearOpMode {
 
 
         TransferController transferController = new TransferController(
-                intakeController,tubuleteController,sigurantaOuttakeController,robot);
+                intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
         ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();

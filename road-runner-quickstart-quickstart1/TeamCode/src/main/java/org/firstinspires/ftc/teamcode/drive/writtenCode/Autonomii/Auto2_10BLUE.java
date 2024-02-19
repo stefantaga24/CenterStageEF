@@ -164,7 +164,7 @@ public class Auto2_10BLUE extends LinearOpMode {
         pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
         TransferController transferController = new TransferController(
-                intakeController,tubuleteController,sigurantaOuttakeController,robot);
+                intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
         ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();

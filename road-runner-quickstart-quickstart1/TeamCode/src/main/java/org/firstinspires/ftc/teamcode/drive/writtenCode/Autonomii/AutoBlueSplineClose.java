@@ -96,13 +96,13 @@ public class AutoBlueSplineClose extends LinearOpMode {
     public static double ANGLE_PARK_RIGHT = 0;
     public static final double GO_TO_STACK_X = 27f;
     public static final double GO_TO_STACK_Y = 8.5;
-    public static final double GO_TO_STACK_ANGLE_CYCLE1 = 0.2;
+    public static final double GO_TO_STACK_ANGLE_CYCLE1 = -0.2;//ERA CU PLUS STIE BOMBI
     public static final double GO_TO_STACK_ANGLE_CYCLE2 = 1;
     public static final double GO_TO_STACK_ANGLE_CYCLE3 = 1;
     public static final double COLLECT_STACK_X = -27f;
     public static final double COLLECT_STACK_Y = 8.5f;
 
-    public static final double COLLECT_STACK_X_CYCLE1 = -27.5f;
+    public static final double COLLECT_STACK_X_CYCLE1 = -27.8f;
     public static final double COLLECT_STACK_Y_CYCLE1 = 8.5f;
 
     public static final double COLLECT_STACK_X_CYCLE2 = -27.2f;
@@ -184,7 +184,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
         pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
         TransferController transferController = new TransferController(
-                intakeController,tubuleteController,sigurantaOuttakeController,robot);
+                intakeController,tubuleteController,sigurantaOuttakeController,extenderController, robot);
         ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();
@@ -550,7 +550,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
 
                     // Pun timpul pentru extendo
                     transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+                   // extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
                     if(nrCycles==1)
                     {

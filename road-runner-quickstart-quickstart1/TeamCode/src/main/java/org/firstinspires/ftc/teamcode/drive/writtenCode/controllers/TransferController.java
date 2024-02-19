@@ -26,6 +26,7 @@ public class TransferController {
     private IntakeController intakeController = null;
     private SigurantaOuttakeController sigurantaOuttakeController = null;
     private TubuleteController tubuleteController = null;
+    private ExtenderController extenderController = null;
     private Servo forbarCutieIntake = null;
 
     /// Aici modifici cat timp ia sa-si dea flip cutia
@@ -53,9 +54,11 @@ public class TransferController {
     public TransferController(IntakeController intakeController,
                               TubuleteController tubuleteController,
                               SigurantaOuttakeController sigurantaOuttakeController,
+                              ExtenderController extenderController,
                               RobotMap robot)
     {
         this.intakeController = intakeController;
+        this.extenderController = extenderController;
         this.tubuleteController = tubuleteController;
         this.forbarCutieIntake = robot.forbarCutieIntake;
         this.sigurantaOuttakeController = sigurantaOuttakeController;
@@ -81,11 +84,14 @@ public class TransferController {
                 case FLIP_BOX: // Imi da flip la cutia de intake
                 {
 
-                    if(asteaptaFlip.seconds()>0.15) {
+                    if(asteaptaFlip.seconds()>0.15) //s au blocat tubuletele dupa acest timp
+                         {
                         forbarCutieIntake.setPosition(transferPosition);
                         asteaptaCutie.reset(); /// start la timp
                         asteaptaPentruReverse.reset();
                         currentStatus = TRANSFER_PIXELS;
+                        if(extenderController.currentStatus == ExtenderController.ExtenderStatus.FAR)
+                            extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     }
                     break;
                 }
