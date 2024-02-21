@@ -290,6 +290,7 @@ public class TeleOpCode extends LinearOpMode {
             if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
             {
                 intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
+                collectForbarController.currentStatus=CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
             }
 
             /// Apas pe right_trigger

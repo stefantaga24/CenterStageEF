@@ -64,36 +64,45 @@ import java.util.Vector;
 @Config
 @Autonomous(group = "Auto")
 
-public class AutoBlueSplineClose extends LinearOpMode {
+public class AutoBlueSplineClosePush extends LinearOpMode {
 
     public static double forwardRight = 6.75;
-    public static  double PRELOAD_LEFT_X = 33.5;
-    public static  double PRELOAD_LEFT_Y = 35;
-    public static  double PRELOAD_ANGLE_LEFT = 0;
+    public static  double PRELOAD_LEFT_X = 18;
+    public static  double PRELOAD_LEFT_Y = 43;
+    public static  double PRELOAD_ANGLE_LEFT = -45;
+
     public static  double PLACE_SPIKE_LEFT_X = 50;
     public static  double PLACE_SPIKE_LEFT_Y = 46;
     public static  double ANGLE_SPIKE_LEFT = 0;
+
     public static  double PARK_LEFT_X = 43;
     public static  double PARK_LEFT_Y = 20;
     public static  double ANGLE_PARK_LEFT = 0;
-    public static  double PRELOAD_MID_X = 25;
-    public static  double PRELOAD_MID_Y = 25;
-    public static  double PRELOAD_ANGLE_MID = 0;
+
+    public static  double PRELOAD_MID_X = 12;
+    public static  double PRELOAD_MID_Y = 36;
+    public static  double PRELOAD_ANGLE_MID = 270;
+
     public static  double PLACE_SPIKE_MID_X = 50;
     public static  double PLACE_SPIKE_MID_Y = 40;
     public static  double ANGLE_SPIKE_MID = 0;
+
     public static  double PARK_MID_X = 43;
     public static  double PARK_MID_Y = 20;
     public static  double ANGLE_PARK_MID = 0;
-    public static  double PRELOAD_RIGHT_X = 16;
+
+    public static  double PRELOAD_RIGHT_X = 7;
     public static  double PRELOAD_RIGHT_Y = 33;
-    public static  double PRELOAD_ANGLE_RIGHT = 0;
+    public static  double PRELOAD_ANGLE_RIGHT = 55;
+
     public static  double PLACE_SPIKE_RIGHT_X = 50;
     public static  double PLACE_SPIKE_RIGHT_Y = 32;
     public static double ANGLE_SPIKE_RIGHT = 0;
+
     public static double PARK_RIGHT_X = 44;
     public static double PARK_RIGHT_Y = 20;
     public static double ANGLE_PARK_RIGHT = 0;
+
     public static final double GO_TO_STACK_X = 27f;
     public static final double GO_TO_STACK_Y = 8.5;
     public static final double GO_TO_STACK_ANGLE_CYCLE1 = 0.2;
@@ -102,7 +111,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
     public static final double COLLECT_STACK_X = -27f;
     public static final double COLLECT_STACK_Y = 8.5f;
 
-    public static final double COLLECT_STACK_X_CYCLE1 = -27.5f;
+    public static final double COLLECT_STACK_X_CYCLE1 = -27f;
     public static final double COLLECT_STACK_Y_CYCLE1 = 8.5f;
 
     public static final double COLLECT_STACK_X_CYCLE2 = -27.2f;
@@ -146,7 +155,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
         FAILSAFE_NO_PIXELS,
         COLLECT_FAILSAFE
     }
-    public static double timePlacePixel = 0.2;
+    public static double timePlacePixel = 0.5;
     public static double delayLift = 0.4;
     public static double waitTimeBackDrop = 0.3;
     public static double timeOpenSlides = 0.55;
@@ -209,9 +218,10 @@ public class AutoBlueSplineClose extends LinearOpMode {
         STROBOT status = STROBOT.START;
         TrajectoryVelocityConstraint VELLLH = getVelocityConstraint(40, 5, 12.05);
         double nrCycles = 0;
-        double howManyCycles = 3;
+        double howManyCycles = 2;
         TrajectorySequence PLACE_PRELOAD_LEFT = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(PRELOAD_LEFT_X, PRELOAD_LEFT_Y,Math.toRadians(PRELOAD_ANGLE_LEFT)))
+                .strafeLeft(10)
                 .build();
         TrajectorySequence PLACE_SPIKE_LEFT = drive.trajectorySequenceBuilder(PLACE_PRELOAD_LEFT.end())
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_LEFT_X, PLACE_SPIKE_LEFT_Y,Math.toRadians(ANGLE_SPIKE_LEFT)))
@@ -268,7 +278,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
                 .build();
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1.end())
                 .setReversed(false)
-                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
                 .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
                 .build(); // te duce la backboard
 
@@ -347,8 +357,7 @@ public class AutoBlueSplineClose extends LinearOpMode {
                 {
                     if (!drive.isBusy())
                     {
-                        intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE_AUTO;
-                        timerPunerePixel.reset();
+//                        timerPunerePixel.reset();
                         status = STROBOT.WAIT_FOR_PURPLE_PIXEL;
                     }
                     break;
@@ -357,7 +366,6 @@ public class AutoBlueSplineClose extends LinearOpMode {
                 {
                     if (timerPunerePixel.seconds()>timePlacePixel)
                     {
-                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
                         if (cazAuto == 1)
                         {
                             drive.followTrajectorySequenceAsync(PLACE_SPIKE_LEFT);
