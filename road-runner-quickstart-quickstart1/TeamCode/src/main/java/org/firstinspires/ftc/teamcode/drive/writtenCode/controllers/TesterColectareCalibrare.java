@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.OGCode;
+package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -23,8 +23,8 @@ import java.util.List;
 @Autonomous(group = "Testers")
 public class TesterColectareCalibrare extends LinearOpMode {
     public static double DISTANCE = 60; // in
-    public static double Kp = 0;//0.00325
-    public static double Ki = 0;//0.0022
+    public static double Kp = 0.0028;//0.00325
+    public static double Ki = 0.0006;//0.0022
     public static double Kd = 0;
     public static double maxSpeed = 1;
     public static double RetractedPosition = -5 , ExtendedPosition = 965;

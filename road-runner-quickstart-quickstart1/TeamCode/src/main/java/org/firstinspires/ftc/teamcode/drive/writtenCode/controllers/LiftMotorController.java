@@ -27,7 +27,7 @@ public class LiftMotorController {
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
-    public static int initPosition = 10;
+    public static int initPosition = 5;
     public static int downPosition = -100;
     public static int lowPosition = -700;
     public static int midPosition = -700;

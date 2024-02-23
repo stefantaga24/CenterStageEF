@@ -289,6 +289,7 @@ public class TeleOpCode extends LinearOpMode {
 
             if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
             {
+//                transferController.currentStatus= TransferController.TransferStatus.PLACE_BOX_IN_COLLECT;
                 intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
                 collectForbarController.currentStatus=CollectForbarController.CollectStatus.COLLECT_DRIVE_STACK;
             }
@@ -322,7 +323,6 @@ public class TeleOpCode extends LinearOpMode {
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
                 }
-
                 else
                 {
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
@@ -365,21 +365,29 @@ public class TeleOpCode extends LinearOpMode {
                 if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.liftMosaic;
-                    rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
+                    //rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
                 }
-
                 else
                 {
-                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
-                    {
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
-                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                    }
-                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                    if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
                     {
                         rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
+                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
                     }
+                    //{
+                      //  liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
+                        //
+                   // }
+                    //else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                    //{
+                      //  rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
+                    //}
                 }
+            }
+            if(liftMotorController.liftMotor.getCurrentPosition() < liftMotorController.mosaicPosition+10 && liftMotorController.currentStatus== LiftMotorController.LiftStatus.liftMosaic)
+            {
+                rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
             }
 
 
@@ -461,6 +469,17 @@ public class TeleOpCode extends LinearOpMode {
                     transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
 
                     transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+                }
+            }
+            if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper)
+            {
+                if (extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.CLOSE;
+                }
+                else
+                {
+                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                 }
             }
             if (currentGamepad1.x && !previousGamepad1.x)
@@ -586,6 +605,7 @@ public class TeleOpCode extends LinearOpMode {
             telemetry.addData("Right Trigger" , gamepad2.right_trigger);
             telemetry.addData("Left Trigger", gamepad2.left_trigger);
             telemetry.addData("Collect Forbar status", collectForbarController.currentStatus);
+            telemetry.addData("Transfer Encoder", robot.encoderForbarCutie.getVoltage());
             telemetry.update();
         }
     }

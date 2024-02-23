@@ -172,9 +172,9 @@ public class AutoBlueSplineClosePush extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         RobotMap robot = new RobotMap(hardwareMap);
-        robot.rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.leftExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.leftExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         CataratController cataratController = new CataratController(robot);
         AvionController avionController = new AvionController(robot);
         IntakeController intakeController = new IntakeController(robot);

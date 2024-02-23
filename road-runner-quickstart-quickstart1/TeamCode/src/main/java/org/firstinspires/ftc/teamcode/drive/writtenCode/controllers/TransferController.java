@@ -6,6 +6,9 @@ import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Trans
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.TransferStatus.TRANSFER_PIXELS;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.AnalogInputController;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -28,13 +31,14 @@ public class TransferController {
     private TubuleteController tubuleteController = null;
     private ExtenderController extenderController = null;
     private Servo forbarCutieIntake = null;
+    private AnalogInput encoderForbarCutie = null;
 
     /// Aici modifici cat timp ia sa-si dea flip cutia
     public double timerFlipCutie = 0.8;
     /// Aici modifici cat timp ia sa se duca pixelii din cutia de intake in cutia de outtake
-    public double timerAsteaptaPixeli = 0.35;
+    public double timerAsteaptaPixeli = 0.45;
     /// Cat timp sa astepte pana da reverse la colectare
-    public double timerReverseIntake = 0;
+    public double timerReverseIntake = 0.35;
 
     /// Cat timp in plus sa astepte pana baga in outtake daca se da reverse la cutie
     public static double timerExtendoToInit = 0.3;
@@ -61,6 +65,7 @@ public class TransferController {
         this.extenderController = extenderController;
         this.tubuleteController = tubuleteController;
         this.forbarCutieIntake = robot.forbarCutieIntake;
+        this.encoderForbarCutie = robot.encoderForbarCutie;
         this.sigurantaOuttakeController = sigurantaOuttakeController;
     }
 
@@ -84,7 +89,7 @@ public class TransferController {
                 case FLIP_BOX: // Imi da flip la cutia de intake
                 {
 
-                    if(asteaptaFlip.seconds()>0.15) //s au blocat tubuletele dupa acest timp
+                    if(asteaptaFlip.seconds()>0.2) //s au blocat tubuletele dupa acest timp
                          {
                         forbarCutieIntake.setPosition(transferPosition);
                         asteaptaCutie.reset(); /// start la timp
@@ -101,7 +106,7 @@ public class TransferController {
                     {
                         intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
                     }
-                    if (asteaptaCutie.seconds()>timerFlipCutie + actualTimeForExtendo)
+                    if (asteaptaCutie.seconds()>timerFlipCutie + actualTimeForExtendo && encoderForbarCutie.getVoltage()>2.2)
                     {
                         /// Dupa ce si-a dat flip cutia il opresc.
 //                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;

@@ -9,6 +9,8 @@ import androidx.annotation.GuardedBy;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -56,6 +58,7 @@ public class RobotMap {
 
     public DigitalChannel beamFront;
     public DigitalChannel beamBack;
+    public AnalogInput encoderForbarCutie;
 
     public MotorConfigurationType mctIntake, mctExtenderLeft ,mctExtenderRight;
     public RobotMap(HardwareMap Init)
@@ -127,5 +130,8 @@ public class RobotMap {
         /// Beam-uri
         beamFront = Init.get(DigitalChannel.class, "beamfront");
         beamBack = Init.get(DigitalChannel.class, "beamback");
+
+        /// Encoder
+        encoderForbarCutie = Init.get(AnalogInput.class, "encoder");//absolute encoder axon
     }
 }
