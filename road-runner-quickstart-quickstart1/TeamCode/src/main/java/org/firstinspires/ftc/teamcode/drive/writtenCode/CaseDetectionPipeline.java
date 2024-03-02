@@ -25,8 +25,8 @@ public class CaseDetectionPipeline
             bottomMidLeft,bottomMidRight;
     Point midLeft;
     Point midRight;
-    public static int rezX = 1280;
-    public static int rezY = 720;
+    public static int rezX = 1920;
+    public static int rezY = 1080;
     int mean1,mean2,mean3;
     int v1=0,v2=0,v3=0;
     public int Case=0;
@@ -165,10 +165,20 @@ public class CaseDetectionPipeline
             mean3 = (int) (Core.mean(reg3).val[0]);
 
             v1 = mean1;
+            if(mode == "red") {
+                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(255, 0, 0), 3);
+                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(255, 0, 0), 3);
+                Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(255, 0, 0), 3);
+            }
+            if(mode == "blue") {
+                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(12, 106, 179), 3);
+                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(12, 106, 179), 3);
+                Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(12, 106, 179), 3);
+            }
+//                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(12, 106, 179), 3);
+//                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(0, 255, 0), 3);
+//                Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(255, 0, 0), 3);
 
-            Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(0, 0, 255), 3);
-            Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(0, 255, 0), 3);
-            Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(255, 0, 0), 3);
 
 
             v2 = mean2;

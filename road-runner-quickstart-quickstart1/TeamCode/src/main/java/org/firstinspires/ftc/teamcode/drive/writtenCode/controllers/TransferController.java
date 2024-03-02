@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
+
 @Config
 public class TransferController {
     public enum TransferStatus{
@@ -106,7 +107,7 @@ public class TransferController {
                     {
                         intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
                     }
-                    if (asteaptaCutie.seconds()>timerFlipCutie + actualTimeForExtendo && encoderForbarCutie.getVoltage()>2.2)
+                    if (asteaptaCutie.seconds()>timerFlipCutie + actualTimeForExtendo && encoderForbarCutie.getVoltage()>2.3)
                     {
                         /// Dupa ce si-a dat flip cutia il opresc.
 //                        intakeController.currentStatus = IntakeController.IntakeStatus.STOP;

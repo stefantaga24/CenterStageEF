@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
-
+@Config
 public class TubuleteController {
     public enum CollectStatus{
         COLECTARE,
@@ -15,10 +16,10 @@ public class TubuleteController {
     public CollectStatus currentStatus = CollectStatus.COLECTARE;
     public CollectStatus previousStatus = null;
 
-    public double collectPosition1 = 0.13;
+    public static double collectPosition1 = 0.91; //0.13, 0.91 pt paralel
     public double collectPosition2 = 1-collectPosition1;
 
-    public double transferPosition1 = 1;
+    public static double transferPosition1 = 1;
     public double transferPosition2 = 1-transferPosition1;
 
     public double blocarePosition1 = 0.05;

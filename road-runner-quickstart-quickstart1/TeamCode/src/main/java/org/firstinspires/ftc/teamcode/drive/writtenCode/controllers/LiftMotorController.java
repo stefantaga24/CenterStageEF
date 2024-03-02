@@ -88,7 +88,8 @@ public class LiftMotorController {
                 }
                 case GOING_DOWN:
                 {
-                    extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
+                   //
+                    //extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.DOWN;
                     currentPosition=downPosition;
                     break;

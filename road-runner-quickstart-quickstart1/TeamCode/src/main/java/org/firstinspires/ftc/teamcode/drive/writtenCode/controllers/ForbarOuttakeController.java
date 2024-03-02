@@ -17,7 +17,7 @@ public class ForbarOuttakeController {
     }
     public ForbarStatus currentStatus = ForbarStatus.GET_COLLECTED_PIXELS;
     public ForbarStatus previousStatus = null;
-    public static double getPixelsPosition = 0.07;
+    public static double getPixelsPosition = 0.05;
     public static double placePixelsPosition = 0.69;
     public static double  downPosition = 0.25;
     private ElapsedTime waitForTheLift = new ElapsedTime();

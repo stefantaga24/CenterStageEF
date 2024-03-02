@@ -354,7 +354,7 @@ public class TeleOpCode extends LinearOpMode {
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
                 liftMotorController.currentPosition =
-                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-10,//era -10, dar mergea invers
+                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-15,//era -10, dar mergea invers
                                 liftMotorController.retardPosition));
                // extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }

@@ -10,18 +10,20 @@ public class ExtenderController {
         FIX,
         FAR,
         CLOSE,
-        FAILSAFE
+        FAILSAFE,
+        AUTO
     }
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
     public ExtenderStatus previousStatus = null;
-    public static int extenderInit =-20; /// Pozitia de init a extenderului
+    public static int extenderInit =-50; /// Pozitia de init a extenderului
     public int extenderFar = 960; /// Pozitia de extensie a extenderului
     public static double Kp = 0.0021; //0.0028;
     public static double Ki = 0.0005; //0.0006;
     public static double Kd = 0;
-    public int CurrentPosition = -10;
+    public int CurrentPosition = -50;
     public int extenderFix = 50;
     public int extenderClose = 300;
+    public int extenderAuto = 480;
     public static int extenderFailsafe = 300;
     public static double PowerCap = 1;
     public static double maxSpeed = 1;
@@ -73,6 +75,10 @@ public class ExtenderController {
                 {
                     MotorColectarePID.targetValue = extenderFailsafe;
                     break;
+                }
+                case AUTO:
+                {
+                    MotorColectarePID.targetValue = extenderAuto;
                 }
             }
         }
