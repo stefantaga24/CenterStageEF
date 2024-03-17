@@ -1,43 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii;
 
-import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.COLLECT_FAILSAFE;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.FAILSAFE_NO_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.GO_COLLECT_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.LEAVE_WITH_2_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.PLACE_STACK_PIXELS_BB;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_PARK_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_MID;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_ANGLE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PARK;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -59,20 +28,20 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferCont
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TubuleteController;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import java.util.Vector;
-
 
 @Config
 @Autonomous(group = "Auto")
-@Disabled
-public class AutoBlueCloserStack extends LinearOpMode {
+
+public class AutoBlueFarCentru extends LinearOpMode {
+
 
     public static double forwardRight = 6.75;
-    public static  double PRELOAD_LEFT_X = 16;
-    public static  double PRELOAD_LEFT_Y = 43.5;
+
+    public static  double PRELOAD_LEFT_X = -31;
+    public static  double PRELOAD_LEFT_Y = 38;
     public static  double PRELOAD_ANGLE_LEFT = -45;
 
-    public static  double PLACE_SPIKE_LEFT_X = 50;
+    public static  double PLACE_SPIKE_LEFT_X = 48;
     public static  double PLACE_SPIKE_LEFT_Y = 46;
     public static  double ANGLE_SPIKE_LEFT = 0;
 
@@ -80,56 +49,93 @@ public class AutoBlueCloserStack extends LinearOpMode {
     public static  double PARK_LEFT_Y = 20;
     public static  double ANGLE_PARK_LEFT = 0;
 
-    public static  double PRELOAD_MID_X = 12;
+    public static  double PRELOAD_MID_X = 38;
     public static  double PRELOAD_MID_Y = 37;
     public static  double PRELOAD_ANGLE_MID = 270;
 
-    public static  double PLACE_SPIKE_MID_X = 50;
-    public static  double PLACE_SPIKE_MID_Y = 38;
+    public static  double PLACE_SPIKE_MID_X = 48;
+    public static  double PLACE_SPIKE_MID_Y = 39;
     public static  double ANGLE_SPIKE_MID = 0;
 
     public static  double PARK_MID_X = 43;
+
     public static  double PARK_MID_Y = 20;
     public static  double ANGLE_PARK_MID = 0;
 
-    public static  double PRELOAD_RIGHT_X = 7;
+    public static  double PRELOAD_RIGHT_X = 36;
     public static  double PRELOAD_RIGHT_Y = 40;
     public static  double PRELOAD_ANGLE_RIGHT = -145;
 
-    public static  double PLACE_SPIKE_RIGHT_X = 50;
+    public static  double PLACE_SPIKE_RIGHT_X = 48;
     public static  double PLACE_SPIKE_RIGHT_Y = 32;
     public static double ANGLE_SPIKE_RIGHT = 0;
 
-    public static double PARK_RIGHT_X = 44;
-    public static double PARK_RIGHT_Y = 20;
+    public static double PARK_RIGHT_X = 43;
+    public static double PARK_RIGHT_Y = 62;
     public static double ANGLE_PARK_RIGHT = 0;
 
-    public static final double GO_TO_STACK_X = 27f;
-    public static final double GO_TO_STACK_Y = 9.5;
-    public static final double GO_TO_STACK_ANGLE_CYCLE1 = 0.1;
-    public static final double GO_TO_STACK_ANGLE_CYCLE2 = 0.4;
-    public static final double GO_TO_STACK_ANGLE_CYCLE3 = 1;
-    public static final double COLLECT_STACK_X = -27f;
-    public static final double COLLECT_STACK_Y = 8.5f;
+    public static final double FIRST_PIXEL_X = -58;
+    public static final double FIRST_PIXEL_Y = 12.5;
 
-    public static final double COLLECT_STACK_X_CYCLE1 = -37.6f;
-    public static final double COLLECT_STACK_Y_CYCLE1 = 9.5f;
+    public static final double GO_TO_STACK_X = 20f;
+    public static final double GO_TO_STACK_Y = 57.5f;
+    public static final double LINE_TO_STACK_X = -30f;
+    public static final double LINE_TO_STACK_Y = 57.5f;
+    public static final double GO_TO_BACK_1_X = -55f;
+    public static final double GO_TO_BACK_1_Y =55.5f;
+    public static final double GO_TO_BACK_2_X = 10f;
+    public static final double GO_TO_BACK_2_Y =55.5f;
+    public static final double ANGLE_COLECTARE=40f;
+    public static final double COLLECT_STACK_X_CYCLE1_C2 = -45f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C2 = 50f;
 
-    public static final double COLLECT_STACK_X_CYCLE2 = -37.6f;
-    public static final double COLLECT_STACK_Y_CYCLE2 = 8.5f;
 
-    public static final double COLLECT_STACK_X_CYCLE3 = -26.5f;
-    public static final double COLLECT_STACK_Y_CYCLE3 = 8.5f;
+    public static final double COLLECT_STACK_X_CYCLE2_C2 = -28f;
+
+    public static final double GO_TO_STACK_ANGLE_CYCLE1_C1 = 0;
+    public static final double GO_TO_STACK_ANGLE_CYCLE2_C1= 0;
+    public static final double GO_TO_STACK_ANGLE_CYCLE3_C1 = 0;
+    public static final double COLLECT_STACK_X_CYCLE1_C1 = -27.5f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C1 = 9.5f;
+    public static final double COLLECT_STACK_X_CYCLE2_C1 = -28f;
+    public static final double COLLECT_STACK_Y_CYCLE2_C1 = 7.5f;
+    public static final double COLLECT_STACK_X_CYCLE3_C1 = -27f;
+    public static final double COLLECT_STACK_Y_CYCLE3_C1 = 8.5f;
+
+
+    public static final double GO_TO_STACK_ANGLE_CYCLE1_C2 = 0.45;
+    public static final double GO_TO_STACK_ANGLE_CYCLE2_C2= 0.60;
+    public static final double GO_TO_STACK_ANGLE_CYCLE3_C2 = 0;
+
+
+    public static final double COLLECT_STACK_Y_CYCLE2_C2 = 7.5f;
+    public static final double COLLECT_STACK_X_CYCLE3_C2 = -26.5f;
+    public static final double COLLECT_STACK_Y_CYCLE3_C2 = 8.5f;
+
+    public static final double GO_TO_STACK_ANGLE_CYCLE1_C3 = 0;
+    public static final double GO_TO_STACK_ANGLE_CYCLE2_C3= 0.2;
+    public static final double GO_TO_STACK_ANGLE_CYCLE3_C3 = 0;
+    public static final double COLLECT_STACK_X_CYCLE1_C3 = -28f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C3 = 9.5f;
+    public static final double COLLECT_STACK_X_CYCLE2_C3 = -28f;
+    public static final double COLLECT_STACK_Y_CYCLE2_C3 = 8.5f;
+    public static final double COLLECT_STACK_X_CYCLE3_C3 = -26.5f;
+    public static final double COLLECT_STACK_Y_CYCLE3_C3 = 8.5f;
+
 
     public static final double PLACE_BB_LLH1_X = 20;
     public static final double PLACE_BB_LLH1_Y = 11;
     public static final int ANGLE_BB_LLH1 = 0;
-    public static final double PLACE_BB_LLH2_X = 50.5;
-    public static final double PLACE_BB_LLH2_Y = 33.5f;
-    public static final int ANGLE_BB_LLH2 = 0;
-    public static int timeout_1pixel = 4;
-    public static int timeout_nopixel = 6;
+    public static final double PLACE_BB_LLH2_X = 49f;
+    public static final double PLACE_BB_LLH2_Y = 48f;
+    public static final double ANGLE_BB_LLH2 = -25f;
+
+
+    public static int timeout_1pixel = 3;
+    public static float timeout_nopixel = 2.5f;
     public static float time_reverse_scurt =0f;
+    public static float timeToDrop = 3f;
+    public static float timeToFirst = 3f;
     private void wait(int ms) {
         try{
             Thread.sleep(ms);
@@ -145,6 +151,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
         START,
         PLACE_PURPLE_PIXEL,
         WAIT_FOR_PURPLE_PIXEL,
+        TAKE_ONE_PIXEL,
         PLACE_SPIKE_BACKDROP,
         PARK,
         RETRACT_LIFT,
@@ -157,18 +164,23 @@ public class AutoBlueCloserStack extends LinearOpMode {
         COLLECT_FAILSAFE
     }
     public static double timePlacePixel = 0.5;
-    public static double delayLift = 0.4;
+    public static double delayLift = 10;
     public static double waitTimeBackDrop = 0.3;
-    public static double timeOpenSlides = 1.3;
+    public static double timeOpenSlides = 2;
+
+    public static double liftStack= 4;
     public static boolean flag =true;
     boolean DID_FAILSAFE = false;
     ElapsedTime timerPunerePixel = new ElapsedTime();
     ElapsedTime timerLift = new ElapsedTime();
     ElapsedTime timerSlides = new ElapsedTime();
+    ElapsedTime timerDrop = new ElapsedTime();
     ElapsedTime timeoutColectare = new ElapsedTime();
     ElapsedTime timerReverseScurt = new ElapsedTime();
     ElapsedTime AutoTimer = new ElapsedTime();
+    ElapsedTime TimerFirst = new ElapsedTime();
     CaseDetectionPipeline cameraRecognition;
+    public static double cazAuto = 1;
 
 
     @Override
@@ -199,7 +211,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
 
         cataratController.update();
         avionController.update();
-        extenderController.update(0);
+        extenderController.update(ExtenderController.extenderInit);
         rotateClawController.update();
         forbarOuttakeController.update();
         liftMotorController.update();
@@ -211,22 +223,22 @@ public class AutoBlueCloserStack extends LinearOpMode {
         parbrizController.update();
         sigurantaOuttakeController.update();
         scoringController.update();
-        cameraRecognition = new CaseDetectionPipeline(hardwareMap,telemetry,"blue");
-        cameraRecognition.initCamera();
-        cameraRecognition.start(1);
+//        cameraRecognition = new CaseDetectionPipeline(hardwareMap,telemetry,"blue");
+//        cameraRecognition.initCamera();
+//        cameraRecognition.start(1);
 
 
-        Pose2d startPose = new Pose2d(10, 62, Math.toRadians(270));
+        Pose2d startPose = new Pose2d(-38, 62, Math.toRadians(270));
         drive.setPoseEstimate(startPose);
         STROBOT status = STROBOT.START;
-        TrajectoryVelocityConstraint VELLLH = getVelocityConstraint(40, 5, 12.05);
+        //  TrajectoryVelocityConstraint VELLLH = getVelocityConstraint(40, 5, 12.05);
         double nrCycles = 0;
-        double howManyCycles = 2;
+        double howManyCycles = 1;
         TrajectorySequence PLACE_PRELOAD_LEFT = drive.trajectorySequenceBuilder(startPose)
-                .lineToLinearHeading(new Pose2d(PRELOAD_LEFT_X, PRELOAD_LEFT_Y,Math.toRadians(PRELOAD_ANGLE_LEFT)))
-                .lineTo(new Vector2d(14,53))
+                .lineToSplineHeading(new Pose2d(PRELOAD_LEFT_X, PRELOAD_LEFT_Y,Math.toRadians(PRELOAD_ANGLE_LEFT)))
                 .build();
         TrajectorySequence PLACE_SPIKE_LEFT = drive.trajectorySequenceBuilder(PLACE_PRELOAD_LEFT.end())
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X,PLACE_BB_LLH1_Y))
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_LEFT_X, PLACE_SPIKE_LEFT_Y,Math.toRadians(ANGLE_SPIKE_LEFT)))
                 .build();
 
@@ -235,6 +247,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
                 .strafeRight(5)
                 .forward(10)
                 .build();
+
 //        TrajectorySequence GO_PLACE_ON_BACKBOARD = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1.end())
 //                .setReversed(false)
 //                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
@@ -247,93 +260,159 @@ public class AutoBlueCloserStack extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(PRELOAD_MID_X, PRELOAD_MID_Y,Math.toRadians(PRELOAD_ANGLE_MID)))
                 .build();
         TrajectorySequence PLACE_SPIKE_MID = drive.trajectorySequenceBuilder(PLACE_PRELOAD_MID.end())
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X,PLACE_BB_LLH1_Y))
                 .lineToLinearHeading(new Pose2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y,Math.toRadians(ANGLE_SPIKE_MID)))
                 .build();
 
 
         TrajectorySequence PLACE_PRELOAD_RIGHT = drive.trajectorySequenceBuilder(startPose)
-                .setVelConstraint(VELLLH)
+                //.setVelConstraint(VELLLH)
                 .lineToLinearHeading(new Pose2d(PRELOAD_RIGHT_X, PRELOAD_RIGHT_Y,Math.toRadians(PRELOAD_ANGLE_RIGHT)))
                 .back(forwardRight)
                 .build();
         TrajectorySequence PLACE_SPIKE_RIGHT = drive.trajectorySequenceBuilder(PLACE_PRELOAD_RIGHT.end())
-                .setVelConstraint(VELLLH)
-                .lineToLinearHeading(new Pose2d(PLACE_SPIKE_RIGHT_X, PLACE_SPIKE_RIGHT_Y,Math.toRadians(ANGLE_SPIKE_RIGHT)))
+                //  .setVelConstraint(VELLLH)
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X,PLACE_BB_LLH1_Y))
+                .splineToConstantHeading(new Vector2d(PLACE_SPIKE_RIGHT_X, PLACE_SPIKE_RIGHT_Y),Math.toRadians(180))
                 .build();
 
+        TrajectorySequence FIRST_PIXEL_C1 = drive.trajectorySequenceBuilder(PLACE_PRELOAD_LEFT.end())
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(FIRST_PIXEL_X,FIRST_PIXEL_Y,Math.toRadians(0)),Math.toRadians(180))
+//                .back(5)
+                .build();
+        TrajectorySequence FIRST_PIXEL_C2 = drive.trajectorySequenceBuilder(PLACE_PRELOAD_MID.end())
+                .strafeRight(10)
+                .lineToLinearHeading(new Pose2d(FIRST_PIXEL_X,FIRST_PIXEL_Y,Math.toRadians(0)))
+                .build();
+        TrajectorySequence FIRST_PIXEL_C3 = drive.trajectorySequenceBuilder(PLACE_PRELOAD_RIGHT.end())
+                .strafeLeft(10)
+                .lineToLinearHeading(new Pose2d(FIRST_PIXEL_X,FIRST_PIXEL_Y,Math.toRadians(0)))
+                .build();
 
         TrajectorySequence GO_TO_STACK_LEFT = drive.trajectorySequenceBuilder(PLACE_SPIKE_LEFT.end())
-                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1)))
+                .setReversed(true)
+//                .splineToConstantHeading(new Vector2d(GO_TO_STACK_X, GO_TO_STACK_Y),Math.toRadians(180))
+                .lineTo(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y))
+                .lineTo(new Vector2d(LINE_TO_STACK_X, LINE_TO_STACK_Y))
+//                .lineToLinearHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
+                .lineToSplineHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
                 .build();
 
         TrajectorySequence GO_TO_STACK_MID = drive.trajectorySequenceBuilder(PLACE_SPIKE_MID.end())
-                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1)))
+                .setReversed(true)
+//                .splineToConstantHeading(new Vector2d(GO_TO_STACK_X, GO_TO_STACK_Y),Math.toRadians(180))
+                .lineTo(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y))
+                .lineTo(new Vector2d(LINE_TO_STACK_X, LINE_TO_STACK_Y))
+//                .lineToLinearHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
+                .lineToSplineHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
                 .build();
 
         TrajectorySequence GO_TO_STACK_RIGHT = drive.trajectorySequenceBuilder(PLACE_SPIKE_RIGHT.end())
-                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1)))
+                .setReversed(true)
+//                .splineToConstantHeading(new Vector2d(GO_TO_STACK_X, GO_TO_STACK_Y),Math.toRadians(180))
+                .lineTo(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y))
+                .lineTo(new Vector2d(LINE_TO_STACK_X, LINE_TO_STACK_Y))
+//                .lineToLinearHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
+                .lineToSplineHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
                 .build();
+        TrajectorySequence GO_PLACE_ON_BACKBOARD = drive.trajectorySequenceBuilder(new Pose2d(COLLECT_STACK_X_CYCLE1_C2,COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
+                .lineToLinearHeading(new Pose2d(GO_TO_BACK_1_X,GO_TO_BACK_1_Y,Math.toRadians(0)))
+//                .lineTo(new Vector2d(LINE_TO_STACK_X,LINE_TO_STACK_Y))
+                .lineTo(new Vector2d(GO_TO_BACK_2_X,GO_TO_BACK_2_Y))
+                .lineToLinearHeading(new Pose2d(PLACE_BB_LLH2_X,PLACE_BB_LLH2_Y,Math.toRadians(ANGLE_BB_LLH2)))
+//                .turn(Math.toRadians(-40))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+                // .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+                .build(); // te duce la backboard
 
-
-        TrajectorySequence GO_COLLECT_STACK_CYCLE1 = drive.trajectorySequenceBuilder(
-                        new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1)))
-                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE1, COLLECT_STACK_Y_CYCLE1))
+        TrajectorySequence GO_COLLECT_STACK_CYCLE1_C1 = drive.trajectorySequenceBuilder(
+                        new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1_C1)))
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE1_C1, COLLECT_STACK_Y_CYCLE1_C1))
                 .build();
-        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1.end())
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C1.end())
                 .setReversed(false)
-                .lineToLinearHeading(new Pose2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y,Math.toRadians(0))) // se da cu spatele
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
+                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+                // .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+                .build(); // te duce la backboard
+
+        TrajectorySequence GO_COLLECT_STACK_CYCLE1_C2 = drive.trajectorySequenceBuilder(
+                        new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1_C2)))
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2))
+                .build();
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C2 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C2.end())
+                .setReversed(false)
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
+                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+                //.lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+                .build(); // te duce la backboard
+
+        TrajectorySequence GO_COLLECT_STACK_CYCLE1_C3 = drive.trajectorySequenceBuilder(
+                        new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,Math.toRadians(GO_TO_STACK_ANGLE_CYCLE1_C3)))
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE1_C3, COLLECT_STACK_Y_CYCLE1_C3))
+                .build();
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C3 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C3.end())
+                .setReversed(false)
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
                 .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
 //                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
 
-        TrajectorySequence GO_TO_STACK_CYCLE2 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1.end())
-                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE2)))
+        TrajectorySequence GO_TO_STACK_CYCLE2_C1 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1_C1.end())
+                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE2_C1)))
                 .build();
-        TrajectorySequence GO_COLLECT_STACK_CYCLE2 = drive.trajectorySequenceBuilder(GO_TO_STACK_CYCLE2.end())
-                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE2, COLLECT_STACK_Y_CYCLE2))
+        TrajectorySequence GO_COLLECT_STACK_CYCLE2_C1 = drive.trajectorySequenceBuilder(GO_TO_STACK_CYCLE2_C1.end())
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE2_C1, COLLECT_STACK_Y_CYCLE2_C1))
                 .build();
-        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2.end())
-                .setReversed(false)
-                .lineToLinearHeading(new Pose2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y,Math.toRadians(0))) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
-                .build(); // te duce la backboard
-
-
-        TrajectorySequence GO_TO_STACK_CYCLE3 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE2.end())
-                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE3)))
-                .build();
-        TrajectorySequence GO_COLLECT_STACK_CYCLE3 = drive.trajectorySequenceBuilder(
-                        new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,Math.toRadians(GO_TO_STACK_ANGLE_CYCLE3)))
-                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE3, COLLECT_STACK_Y_CYCLE3))
-                .build();
-        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE3 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE3.end())
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C1.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
                 .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
+        TrajectorySequence GO_TO_STACK_CYCLE2_C2 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1_C2.end())
+                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE2_C2)))
+                .build();
+        TrajectorySequence GO_COLLECT_STACK_CYCLE2_C2 = drive.trajectorySequenceBuilder(GO_TO_STACK_CYCLE2_C2.end())
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE2_C2, COLLECT_STACK_Y_CYCLE2_C2))
+                .build();
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C2 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C2.end())
+                .setReversed(false)
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
+                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+                .build(); // te duce la backboard
 
-//        TrajectorySequence GO_TO_STACK_GENERAL = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD.end())
-//                .setReversed(true)
-//                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y,GO_TO_STACK_ANGLE))
-//                .build();
-        TrajectorySequence PARK_ROBOT = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE3.end())
-                .back(7)
+        TrajectorySequence GO_TO_STACK_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1_C3.end())
+                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X, GO_TO_STACK_Y, Math.toRadians(GO_TO_STACK_ANGLE_CYCLE2_C3)))
+                .build();
+        TrajectorySequence GO_COLLECT_STACK_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_TO_STACK_CYCLE2_C3.end())
+                .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE2_C3, COLLECT_STACK_Y_CYCLE2_C3))
+                .build();
+        TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C3.end())
+                .setReversed(false)
+                .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
+                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+                .build(); // te duce la backboard
+
+        TrajectorySequence PARK_ROBOT = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE2_C1.end())
+                .back(10)
                 .lineToLinearHeading(new Pose2d(PARK_RIGHT_X, PARK_RIGHT_Y,Math.toRadians(ANGLE_PARK_RIGHT)))
                 .build();
 
-        double cazAuto = 1;
-        while (!isStarted()&&!isStopRequested())
-        {
-            int c =  cameraRecognition.getCase();
-            telemetry.addData("detected",c);
-            cazAuto=c;
-            telemetry.addLine("Init Complete");
-            telemetry.update();
-            sleep(50);
-        }
+//        while (!isStarted()&&!isStopRequested())
+//        {
+//            int c =  cameraRecognition.getCase();
+//            telemetry.addData("detected",c);
+//            cazAuto=c;
+//            telemetry.addLine("Init Complete");
+//            telemetry.update();
+//            sleep(50);
+//        }
         waitForStart();
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
@@ -374,18 +453,55 @@ public class AutoBlueCloserStack extends LinearOpMode {
                     {
                         if (cazAuto == 1)
                         {
-                            drive.followTrajectorySequenceAsync(PLACE_SPIKE_LEFT);
+                            drive.followTrajectorySequenceAsync(FIRST_PIXEL_C1);
                         }
                         else if (cazAuto ==2)
                         {
-                            drive.followTrajectorySequenceAsync(PLACE_SPIKE_MID);
+                            drive.followTrajectorySequenceAsync(FIRST_PIXEL_C2);
                         }
                         else if (cazAuto == 3)
                         {
-                            drive.followTrajectorySequenceAsync(PLACE_SPIKE_RIGHT);
+                            drive.followTrajectorySequenceAsync(FIRST_PIXEL_C3);
                         }
                         timerLift.reset();
+                        timerSlides.reset();
+                        TimerFirst.reset();
+                        status = STROBOT.TAKE_ONE_PIXEL;
+                    }
+                    flag=true;
+                    break;
+                }
+                case TAKE_ONE_PIXEL:
+                {
+                    if(flag==true) {
+                        collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
+                        flag=false;
+                    }
+                    if(!drive.isBusy())
+                    {
+                        if(TimerFirst.seconds()>timeToFirst && collectForbarController.currentStatus != CollectForbarController.CollectStatus.COLLECT_DRIVE) {
+                            collectForbarController.currentStatus = CollectForbarController.CollectStatus.ONE_PIXEL;
+                        }
+                        intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
+                        timeoutColectare.reset();
+                    if(robot.beamBack.getState() == false && robot.beamFront.getState()==false) {
+                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+                        // Pun timpul pentru extendo
+                        transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
+                        if (timerReverseScurt.seconds() < time_reverse_scurt) {
+                            intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
+                        } else {
+                            intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
+                        }
+                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+
+//                        if (cazAuto == 1) drive.followTrajectorySequenceAsync(PLACE_SPIKE_LEFT);
+//                        else if (cazAuto == 2) drive.followTrajectorySequenceAsync(PLACE_SPIKE_MID);
+//                        else if (cazAuto == 3)
+//                            drive.followTrajectorySequenceAsync(PLACE_SPIKE_RIGHT);
                         status = STROBOT.PLACE_SPIKE_BACKDROP;
+                        timerLift.reset();
+                    }
                     }
                     break;
                 }
@@ -395,13 +511,14 @@ public class AutoBlueCloserStack extends LinearOpMode {
                             && timerLift.seconds()>delayLift)
                     {
                         liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW_AUTO;
+                        rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
                     }
-                    if (!drive.isBusy())
-                    {
-                        scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
-                        timerPunerePixel.reset();
-                        status = STROBOT.GO_TO_STACK_FIRST;
-                    }
+//                    if (!drive.isBusy())
+//                    {
+//                        scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
+//                        timerPunerePixel.reset();
+//                        status = STROBOT.GO_TO_STACK_FIRST;
+//                    }
                     break;
                 }
                 case GO_TO_STACK_FIRST:
@@ -409,7 +526,10 @@ public class AutoBlueCloserStack extends LinearOpMode {
                     if (timerPunerePixel.seconds() > waitTimeBackDrop)
                     {
                         nrCycles++;
-                        if (nrCycles == 1)
+                        if(nrCycles>howManyCycles) {
+                            drive.followTrajectorySequenceAsync(PARK_ROBOT);
+                        }
+                        else if (nrCycles == 1)
                         {
                             if (cazAuto == 1)
                             {
@@ -432,7 +552,12 @@ public class AutoBlueCloserStack extends LinearOpMode {
                             }
                             else
                             {
-                                drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE2);
+                                if(cazAuto==1)
+                                    drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE2_C1);
+                                else if(cazAuto==2)
+                                    drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE2_C2);
+                                else
+                                    drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE2_C3);
                             }
                         }
                         else if(nrCycles==3)
@@ -443,13 +568,10 @@ public class AutoBlueCloserStack extends LinearOpMode {
                             }
                             else
                             {
-                                drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE3);
+                                // drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE3);
                             }
                         }
-                        else if(nrCycles>howManyCycles)
-                        {
-                            drive.followTrajectorySequenceAsync(PARK_ROBOT);
-                        }
+
                         timerLift.reset();
                         status = STROBOT.RETRACT_LIFT;
                     }
@@ -460,41 +582,50 @@ public class AutoBlueCloserStack extends LinearOpMode {
                     if (timerLift.seconds()> 0.45 && (liftMotorController.currentStatus != LiftMotorController.LiftStatus.GOING_DOWN && liftMotorController.currentStatus != LiftMotorController.LiftStatus.INIT))
                     {
                         liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
-                    }
-//                    else if(liftMotorController.currentPosition>=-120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN && liftMotorController.currentStatus != LiftMotorController.LiftStatus.INIT)
-//                    {
-//                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
-//                    }
-                    if (!drive.isBusy())
-                    {
-                        if (nrCycles > howManyCycles)
-                        {
-                            status = STROBOT.END_AUTO;
-                            break;
-                        }
                         status = STROBOT.GO_COLLECT_PIXELS;
                         timerSlides.reset();
-                        if(nrCycles == 1) {
-                            drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE1);
-                        }
-                        else if(nrCycles == 2){
-                            drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE2);
-                        }
-                        else if(nrCycles == 3){
-                            drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE3);
-                        }
+                    }
+
+                    if (!drive.isBusy())
+                    {
+//                        status = STROBOT.GO_COLLECT_PIXELS;
+//                        timerSlides.reset();
+//                        if(nrCycles == 1) {
+//                            if(cazAuto==1)
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE1_C1);
+//                            else if(cazAuto==2)
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE1_C2);
+//                            else
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE1_C3);
+//                        }
+//                        else if(nrCycles == 2){
+//                            if(cazAuto==1)
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE2_C1);
+//                            else if(cazAuto==2)
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE2_C2);
+//                            else
+//                                drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE2_C3);
+//                        }
+//                        else if(nrCycles == 3){
+//                            //drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE3);
+//                        }
                     }
                     break;
                 }
                 case GO_COLLECT_PIXELS:
                 {
-                    if (timerSlides.seconds()>timeOpenSlides && extenderController.currentStatus != ExtenderController.ExtenderStatus.AUTO)
+                    if (timerSlides.seconds()>timeOpenSlides && extenderController.currentStatus != ExtenderController.ExtenderStatus.CLOSE && drive.getPoseEstimate().getX()< -30)
                     {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.AUTO;
+                        extenderController.currentStatus = ExtenderController.ExtenderStatus.CLOSE;
                         if(collectForbarController.currentStatus != CollectForbarController.CollectStatus.COLLECT_DRIVE) {
                             collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_5;
-                            if (nrCycles == 2)
+                            if(nrCycles==1){
+                                if(DID_FAILSAFE == true) collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_LOW;
+                            }
+                            if (nrCycles == 2) {
                                 collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_LOW;
+                                if(DID_FAILSAFE == true) collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
+                            }
                             if (nrCycles == 3)
                                 collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
                         }
@@ -509,7 +640,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
                         flag = false;
                         status = STROBOT.LEAVE_WITH_2_PIXELS;
                     }
-                    else if(extenderController.currentStatus == ExtenderController.ExtenderStatus.AUTO && timeoutColectare.seconds()>4.5 && nrCycles==3)
+                    else if(extenderController.currentStatus == ExtenderController.ExtenderStatus.CLOSE && timeoutColectare.seconds()>4.5 && nrCycles==3)
                     {
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
                         status = STROBOT.LEAVE_WITH_2_PIXELS;
@@ -538,17 +669,12 @@ public class AutoBlueCloserStack extends LinearOpMode {
                             }
                             transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
 
-                            if (nrCycles == 1) {
-                                drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE1);
-                            } else if (nrCycles == 2) {
-                                drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE2);
-                            } else if (nrCycles == 3) {
-                                drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE3);
-                            }
+                            drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD);
                             status = STROBOT.PLACE_STACK_PIXELS_BB;
+                            timerLift.reset();
                         }
                     }
-                    else if(robot.beamBack.getState() == true && robot.beamFront.getState() == true && extenderController.currentStatus == ExtenderController.ExtenderStatus.AUTO)
+                    else if(robot.beamBack.getState() == true && robot.beamFront.getState() == true && extenderController.currentStatus == ExtenderController.ExtenderStatus.CLOSE)
                     {
                         if (timeoutColectare.seconds() > timeout_nopixel) {
                             collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
@@ -561,6 +687,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
                 case FAILSAFE_NO_PIXELS: {
                     intakeController.currentStatus= IntakeController.IntakeStatus.REVERSE;
                     collectForbarController.currentStatus= CollectForbarController.CollectStatus.PLAY;
+                    DID_FAILSAFE = true;
                     if (Math.abs(extenderCurrentPosition - ExtenderController.extenderFailsafe) <= 30)
                     {
                         //extenderController.currentStatus= ExtenderController.ExtenderStatus.FAR;
@@ -585,24 +712,24 @@ public class AutoBlueCloserStack extends LinearOpMode {
                         intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
                     }
                     //  intakeController.currentStatus = IntakeController.IntakeStatus.REVERSE;
-                    if(nrCycles==1)
-                    {
-                        drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE1);
+                    if (nrCycles == 1) {
+                        drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD);
                     }
-                    else if(nrCycles==2)
-                    {
-                        drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE2);
+
+                    else if (nrCycles == 2) {
                     }
-                    else if(nrCycles==3)
-                    {
-                        drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE3);
+
+                    else if (nrCycles == 3) {
+
                     }
                     status = STROBOT.PLACE_STACK_PIXELS_BB;
+                    timerLift.reset();
+                    break;
                 }
                 case PLACE_STACK_PIXELS_BB:
                 {
                     if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT &&
-                            transferController.currentStatus == TransferController.TransferStatus.INIT)
+                            transferController.currentStatus == TransferController.TransferStatus.INIT && timerLift.seconds()>liftStack && drive.getPoseEstimate().getX()>0)
                     {
                         if(cazAuto==1) {
                             liftMotorController.currentStatus = LiftMotorController.LiftStatus.AUTO_CYCLE1_C1;
@@ -622,8 +749,10 @@ public class AutoBlueCloserStack extends LinearOpMode {
                                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.AUTO_CYCLE3;
                             }
                         }
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.liftAngle;
+                        timerDrop.reset();
                     }
-                    if (!drive.isBusy() && (liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE1_C1 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE2_C1 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE1_C23 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE2_C23 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE3))
+                    if (timerDrop.seconds()> timeToDrop && (liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE1_C1 || liftMotorController.currentStatus==LiftMotorController.LiftStatus.liftAngle || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE2_C1 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE1_C23 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE2_C23 || liftMotorController.currentStatus == LiftMotorController.LiftStatus.AUTO_CYCLE3))
                     {
                         scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
                         timerPunerePixel.reset();
@@ -636,7 +765,7 @@ public class AutoBlueCloserStack extends LinearOpMode {
             {
                 extenderController.currentStatus= ExtenderController.ExtenderStatus.INIT;
             }
-            if(AutoTimer.seconds()>28 && status != STROBOT.PLACE_SPIKE_BACKDROP && status != STROBOT.PLACE_STACK_PIXELS_BB && status != STROBOT.GO_TO_STACK_FIRST)
+            if(AutoTimer.seconds()>29)
             {
                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
             }
@@ -669,8 +798,12 @@ public class AutoBlueCloserStack extends LinearOpMode {
             telemetry.addData("Status",status);
             telemetry.addData("AutoTimer", AutoTimer.seconds());
             telemetry.addData("Extender status", extenderController.currentStatus);
+            telemetry.addData("extender position", extenderCurrentPosition);
+            telemetry.addData("lift status", liftMotorController.currentStatus);
+            telemetry.addData("lift position", liftMotorController.currentPosition);
             telemetry.addData("BeamFront", robot.beamFront.getState());
             telemetry.addData("BeamBack", robot.beamBack.getState());
+            telemetry.addData("forbar collect", collectForbarController.currentStatus);
             telemetry.update();
         }
     }

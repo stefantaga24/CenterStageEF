@@ -43,8 +43,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PARALLEL_X = -3.07; // X is the up and down direction // de completat
     public static double PARALLEL_Y = 6.56; // Y is the strafe direction // de completat
 
-    public static double PERPENDICULAR_X = 7.606; // de completat
-    public static double PERPENDICULAR_Y = -2.91; // de completat
+    public static double PERPENDICULAR_X = 8.12; // de completat
+    public static double PERPENDICULAR_Y = -2.67; // de completat
 
     public static double X_MULTIPLIER = 1.0012716175; // Multiplier in the X direction de completat
     public static double Y_MULTIPLIER = 0.993940924; // Multiplier in the Y direction de completat
@@ -64,8 +64,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         this.drive = drive;
         /// DE VAZUT CARE E PARALEL SI CARE E PERPENDICULARUL
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intakeMotor"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "leftExtension"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intakeMotor"));
+        parallelEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "leftExtension"));
 
         //parallelEncoder.setDirection(Encoder.Direction.REVERSE);
         parallelEncoder.setDirection(Encoder.Direction.REVERSE);

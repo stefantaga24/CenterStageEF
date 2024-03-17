@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii;
+package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD;
 
 
 import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.END_AUTO;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PARK;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.RETRACT_LIFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.END_AUTO;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.PARK;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.RETRACT_LIFT;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoBLUEPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
 
 import com.acmerobotics.dashboard.config.Config;

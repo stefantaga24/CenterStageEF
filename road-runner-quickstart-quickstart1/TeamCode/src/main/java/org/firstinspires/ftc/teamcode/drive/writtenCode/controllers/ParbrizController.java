@@ -15,7 +15,7 @@ public class ParbrizController {
     public ParbrizStatus previousStatus = null;
 
     public double closedPosition = 0.5; // De modificat
-    public double openPosition = 0.1; // De modificat
+    public double openPosition = 0; // De modificat
 
     private Servo parbrizOuttake = null;
 

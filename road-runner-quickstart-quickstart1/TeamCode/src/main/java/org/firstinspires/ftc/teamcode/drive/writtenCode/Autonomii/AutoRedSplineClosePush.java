@@ -1,42 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii;
 
-import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.COLLECT_FAILSAFE;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.FAILSAFE_NO_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.GO_COLLECT_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.LEAVE_WITH_2_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.PLACE_STACK_PIXELS_BB;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_PARK_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_MID;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_ANGLE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PARK;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -58,8 +28,6 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferCont
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TubuleteController;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import java.util.Vector;
-
 
 @Config
 @Autonomous(group = "Auto")
@@ -68,8 +36,8 @@ public class AutoRedSplineClosePush extends LinearOpMode {
 
     public static double forwardRight = 6.75;
     public static  double PRELOAD_LEFT_X = 4.5;
-    public static  double PRELOAD_LEFT_Y = -44;
-    public static  double PRELOAD_ANGLE_LEFT = 140;
+    public static  double PRELOAD_LEFT_Y = -40;
+    public static  double PRELOAD_ANGLE_LEFT = 143;
 
     public static  double PLACE_SPIKE_LEFT_X = 49;
     public static  double PLACE_SPIKE_LEFT_Y = -32;
@@ -101,7 +69,7 @@ public class AutoRedSplineClosePush extends LinearOpMode {
     public static double ANGLE_SPIKE_RIGHT = 0;
 
     public static double PARK_RIGHT_X = 44;
-    public static double PARK_RIGHT_Y = -20;
+    public static double PARK_RIGHT_Y = -60;
     public static double ANGLE_PARK_RIGHT = 0;
 
     public static final double GO_TO_STACK_X = 27f;
@@ -110,9 +78,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
     public static final double GO_TO_STACK_ANGLE_CYCLE1_C1 = -1;
     public static final double GO_TO_STACK_ANGLE_CYCLE2_C1= -1;
     public static final double GO_TO_STACK_ANGLE_CYCLE3_C1 = 0;
-    public static final double COLLECT_STACK_X_CYCLE1_C1 = -31f;
+    public static final double COLLECT_STACK_X_CYCLE1_C1 = -32.5f;
     public static final double COLLECT_STACK_Y_CYCLE1_C1 = -12.3f;
-    public static final double COLLECT_STACK_X_CYCLE2_C1 = -31f;
+    public static final double COLLECT_STACK_X_CYCLE2_C1 = -32.5f;
     public static final double COLLECT_STACK_Y_CYCLE2_C1 = -12.3f;
     public static final double COLLECT_STACK_X_CYCLE3_C1 = -26.5f;
     public static final double COLLECT_STACK_Y_CYCLE3_C1 = -8.5f;
@@ -140,10 +108,10 @@ public class AutoRedSplineClosePush extends LinearOpMode {
     public static final double COLLECT_STACK_Y_CYCLE3_C3 = -8.5f;
 
 
-    public static final double PLACE_BB_LLH1_X = 14;
+    public static final double PLACE_BB_LLH1_X = 13; //14
     public static final double PLACE_BB_LLH1_Y = -11;
     public static final int ANGLE_BB_LLH1 = 0;
-    public static final double PLACE_BB_LLH2_X = 46f;
+    public static final double PLACE_BB_LLH2_X = 48.5f; //46
     public static final double PLACE_BB_LLH2_Y = -36f;
     public static final int ANGLE_BB_LLH2 = 0;
     public static int timeout_1pixel = 3;
@@ -240,7 +208,7 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         STROBOT status = STROBOT.START;
     //    TrajectoryVelocityConstraint VELLLH = getVelocityConstraint(40, 5, 12.05);
         double nrCycles = 0;
-        double howManyCycles = 2;
+        double howManyCycles = 0;
         TrajectorySequence PLACE_PRELOAD_LEFT = drive.trajectorySequenceBuilder(startPose)
                 .lineToLinearHeading(new Pose2d(PRELOAD_LEFT_X, PRELOAD_LEFT_Y,Math.toRadians(PRELOAD_ANGLE_LEFT)))
               //  .lineTo(new Vector2d(14,-53))
@@ -302,8 +270,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C1.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-                // .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineToConstantHeading(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                 .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
         TrajectorySequence GO_COLLECT_STACK_CYCLE1_C2 = drive.trajectorySequenceBuilder(
@@ -313,8 +282,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C2 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C2.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-                //.lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineToConstantHeading(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
         TrajectorySequence GO_COLLECT_STACK_CYCLE1_C3 = drive.trajectorySequenceBuilder(
@@ -324,8 +294,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE1_C3 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE1_C3.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y )) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+               // .lineToConstantHeading(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
 
@@ -338,8 +309,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C1 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C1.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
         TrajectorySequence GO_TO_STACK_CYCLE2_C2 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1_C2.end())
@@ -351,8 +323,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C2 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C2.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
         TrajectorySequence GO_TO_STACK_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE1_C3.end())
@@ -364,8 +337,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_COLLECT_STACK_CYCLE2_C3.end())
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X, PLACE_BB_LLH1_Y)) // se da cu spatele
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
-//                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
+//                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y),Math.toRadians(0))
+//                .lineTo(new Vector2d(46.25,PLACE_BB_LLH2_Y))
+                .lineTo(new Vector2d(PLACE_BB_LLH2_X, PLACE_BB_LLH2_Y))
                 .build(); // te duce la backboard
 
         TrajectorySequence PARK_ROBOT = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD_CYCLE2_C1.end())
@@ -458,7 +432,11 @@ public class AutoRedSplineClosePush extends LinearOpMode {
                     if (timerPunerePixel.seconds() > waitTimeBackDrop)
                     {
                         nrCycles++;
-                        if (nrCycles == 1)
+                        if(nrCycles>howManyCycles)
+                        {
+                            drive.followTrajectorySequenceAsync(PARK_ROBOT);
+                        }
+                        else if (nrCycles == 1)
                         {
                             if (cazAuto == 1)
                             {
@@ -500,10 +478,7 @@ public class AutoRedSplineClosePush extends LinearOpMode {
 //                                // drive.followTrajectorySequenceAsync(GO_TO_STACK_CYCLE3);
 //                            }
 //                        }
-                        else if(nrCycles>howManyCycles)
-                        {
-                            drive.followTrajectorySequenceAsync(PARK_ROBOT);
-                        }
+
                         timerLift.reset();
                         status = STROBOT.RETRACT_LIFT;
                     }
@@ -739,8 +714,9 @@ public class AutoRedSplineClosePush extends LinearOpMode {
             if(AutoTimer.seconds()>28)
             {
                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
+                status=STROBOT.END_AUTO;
             }
-            if(robot.liftMotor.getCurrentPosition()>=-120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN)
+            if(robot.liftMotor.getCurrentPosition()<=120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN)
             {
                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
             }

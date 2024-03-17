@@ -1,32 +1,6 @@
-package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii;
+package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD;
 
 import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.COLLECT_FAILSAFE;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.FAILSAFE_NO_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.LEAVE_WITH_2_PIXELS;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.Auto2_10BB.STROBOT.PLACE_STACK_PIXELS_BB;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_PARK_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_MID;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.ANGLE_SPIKE_RIGHT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PARK_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PLACE_SPIKE_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_ANGLE_LEFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_LEFT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_MID_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_X;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.PRELOAD_RIGHT_Y;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PARK;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoBLUEPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
 
 import com.acmerobotics.dashboard.config.Config;

@@ -15,7 +15,7 @@ public class Pixel2Controller {
     public Pixel2Status previousStatus = null;
 
     public double closedPosition = 0; // De modificat
-    public double openPosition = 0.6; // De modificat
+    public double openPosition = 0.35; // De modificat
 
     private Servo pixel2Outtake = null;
 

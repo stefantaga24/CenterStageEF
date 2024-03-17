@@ -11,7 +11,11 @@ public class ExtenderController {
         FAR,
         CLOSE,
         FAILSAFE,
-        AUTO
+        ONE_PIXEL,
+        AUTO,
+        MANUAL_LOW,
+        MANUAL_HIGH,
+
     }
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
     public ExtenderStatus previousStatus = null;
@@ -22,7 +26,8 @@ public class ExtenderController {
     public static double Kd = 0;
     public int CurrentPosition = -50;
     public int extenderFix = 50;
-    public int extenderClose = 300;
+    public int extenderClose = 675;
+    public int extenderAutoOnePixel = 485;
     public int extenderAuto = 480;
     public static int extenderFailsafe = 300;
     public static double PowerCap = 1;
@@ -46,7 +51,7 @@ public class ExtenderController {
         this.leftExtension.setPower(powerColectare);
         this.rightExtension.setPower(powerColectare);
 
-        if (currentStatus != previousStatus)
+        if (currentStatus != previousStatus || currentStatus==ExtenderStatus.MANUAL_HIGH || currentStatus==ExtenderStatus.MANUAL_LOW)
         {
             previousStatus = currentStatus;
             switch (currentStatus)
@@ -79,7 +84,24 @@ public class ExtenderController {
                 case AUTO:
                 {
                     MotorColectarePID.targetValue = extenderAuto;
+                    break;
                 }
+                case ONE_PIXEL:
+                {
+                    MotorColectarePID.targetValue = extenderAutoOnePixel;
+                    break;
+                }
+                case MANUAL_LOW:
+                {
+                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()-150;
+                    break;
+                }
+                case MANUAL_HIGH:
+                {
+                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()+150;
+                    break;
+                }
+
             }
         }
     }

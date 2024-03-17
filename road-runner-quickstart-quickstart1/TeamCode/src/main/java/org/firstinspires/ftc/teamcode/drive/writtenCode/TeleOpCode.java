@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -199,6 +200,22 @@ public class TeleOpCode extends LinearOpMode {
         DcMotor leftFront = hardwareMap.get(DcMotor.class,"leftFront");
         DcMotor rightBack = hardwareMap.get(DcMotor.class,"rightBack");
         DcMotor leftBack = hardwareMap.get(DcMotor.class,"leftBack");
+        MotorConfigurationType mct1, mct2, mct3, mct4;
+        mct1 = rightBack.getMotorType().clone();
+        mct1.setAchieveableMaxRPMFraction(1.0);
+        rightBack.setMotorType(mct1);
+
+        mct2 = rightFront.getMotorType().clone();
+        mct2.setAchieveableMaxRPMFraction(1.0);
+        rightFront.setMotorType(mct2);
+
+        mct3 = leftFront.getMotorType().clone();
+        mct3.setAchieveableMaxRPMFraction(1.0);
+        leftFront.setMotorType(mct3);
+
+        mct4 = leftBack.getMotorType().clone();
+        mct4.setAchieveableMaxRPMFraction(1.0);
+        leftBack.setMotorType(mct4);
 
         // Dam toate cele patru motoare si le punem sa mearga fara encodere
         // deoarece asa se misca mai bine
@@ -304,9 +321,8 @@ public class TeleOpCode extends LinearOpMode {
             //if (currentGamepad2.right_trigger>0 && previousGamepad2.right_trigger==0)
             if(currentGamepad2.b && !previousGamepad2.b)
             {
-                if (transferController.currentStatus == TransferController.TransferStatus.INIT && liftCurrentPosition>=0 &&
-                    forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS &&
-                    extenderCurrentPosition <= 0)
+                if (transferController.currentStatus == TransferController.TransferStatus.INIT)
+//                        && extenderCurrentPosition <= 0)
                 {
                     transferController.actualTimeForExtendo = 0;
                     // Cand fac transferul vreau sa fie inchis parbrizul
@@ -344,20 +360,23 @@ public class TeleOpCode extends LinearOpMode {
             if (gamepad2.left_stick_y >0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                liftMotorController.currentPosition =
-                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition+10,//era +10, dar mergea invers
-                                liftMotorController.retardPosition));
+//                liftMotorController.currentPosition =
+//                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-10,//era +10, dar mergea invers
+//                                liftMotorController.retardPosition));
+                liftMotorController.currentPosition =liftMotorController.currentPosition+15;
               //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
             else
             if (gamepad2.left_stick_y <0)
             {
                 /// Ii dau clip la currentPosition intre initPosition si highPosition.
-                liftMotorController.currentPosition =
-                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition-15,//era -10, dar mergea invers
-                                liftMotorController.retardPosition));
+//                liftMotorController.currentPosition =
+//                        Math.max(liftMotorController.highPosition,Math.min(liftMotorController.currentPosition+15,//era -10, dar mergea invers
+//                                liftMotorController.retardPosition));
+                liftMotorController.currentPosition =liftMotorController.currentPosition-15;
                // extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
             }
+
 
             /// Lift going to mosaic
             if (currentGamepad2.x && !previousGamepad2.x)
@@ -385,7 +404,7 @@ public class TeleOpCode extends LinearOpMode {
                     //}
                 }
             }
-            if(liftMotorController.liftMotor.getCurrentPosition() < liftMotorController.mosaicPosition+10 && liftMotorController.currentStatus== LiftMotorController.LiftStatus.liftMosaic)
+            if(liftMotorController.liftMotor.getCurrentPosition() > liftMotorController.mosaicPosition-10 && liftMotorController.currentStatus== LiftMotorController.LiftStatus.liftMosaic)
             {
                 rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
             }
@@ -414,6 +433,10 @@ public class TeleOpCode extends LinearOpMode {
             // left_bumper -> pixel2 closed + delay + siguranta outtake
             // right_bumper -> siguranta + pixel2 open
 
+            if(currentGamepad1.b && !previousGamepad1.b)
+            {
+                sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.RETARD;
+            }
             if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper)
             {
                 if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT &&
@@ -442,6 +465,7 @@ public class TeleOpCode extends LinearOpMode {
                     rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
                 }
             }
+
 
 
             if (currentGamepad1.right_bumper && !previousGamepad1.right_bumper)
@@ -580,6 +604,15 @@ public class TeleOpCode extends LinearOpMode {
                     collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
                 }
             }
+
+//            if(gamepad1.dpad_right)
+//            {
+//                extenderController.currentStatus = ExtenderController.ExtenderStatus.MANUAL_HIGH;
+//            }
+//            else if(gamepad1.dpad_left)
+//            {
+//                extenderController.currentStatus = ExtenderController.ExtenderStatus.MANUAL_LOW;
+//            }
             cataratController.update();
             avionController.update();
             extenderController.update(extenderCurrentPosition);

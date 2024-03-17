@@ -15,20 +15,24 @@ public class CollectForbarController {
         COLLECT_DRIVE_STACK_LOW,
         COLLECT_AUTO_STACK_5,
         COLLECT_AUTO_STACK_4,
-        COLLECT_AUTO_STACK_LOW
+        COLLECT_AUTO_STACK_LOW,
+        AI,
+        ONE_PIXEL
     }
 
     public CollectStatus currentStatus = CollectStatus.INIT;
     public CollectStatus previousStatus = null;
 
     public static double initPosition = 1f;
-    public static double collectPosition = 0.2f;
-    public static double collectStackPosition = 0.43f; /// 0.75 - OK era 0.5
-    public static double collectStackLower = 0.3f;//era 0.34
-    public static double collectStackPixel5 = 0.43f;
-    public static double collectStackPixel4 = 0.37f;
-    public static double collectStackAutoLowPosition = 0.33f;
-    public static double playPosition = 0.5f;
+    public static double collectPosition = 0.15f;
+    public static double collectStackPosition = 0.38f; /// 0.75 - OK era 0.5
+    public static double collectStackLower = 0.25f;//era 0.34
+    public static double collectStackPixel5 = 0.41f;
+    public static double collectStackPixel4 = 0.33f;
+    public static double collectStackAutoLowPosition = 0.27f;
+    public static double collectStackAutoAI = 0.39f;
+    public static double onePixel = 0.41f;
+    public static double playPosition = 1f;
     public static double autoPosition = 1f;
 
     private Servo forbarIntake = null;
@@ -83,6 +87,16 @@ public class CollectForbarController {
                 case COLLECT_DRIVE_STACK_LOW:
                 {
                     forbarIntake.setPosition(collectStackLower);
+                    break;
+                }
+                case AI:
+                {
+                    forbarIntake.setPosition(collectStackAutoAI);
+                    break;
+                }
+                case ONE_PIXEL:
+                {
+                    forbarIntake.setPosition(onePixel);
                     break;
                 }
             }

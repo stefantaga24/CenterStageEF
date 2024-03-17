@@ -72,7 +72,7 @@ public class TransferController {
 
     public void update()
     {
-        if (currentStatus != previousStatus || currentStatus == FLIP_BOX || currentStatus == TRANSFER_PIXELS || currentStatus == PLACE_BOX_IN_COLLECT)
+        if (currentStatus != previousStatus || currentStatus == FLIP_BOX || currentStatus == TRANSFER_PIXELS || currentStatus == PLACE_BOX_IN_COLLECT || currentStatus == INIT)
         {
             previousStatus = currentStatus;
             switch (currentStatus)
@@ -126,6 +126,7 @@ public class TransferController {
                         tubuleteController.currentStatus = TubuleteController.CollectStatus.COLECTARE;
                         sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.CLOSED;
                         forbarCutieIntake.setPosition(collectPosition);
+
                         currentStatus = INIT;
                     }
                     break;

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE1_C23;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE2_C1;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE2_C23;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
@@ -23,17 +26,18 @@ public class LiftMotorController {
         AUTO_CYCLE2_C23,
         AUTO_CYCLE3,
         liftMosaic,
+        liftAngle,
 
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
-    public static int initPosition = 5;
+    public static int initPosition = -5;
     public static int downPosition = -100;
     public static int lowPosition = -700;
     public static int midPosition = -700;
     public static int highPosition = -1630;
-
-    public static int lowAuto = -360;
+    public static int anglePosition = -530;
+    public static int lowAuto = -330;
     public static int mosaicPosition = -317;
     public static int autoCycle1_C1 = -570;
     public static int autoCycle2_C1 = -900;
@@ -41,7 +45,7 @@ public class LiftMotorController {
     public static int autoCycle2_C23 = -800;
     public static int autoCycle3= -1000;
 
-    public int retardPosition = 100;
+    public int retardPosition = -100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
     private ExtenderController extenderController;
@@ -60,7 +64,7 @@ public class LiftMotorController {
         mct1 = liftMotor.getMotorType().clone();
         mct1.setAchieveableMaxRPMFraction(1.0);
         liftMotor.setMotorType(mct1);
-
+//        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         this.liftMotor.setTargetPosition(currentPosition);
         this.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.liftMotor.setPower(1);
@@ -101,7 +105,7 @@ public class LiftMotorController {
                       //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = lowPosition;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -118,7 +122,7 @@ public class LiftMotorController {
                     //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                   //  }
                     currentPosition = midPosition;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus =  ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -135,7 +139,7 @@ public class LiftMotorController {
                       //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = highPosition;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus =  ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -152,7 +156,7 @@ public class LiftMotorController {
                       //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = lowAuto;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -169,7 +173,7 @@ public class LiftMotorController {
                      //   extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle2_C1;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -186,7 +190,7 @@ public class LiftMotorController {
                       //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle1_C1;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -203,7 +207,7 @@ public class LiftMotorController {
                      //   extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                   //  }
                     currentPosition = autoCycle1_C23;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -220,7 +224,7 @@ public class LiftMotorController {
                    //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle2_C23;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -237,7 +241,7 @@ public class LiftMotorController {
                     //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle3;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -254,7 +258,7 @@ public class LiftMotorController {
                    //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                    // }
                     currentPosition = mosaicPosition;
-                    if (liftCurrentPosition >=0)
+                    if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
                     }
@@ -264,6 +268,19 @@ public class LiftMotorController {
                     }
                     break;
 
+                }
+                case liftAngle:
+                {
+                    currentPosition = anglePosition;
+                    if (liftCurrentPosition <=0)
+                    {
+                        forbarOuttakeController.currentStatus= ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE;
+                    }
+                    break;
                 }
             }
 

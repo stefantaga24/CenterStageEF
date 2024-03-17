@@ -9,6 +9,7 @@ public class SigurantaOuttakeController {
     public enum SigurantaOuttakeStatus{
         CLOSED,
         OPEN,
+        RETARD
     }
 
     public SigurantaOuttakeStatus currentStatus = SigurantaOuttakeStatus.CLOSED;
@@ -16,6 +17,7 @@ public class SigurantaOuttakeController {
 
     public double closedPosition = 0.5;
     public double openPosition = 0;
+    public double retardPosition = 1;
 
     private Servo sigurantaOuttake = null;
 
@@ -39,6 +41,11 @@ public class SigurantaOuttakeController {
                 case OPEN:
                 {
                     sigurantaOuttake.setPosition(openPosition);
+                    break;
+                }
+                case RETARD:
+                {
+                    sigurantaOuttake.setPosition(retardPosition);
                     break;
                 }
             }

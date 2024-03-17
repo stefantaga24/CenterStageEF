@@ -1,20 +1,19 @@
-package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii;
+package org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD;
 
 
 import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocityConstraint;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.END_AUTO;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.PARK;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.RETRACT_LIFT;
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.AutoREDPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.END_AUTO;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.PARK;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.PLACE_PURPLE_PIXEL;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.PLACE_SPIKE_BACKDROP;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.RETRACT_LIFT;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.Autonomii.OLD.AutoREDPreloadBB.STROBOT.WAIT_FOR_PURPLE_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TransferController.initPosition;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
