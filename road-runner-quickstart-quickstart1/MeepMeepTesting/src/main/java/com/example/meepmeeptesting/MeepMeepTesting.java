@@ -12,11 +12,14 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 50, 5.7, 5.7, 13.22)
                 .followTrajectorySequence( drive ->
-                        drive.trajectorySequenceBuilder(startPose)
-                                .lineToSplineHeading(new Pose2d(PRELOAD_LEFT_X, PRELOAD_LEFT_Y,Math.toRadians(PRELOAD_ANGLE_LEFT)))
+                        drive.trajectorySequenceBuilder(BBPose)
                                 .setReversed(true)
-                                .splineToLinearHeading(new Pose2d(FIRST_PIXEL_X,FIRST_PIXEL_Y,Math.toRadians(0)),Math.toRadians(180))
-                                .back(5)
+                                .splineToConstantHeading(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y),Math.toRadians(180))
+                                .lineTo(new Vector2d(COLLECT_STACK_X,COLLECT_STACK_Y))
+
+                                .setReversed(false)
+                                .lineTo(new Vector2d(PLACE_BB_LLH1_X_CYCLES,PLACE_BB_LLH1_Y_CYCLES))
+                                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X_CYCLES,PLACE_BB_LLH2_Y_CYCLES),Math.toRadians(0))
                                 .build()
                 );
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
@@ -28,8 +31,11 @@ public class MeepMeepTesting {
     }
 
     static Pose2d startPose = new Pose2d(-38, 62, Math.toRadians(270));
+
     public static double forwardRight = 6.75;
 
+    public static final double COLLECT_STACK_X= -27.5f;
+    public static final double COLLECT_STACK_Y = 11f;
     public static  double PRELOAD_LEFT_X = -31;
     public static  double PRELOAD_LEFT_Y = 38;
     public static  double PRELOAD_ANGLE_LEFT = -45;
@@ -42,9 +48,9 @@ public class MeepMeepTesting {
     public static  double PARK_LEFT_Y = 20;
     public static  double ANGLE_PARK_LEFT = 0;
 
-    public static  double PRELOAD_MID_X = 38;
-    public static  double PRELOAD_MID_Y = 37;
-    public static  double PRELOAD_ANGLE_MID = 270;
+    public static  double PRELOAD_MID_X = -38;
+    public static  double PRELOAD_MID_Y = 36;
+    public static  double PRELOAD_ANGLE_MID = -45;
 
     public static  double PLACE_SPIKE_MID_X = 48;
     public static  double PLACE_SPIKE_MID_Y = 39;
@@ -55,7 +61,7 @@ public class MeepMeepTesting {
     public static  double PARK_MID_Y = 20;
     public static  double ANGLE_PARK_MID = 0;
 
-    public static  double PRELOAD_RIGHT_X = 36;
+    public static  double PRELOAD_RIGHT_X = -43;
     public static  double PRELOAD_RIGHT_Y = 40;
     public static  double PRELOAD_ANGLE_RIGHT = -145;
 
@@ -70,8 +76,8 @@ public class MeepMeepTesting {
     public static final double FIRST_PIXEL_X = -53;
     public static final double FIRST_PIXEL_Y = 12.5;
 
-    public static final double GO_TO_STACK_X = 20f;
-    public static final double GO_TO_STACK_Y = 57.5f;
+    public static final double GO_TO_STACK_X = 27f;
+    public static final double GO_TO_STACK_Y = 11f;
     public static final double LINE_TO_STACK_X = -30f;
     public static final double LINE_TO_STACK_Y = 57.5f;
     public static final double GO_TO_BACK_1_X = -55f;
@@ -116,11 +122,12 @@ public class MeepMeepTesting {
     public static final double COLLECT_STACK_Y_CYCLE3_C3 = 8.5f;
 
 
-    public static final double PLACE_BB_LLH1_X = 20;
-    public static final double PLACE_BB_LLH1_Y = 11;
+    public static final double PLACE_BB_LLH1_X_CYCLES = 20;
+    public static final double PLACE_BB_LLH1_Y_CYCLES = 11;
     public static final int ANGLE_BB_LLH1 = 0;
-    public static final double PLACE_BB_LLH2_X = 49f;
-    public static final double PLACE_BB_LLH2_Y = 48f;
+    public static final double PLACE_BB_LLH2_X_CYCLES = 50.5;
+    public static final double PLACE_BB_LLH2_Y_CYCLES = 33.5f;
     public static final double ANGLE_BB_LLH2 = -25f;
+    static Pose2d BBPose = new Pose2d(PLACE_SPIKE_LEFT_X, PLACE_SPIKE_LEFT_Y, Math.toRadians(0));
 
 }  

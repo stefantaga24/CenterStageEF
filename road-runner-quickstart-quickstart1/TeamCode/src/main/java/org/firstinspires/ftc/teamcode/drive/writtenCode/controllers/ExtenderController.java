@@ -26,7 +26,7 @@ public class ExtenderController {
     public static double Kd = 0;
     public int CurrentPosition = -50;
     public int extenderFix = 50;
-    public int extenderClose = 675;
+    public int extenderClose = 475;
     public int extenderAutoOnePixel = 485;
     public int extenderAuto = 480;
     public static int extenderFailsafe = 300;

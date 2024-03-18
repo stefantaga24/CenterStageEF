@@ -11,12 +11,15 @@ public class AvionController {
         LAUNCH,
 
         INIT,
+
+
+
     }
     public LaunchStatus currentStatus = AvionController.LaunchStatus.INIT;
     public LaunchStatus previousStatus = null;
 
-    public double initPosition = 0.7;
-    public double launchPosition = 0;
+    public double initPosition = 0;
+    public double launchPosition = 0.7;
     private Servo airplaneServo = null;
     public AvionController(RobotMap robot)
     {

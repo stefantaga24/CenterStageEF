@@ -17,7 +17,9 @@ public class CollectForbarController {
         COLLECT_AUTO_STACK_4,
         COLLECT_AUTO_STACK_LOW,
         AI,
-        ONE_PIXEL
+        ONE_PIXEL,
+        ONE_PIXEL_FAILSAFE,
+
     }
 
     public CollectStatus currentStatus = CollectStatus.INIT;
@@ -31,7 +33,8 @@ public class CollectForbarController {
     public static double collectStackPixel4 = 0.33f;
     public static double collectStackAutoLowPosition = 0.27f;
     public static double collectStackAutoAI = 0.39f;
-    public static double onePixel = 0.41f;
+    public static double onePixel = 0.42f;
+    public static double onePixelFailsafe = 0.39f;
     public static double playPosition = 1f;
     public static double autoPosition = 1f;
 
@@ -97,6 +100,11 @@ public class CollectForbarController {
                 case ONE_PIXEL:
                 {
                     forbarIntake.setPosition(onePixel);
+                    break;
+                }
+                case ONE_PIXEL_FAILSAFE:
+                {
+                    forbarIntake.setPosition(onePixelFailsafe);
                     break;
                 }
             }
