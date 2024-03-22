@@ -753,3 +753,4 @@ public class AutoRedFarCentru extends LinearOpMode {
     }
 
 }
+//ma omor
