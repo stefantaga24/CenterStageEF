@@ -171,9 +171,9 @@ public class CaseDetectionPipeline
                 Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(255, 0, 0), 3);
             }
             if(mode == "blue") {
-                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(12, 106, 179), 3);
-                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(12, 106, 179), 3);
-                Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(12, 106, 179), 3);
+                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(0, 0, 255), 3);
+                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(0, 0, 255), 3);
+                Imgproc.rectangle(input, bottomMidLeft, bottomRight, new Scalar(0, 0, 255), 3);
             }
 //                Imgproc.rectangle(input, topLeft, topMidRight, new Scalar(12, 106, 179), 3);
 //                Imgproc.rectangle(input, topMidLeft, bottomMidRight, new Scalar(0, 255, 0), 3);

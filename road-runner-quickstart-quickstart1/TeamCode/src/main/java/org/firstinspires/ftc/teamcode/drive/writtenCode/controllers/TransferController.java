@@ -39,7 +39,7 @@ public class TransferController {
     /// Aici modifici cat timp ia sa se duca pixelii din cutia de intake in cutia de outtake
     public double timerAsteaptaPixeli = 0.45;
     /// Cat timp sa astepte pana da reverse la colectare
-    public double timerReverseIntake = 0.35;
+    public double timerReverseIntake = 0;
 
     /// Cat timp in plus sa astepte pana baga in outtake daca se da reverse la cutie
     public static double timerExtendoToInit = 0.3;

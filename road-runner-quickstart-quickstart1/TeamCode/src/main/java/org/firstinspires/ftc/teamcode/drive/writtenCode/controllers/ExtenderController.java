@@ -15,6 +15,8 @@ public class ExtenderController {
         AUTO,
         MANUAL_LOW,
         MANUAL_HIGH,
+        CLOSE_AUTO,
+        CLOSE_AUTO_RED
 
     }
     public ExtenderStatus currentStatus = ExtenderStatus.INIT;
@@ -26,6 +28,8 @@ public class ExtenderController {
     public static double Kd = 0;
     public int CurrentPosition = -50;
     public int extenderFix = 50;
+    public int extenderCloseAuto = 675;
+    public int extenderCloseAutoRED = 680;
     public int extenderClose = 475;
     public int extenderAutoOnePixel = 485;
     public int extenderAuto = 480;
@@ -76,6 +80,16 @@ public class ExtenderController {
                     MotorColectarePID.targetValue = extenderClose;
                     break;
                 }
+                case CLOSE_AUTO:
+                {
+                    MotorColectarePID.targetValue = extenderCloseAuto;
+                    break;
+                }
+                case CLOSE_AUTO_RED:
+                {
+                    MotorColectarePID.targetValue = extenderCloseAutoRED;
+                    break;
+                }
                 case FAILSAFE:
                 {
                     MotorColectarePID.targetValue = extenderFailsafe;
@@ -101,6 +115,7 @@ public class ExtenderController {
                     MotorColectarePID.targetValue = rightExtension.getCurrentPosition()+150;
                     break;
                 }
+
 
             }
         }

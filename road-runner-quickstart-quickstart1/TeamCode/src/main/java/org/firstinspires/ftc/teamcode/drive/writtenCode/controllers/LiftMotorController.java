@@ -25,6 +25,8 @@ public class LiftMotorController {
         AUTO_CYCLE1_C23,
         AUTO_CYCLE2_C23,
         AUTO_CYCLE3,
+        AUTO_RAISELIFT,
+        PRELOAD,
         liftMosaic,
         liftAngle,
 
@@ -37,9 +39,10 @@ public class LiftMotorController {
     public static int midPosition = -700;
     public static int highPosition = -1630;
     public static int anglePosition = -530;
-    public static int lowAuto = -330;
+    public static int lowAuto = -275;
     public static int mosaicPosition = -317;
-    public static int autoCycle1_C1 = -570;
+    public static int autoCycle1_C1 = -550;
+    public static int autoRaiseLift = -670;
     public static int autoCycle2_C1 = -900;
     public static int autoCycle1_C23 = -540;
     public static int autoCycle2_C23 = -800;
@@ -241,6 +244,23 @@ public class LiftMotorController {
                     //     extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoCycle3;
+                    if (liftCurrentPosition <=0)
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
+                    }
+                    else
+                    {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                    }
+                    break;
+                }
+                case AUTO_RAISELIFT:
+                {
+                    // if(extenderController.currentStatus == ExtenderController.ExtenderStatus.INIT)
+                    //{
+                    //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
+                    //}
+                    currentPosition = autoRaiseLift;
                     if (liftCurrentPosition <=0)
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;

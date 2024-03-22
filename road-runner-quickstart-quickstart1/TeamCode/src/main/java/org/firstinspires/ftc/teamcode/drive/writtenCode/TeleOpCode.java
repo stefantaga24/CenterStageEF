@@ -605,14 +605,14 @@ public class TeleOpCode extends LinearOpMode {
                 }
             }
 
-//            if(gamepad1.dpad_right)
-//            {
-//                extenderController.currentStatus = ExtenderController.ExtenderStatus.MANUAL_HIGH;
-//            }
-//            else if(gamepad1.dpad_left)
-//            {
-//                extenderController.currentStatus = ExtenderController.ExtenderStatus.MANUAL_LOW;
-//            }
+            if(gamepad1.dpad_right)
+            {
+                extenderController.CurrentPosition =extenderController.CurrentPosition+15;
+            }
+            else if(gamepad1.dpad_left)
+            {
+                extenderController.CurrentPosition =extenderController.CurrentPosition-15;
+            }
             cataratController.update();
             avionController.update();
             extenderController.update(extenderCurrentPosition);
