@@ -43,7 +43,7 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static  double RIGHT_SPLINE_X = 40;
     public static  double RIGHT_SPLINE_Y = -47;
-    public static  double PLACE_SPIKE_RIGHT_X = 50;
+    public static  double PLACE_SPIKE_RIGHT_X = 49;
     public static  double PLACE_SPIKE_RIGHT_Y = -45.5;
 
 
@@ -64,7 +64,7 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static  double LEFT_SPLINE_X = 35;
     public static  double LEFT_SPLINE_Y = -33.5;
-    public static  double PLACE_SPIKE_LEFT_X = 49.3;
+    public static  double PLACE_SPIKE_LEFT_X = 48.5;
     public static  double PLACE_SPIKE_LEFT_Y = -31.5;
     public static double ANGLE_SPIKE_LEFT = 0;
 
@@ -74,7 +74,7 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static final double FIRST_PIXEL_X = -57.5;
     public static final double FIRST_PIXEL_Y = -11;
-    public static final double FIRST_PIXEL_X_C1 =-60;
+    public static final double FIRST_PIXEL_X_C1 =-59.5;
     public static final double FIRST_PIXEL_X_C2 =-59;
     public static final double FIRST_PIXEL_X_C3 =-59.3;
     public static final double FIRST_PIXEL_Y_C1 =-11;
@@ -115,8 +115,8 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static final double PLACE_BB_LLH2_Y = -50f;
     public static final double ANGLE_BB_LLH2 = -25f;
 
-    public static final double PLACE_BB_LLH1_X_PRELOAD = 20;
-    public static final double PLACE_BB_LLH1_Y_PRELOAD = -11;
+    public static final double PLACE_BB_LLH1_X_PRELOAD = 15;
+    public static final double PLACE_BB_LLH1_Y_PRELOAD = -14;
 
 
     public static int timeout_1pixel = 3;
@@ -124,7 +124,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static float time_reverse_scurt =0f;
     public static float timeToDrop = 0.7f;
     public static float timeToFirst = 1.5f;
-    public static float leave_first = 5f;
+    public static float leave_first = 3.5f;
     public static int CAZ_BUN = 0;
     private void wait(int ms) {
         try{
@@ -278,8 +278,7 @@ public class AutoRedFarCentru extends LinearOpMode {
                 .build();
         TrajectorySequence PLACE_SPIKE_MID = drive.trajectorySequenceBuilder(FIRST_PIXEL_C2.end())
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X_PRELOAD,PLACE_BB_LLH1_Y_PRELOAD))
-//                .splineTo(new Vector2d(MID_SPLINE_X,MID_SPLINE_Y),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y),Math.toRadians(0))
+//                .splineTo(new Vector2d(MID_SPLINE_X,MID_SPLINE_Y),Math.toRadians(0)).onstantHeading(new Vector2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y),Math.toRadians(0))
                 .build();
         TrajectorySequence PLACE_SPIKE_RIGHT = drive.trajectorySequenceBuilder(FIRST_PIXEL_C3.end())
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X_PRELOAD,PLACE_BB_LLH1_Y_PRELOAD))
