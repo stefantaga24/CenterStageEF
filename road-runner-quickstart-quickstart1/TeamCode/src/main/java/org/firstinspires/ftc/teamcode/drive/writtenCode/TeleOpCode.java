@@ -261,7 +261,7 @@ public class TeleOpCode extends LinearOpMode {
             if (isStopRequested()) return;
 
             int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
@@ -605,14 +605,14 @@ public class TeleOpCode extends LinearOpMode {
                 }
             }
 
-            if(gamepad1.dpad_right)
-            {
-                extenderController.CurrentPosition =extenderController.CurrentPosition+15;
-            }
-            else if(gamepad1.dpad_left)
-            {
-                extenderController.CurrentPosition =extenderController.CurrentPosition-15;
-            }
+//            if(gamepad1.dpad_right)
+//            {
+//                extenderCurrentPosition=extenderCurrentPosition+15;
+//            }
+//            else if(gamepad1.dpad_left)
+//            {
+//               extenderCurrentPosition=extenderCurrentPosition-15;
+//            }
             cataratController.update();
             avionController.update();
             extenderController.update(extenderCurrentPosition);

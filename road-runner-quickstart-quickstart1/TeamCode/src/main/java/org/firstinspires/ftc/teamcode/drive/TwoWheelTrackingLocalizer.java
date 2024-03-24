@@ -65,7 +65,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         /// DE VAZUT CARE E PARALEL SI CARE E PERPENDICULARUL
 
         perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intakeMotor"));
-        parallelEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "leftExtension"));
+        parallelEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "rightExtension"));
 
         //parallelEncoder.setDirection(Encoder.Direction.REVERSE);
         parallelEncoder.setDirection(Encoder.Direction.REVERSE);

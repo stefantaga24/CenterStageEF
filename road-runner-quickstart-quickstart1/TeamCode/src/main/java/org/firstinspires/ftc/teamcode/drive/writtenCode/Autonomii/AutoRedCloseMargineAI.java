@@ -49,20 +49,20 @@ public class AutoRedCloseMargineAI extends LinearOpMode {
     public static  double ANGLE_PARK_RIGHT = 0;
 
     public static  double PRELOAD_MID_X = 10;
-    public static  double PRELOAD_MID_Y = -36;
+    public static  double PRELOAD_MID_Y = -34.1;
     public static  double PRELOAD_ANGLE_MID = 90;
 
-    public static  double PLACE_SPIKE_MID_X = 49;
-    public static  double PLACE_SPIKE_MID_Y = -39.6;
+    public static  double PLACE_SPIKE_MID_X = 50;
+    public static  double PLACE_SPIKE_MID_Y = -39.7;
     public static  double ANGLE_SPIKE_MID = 0;
 
     public static  double PARK_MID_X = 43;
     public static  double PARK_MID_Y = -20;
     public static  double ANGLE_PARK_MID = 0;
 
-    public static  double PRELOAD_LEFT_X = 5;
-    public static  double PRELOAD_LEFT_Y = -40;
-    public static  double PRELOAD_ANGLE_LEFT = 145;
+    public static  double PRELOAD_LEFT_X = 7;
+    public static  double PRELOAD_LEFT_Y = -41;
+    public static  double PRELOAD_ANGLE_LEFT = 140;
 
     public static  double PLACE_SPIKE_LEFT_X = 48.5;
     public static  double PLACE_SPIKE_LEFT_Y = -32;
@@ -76,11 +76,11 @@ public class AutoRedCloseMargineAI extends LinearOpMode {
     public static final double GO_TO_STACK_X = 30f;
     public static final double GO_TO_STACK_Y = -56.5f;
     public static final double LINE_TO_STACK_X = -29.5f;
-    public static final double LINE_TO_STACK_Y = -56.5f;
+    public static final double LINE_TO_STACK_Y = -56f;
     public static final double GO_TO_BACK_1_X = -55f;
-    public static final double GO_TO_BACK_1_Y =-55.5f;
+    public static final double GO_TO_BACK_1_Y =-56f;
     public static final double GO_TO_BACK_2_X = 10f;
-    public static final double GO_TO_BACK_2_Y =-55.5f;
+    public static final double GO_TO_BACK_2_Y =-56f;
     public static final double ANGLE_COLECTARE=-47.5f;
     public static final double ANGLE_COLECTARE_CYCLE2=-46.7f;
 
@@ -89,10 +89,10 @@ public class AutoRedCloseMargineAI extends LinearOpMode {
     public static final double COLLECT_STACK_X_CYCLE2_C1 = -46f;
     public static final double COLLECT_STACK_Y_CYCLE2_C1 = -53f;
 
-    public static final double COLLECT_STACK_X_CYCLE1_C2 = -50.5f;
-    public static final double COLLECT_STACK_Y_CYCLE1_C2 = -29f;
-    public static final double COLLECT_STACK_X_CYCLE2_C2 = -50f;
-    public static final double COLLECT_STACK_Y_CYCLE2_C2 = -29f;
+    public static final double COLLECT_STACK_X_CYCLE1_C2 = -52f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C2 = -29.7f;
+    public static final double COLLECT_STACK_X_CYCLE2_C2 = -50.5f;
+    public static final double COLLECT_STACK_Y_CYCLE2_C2 = -29.7f;
 
 
     public static final double COLLECT_STACK_X_CYCLE1_C3 = -50f;
@@ -148,7 +148,7 @@ public class AutoRedCloseMargineAI extends LinearOpMode {
     }
     public static double timePlacePixel = 0.5;
     public static double delayLift = 0.4;
-    public static double waitTimeBackDrop = 0.3;
+    public static double waitTimeBackDrop = 0.5;
     public static double timeOpenSlides = 4.6;
     public static double timeOpenSlidesC3= 5f; //4.5
 
@@ -361,7 +361,7 @@ public class AutoRedCloseMargineAI extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
             switch (status)
             {
                 case START:

@@ -107,12 +107,12 @@ public class ExtenderController {
                 }
                 case MANUAL_LOW:
                 {
-                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()-150;
+                    MotorColectarePID.targetValue = leftExtension.getCurrentPosition()-150;
                     break;
                 }
                 case MANUAL_HIGH:
                 {
-                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()+150;
+                    MotorColectarePID.targetValue = leftExtension.getCurrentPosition()+150;
                     break;
                 }
 

@@ -44,7 +44,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static  double RIGHT_SPLINE_X = 40;
     public static  double RIGHT_SPLINE_Y = -47;
     public static  double PLACE_SPIKE_RIGHT_X = 49;
-    public static  double PLACE_SPIKE_RIGHT_Y = -45.5;
+    public static  double PLACE_SPIKE_RIGHT_Y = -46;
 
 
     public static  double PRELOAD_MID_X = -38;
@@ -53,7 +53,7 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static  double MID_SPLINE_X = 33.7;
     public static  double MID_SPLINE_Y = -40;
-    public static  double PLACE_SPIKE_MID_X = 49.5;
+    public static  double PLACE_SPIKE_MID_X = 49.8;
     public static  double PLACE_SPIKE_MID_Y = -39;
     public static  double ANGLE_SPIKE_MID = 0;
 
@@ -65,7 +65,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static  double LEFT_SPLINE_X = 35;
     public static  double LEFT_SPLINE_Y = -33.5;
     public static  double PLACE_SPIKE_LEFT_X = 48.5;
-    public static  double PLACE_SPIKE_LEFT_Y = -31.5;
+    public static  double PLACE_SPIKE_LEFT_Y = -32.5;
     public static double ANGLE_SPIKE_LEFT = 0;
 
     public static double PARK_RIGHT_X = 43;
@@ -74,29 +74,27 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static final double FIRST_PIXEL_X = -57.5;
     public static final double FIRST_PIXEL_Y = -11;
-    public static final double FIRST_PIXEL_X_C1 =-59.5;
+    public static final double FIRST_PIXEL_X_C1 =-59.4;
     public static final double FIRST_PIXEL_X_C2 =-59;
-    public static final double FIRST_PIXEL_X_C3 =-59.3;
+    public static final double FIRST_PIXEL_X_C3 =-59;
     public static final double FIRST_PIXEL_Y_C1 =-11;
     public static final double FIRST_PIXEL_Y_C2 =-11;
     public static final double FIRST_PIXEL_Y_C3 =-11;
 
-//penis
-
     public static final double GO_TO_STACK_X_C3 = 27f;
-    public static final double GO_TO_STACK_Y_C3 = -12f;
-    public static final double COLLECT_STACK_X_C3 = -31.3f;
-    public static final double COLLECT_STACK_Y_C3 = -12f;
+    public static final double GO_TO_STACK_Y_C3 = -11f;
+    public static final double COLLECT_STACK_X_C3 = -30f;
+    public static final double COLLECT_STACK_Y_C3 = -11f;
 
     public static final double GO_TO_STACK_X_C2 = 33f;
-    public static final double GO_TO_STACK_Y_C2 = -12f;
-    public static final double COLLECT_STACK_X_C2 = -30.5f;
-    public static final double COLLECT_STACK_Y_C2 = -12f;
+    public static final double GO_TO_STACK_Y_C2 = -10.5f;
+    public static final double COLLECT_STACK_X_C2 = -30.6f;
+    public static final double COLLECT_STACK_Y_C2 = -10.5f;
 
     public static final double GO_TO_STACK_X_C1 = 30f;
-    public static final double GO_TO_STACK_Y_C1 = -10.5f;
-    public static final double COLLECT_STACK_X_C1 = -30.2f;
-    public static final double COLLECT_STACK_Y_C1 = -10.5f;
+    public static final double GO_TO_STACK_Y_C1 = -11f;
+    public static final double COLLECT_STACK_X_C1 = -30.6f;
+    public static final double COLLECT_STACK_Y_C1 = -11f;
 
     public static final double COLLECT_STACK_ANGLE=0f;
 
@@ -126,6 +124,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static float timeToFirst = 1.5f;
     public static float leave_first = 3.5f;
     public static int CAZ_BUN = 0;
+    boolean flag2=false;
     private void wait(int ms) {
         try{
             Thread.sleep(ms);
@@ -161,6 +160,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static double waitTimeBackDrop = 0.6;
     public static double timeOpenSlides = 2;
     public static double timeRaiseLiftFirst = 0.9;
+    public static float timetostart=0.5f;
 
     public static double liftStack= 2;
     public static boolean flag =true;
@@ -278,7 +278,8 @@ public class AutoRedFarCentru extends LinearOpMode {
                 .build();
         TrajectorySequence PLACE_SPIKE_MID = drive.trajectorySequenceBuilder(FIRST_PIXEL_C2.end())
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X_PRELOAD,PLACE_BB_LLH1_Y_PRELOAD))
-//                .splineTo(new Vector2d(MID_SPLINE_X,MID_SPLINE_Y),Math.toRadians(0)).onstantHeading(new Vector2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y),Math.toRadians(0))
+//                .splineTo(new Vector2d(MID_SPLINE_X,MID_SPLINE_Y),Math.toRadians(0)).
+                .splineToConstantHeading(new Vector2d(PLACE_SPIKE_MID_X, PLACE_SPIKE_MID_Y),Math.toRadians(0))
                 .build();
         TrajectorySequence PLACE_SPIKE_RIGHT = drive.trajectorySequenceBuilder(FIRST_PIXEL_C3.end())
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X_PRELOAD,PLACE_BB_LLH1_Y_PRELOAD))
@@ -356,25 +357,26 @@ public class AutoRedFarCentru extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
             switch (status)
             {
                 case START:
                 {
-                    AutoTimer.reset();
-                    if (cazAuto == 1)
-                    {
-                        drive.followTrajectorySequenceAsync(PLACE_PRELOAD_LEFT);
+                    if(flag2==false) {
+                        AutoTimer.reset();
+                        if(cazAuto==3 && cazAuto==2) timetostart=1;
+                        flag2=true;
                     }
-                    else if (cazAuto ==2)
-                    {
-                        drive.followTrajectorySequenceAsync(PLACE_PRELOAD_MID);
-                    }
-                    else if (cazAuto == 3)
-                    {
-                        drive.followTrajectorySequenceAsync(PLACE_PRELOAD_RIGHT);
-                    }
-                    status = STROBOT.PLACE_PURPLE_PIXEL;
+//                    if(AutoTimer.seconds()>timetostart) {
+                        if (cazAuto == 1) {
+                            drive.followTrajectorySequenceAsync(PLACE_PRELOAD_LEFT);
+                        } else if (cazAuto == 2) {
+                            drive.followTrajectorySequenceAsync(PLACE_PRELOAD_MID);
+                        } else if (cazAuto == 3) {
+                            drive.followTrajectorySequenceAsync(PLACE_PRELOAD_RIGHT);
+                        }
+                        status = STROBOT.PLACE_PURPLE_PIXEL;
+//                    }
                     break;
                 }
                 case PLACE_PURPLE_PIXEL:

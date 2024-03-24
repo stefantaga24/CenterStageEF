@@ -49,7 +49,7 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
     public static  double ANGLE_PARK_LEFT = 0;
 
     public static  double PRELOAD_MID_X = 10;
-    public static  double PRELOAD_MID_Y = 36;
+    public static  double PRELOAD_MID_Y = 35;
     public static  double PRELOAD_ANGLE_MID = 270;
 
     public static  double PLACE_SPIKE_MID_X = 49;
@@ -62,7 +62,7 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
     public static  double ANGLE_PARK_MID = 0;
 
     public static  double PRELOAD_RIGHT_X = 5;
-    public static  double PRELOAD_RIGHT_Y = 40;
+    public static  double PRELOAD_RIGHT_Y = 38.5;
     public static  double PRELOAD_ANGLE_RIGHT = -145;
 
     public static  double PLACE_SPIKE_RIGHT_X = 48.5;
@@ -83,55 +83,35 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
     public static final double GO_TO_BACK_2_X = 10f;
     public static final double GO_TO_BACK_2_Y =55.5f;
     public static final double ANGLE_COLECTARE=45f;
-    public static final double COLLECT_STACK_X_CYCLE1 = -49f;
-    public static final double COLLECT_STACK_Y_CYCLE1 = 30.5f;
-    public static final double COLLECT_STACK_X_CYCLE2 = -48f;
-    public static final double COLLECT_STACK_Y_CYCLE2 = 30f;
+    public static final double COLLECT_STACK_X_CYCLE1 = -50.5f;
+    public static final double COLLECT_STACK_Y_CYCLE1 = 29f;
+    public static final double COLLECT_STACK_X_CYCLE2 = -50f;
+    public static final double COLLECT_STACK_Y_CYCLE2 = 28f;
 
-    public static final double COLLECT_STACK_X_CYCLE1_C2 = -50f;
-    public static final double COLLECT_STACK_Y_CYCLE1_C2 = 30.5f;
-    public static final double COLLECT_STACK_X_CYCLE2_C2 = -49.5f;
+    public static final double COLLECT_STACK_X_CYCLE1_C2 = -50.5f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C2 = 29.5f;
+    public static final double COLLECT_STACK_X_CYCLE2_C2 = -50f;
     public static final double COLLECT_STACK_Y_CYCLE2_C2 = 30f;
-    public static final double COLLECT_STACK_X_CYCLE1_C3 = -45f;
-    public static final double COLLECT_STACK_Y_CYCLE1_C3 = 50f;
+
+    public static final double COLLECT_STACK_X_CYCLE1_C3 = -50.7f;
+    public static final double COLLECT_STACK_Y_CYCLE1_C3 = 29.5f;
+    public static final double COLLECT_STACK_X_CYCLE2_C3 = -50.5f;
+    public static final double COLLECT_STACK_Y_CYCLE2_C3 = 29.5f;
 
 
 
-
-
-
-
-    public static final double GO_TO_STACK_ANGLE_CYCLE1_C1 = 0;
-    public static final double GO_TO_STACK_ANGLE_CYCLE2_C1= 0;
-    public static final double GO_TO_STACK_ANGLE_CYCLE3_C1 = 0;
-    public static final double COLLECT_STACK_X_CYCLE2_C1 = -28f;
-    public static final double COLLECT_STACK_Y_CYCLE2_C1 = 7.5f;
-    public static final double COLLECT_STACK_X_CYCLE3_C1 = -27f;
-    public static final double COLLECT_STACK_Y_CYCLE3_C1 = 8.5f;
 
 
     public static final double GO_TO_STACK_ANGLE_CYCLE1_C2 = 0.45;
-    public static final double GO_TO_STACK_ANGLE_CYCLE2_C2= 0.60;
-    public static final double GO_TO_STACK_ANGLE_CYCLE3_C2 = 0;
-
-
-    public static final double COLLECT_STACK_X_CYCLE3_C2 = -26.5f;
-    public static final double COLLECT_STACK_Y_CYCLE3_C2 = 8.5f;
 
     public static final double GO_TO_STACK_ANGLE_CYCLE1_C3 = 0;
-    public static final double GO_TO_STACK_ANGLE_CYCLE2_C3= 0.2;
-    public static final double GO_TO_STACK_ANGLE_CYCLE3_C3 = 0;
-    public static final double COLLECT_STACK_X_CYCLE2_C3 = -28f;
-    public static final double COLLECT_STACK_Y_CYCLE2_C3 = 8.5f;
-    public static final double COLLECT_STACK_X_CYCLE3_C3 = -26.5f;
-    public static final double COLLECT_STACK_Y_CYCLE3_C3 = 8.5f;
 
 
     public static final double PLACE_BB_LLH1_X = 20;
     public static final double PLACE_BB_LLH1_Y = 11;
     public static final int ANGLE_BB_LLH1 = 0;
-    public static final double PLACE_BB_LLH2_X = 49f;
-    public static final double PLACE_BB_LLH2_Y = 42.5f;
+    public static final double PLACE_BB_LLH2_X = 50.5f;
+    public static final double PLACE_BB_LLH2_Y = 40f;
     public static final double ANGLE_BB_LLH2 = 0f;
 
 
@@ -307,9 +287,9 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
                 .lineTo(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y))
                 .lineTo(new Vector2d(LINE_TO_STACK_X, LINE_TO_STACK_Y))
 //                .lineToLinearHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
-                .lineToSplineHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C3, COLLECT_STACK_Y_CYCLE1_C3,Math.toRadians(ANGLE_COLECTARE)))
+                .splineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE1_C3, COLLECT_STACK_Y_CYCLE1_C3),Math.toRadians(180))
                 // .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_2, COLLECT_STACK_Y_CYCLE1_C2))
-//                .back(9)
+                .back(9)
                 .build();
         TrajectorySequence GO_PLACE_ON_BACKBOARD = drive.trajectorySequenceBuilder(new Pose2d(COLLECT_STACK_X_CYCLE1, COLLECT_STACK_Y_CYCLE1,Math.toRadians(ANGLE_COLECTARE)))
                 .lineToLinearHeading(new Pose2d(GO_TO_BACK_1_X,GO_TO_BACK_1_Y,Math.toRadians(0)))
@@ -344,12 +324,12 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
         TrajectorySequence GO_TO_STACK_CYCLE2_C3 = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD.end())
                 .setReversed(true)
 //                .splineToConstantHeading(new Vector2d(GO_TO_STACK_X, GO_TO_STACK_Y),Math.toRadians(180))
-                .lineTo(new Vector2d(GO_TO_STACK_X,GO_TO_STACK_Y))
+                .lineToLinearHeading(new Pose2d(GO_TO_STACK_X,GO_TO_STACK_Y,Math.toRadians(0)))
                 .lineTo(new Vector2d(LINE_TO_STACK_X, LINE_TO_STACK_Y))
 //                .lineToLinearHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C2, COLLECT_STACK_Y_CYCLE1_C2,Math.toRadians(ANGLE_COLECTARE)))
-                .lineToSplineHeading(new Pose2d(COLLECT_STACK_X_CYCLE1_C3, COLLECT_STACK_Y_CYCLE1_C3,Math.toRadians(ANGLE_COLECTARE)))
+                .splineToConstantHeading(new Vector2d(COLLECT_STACK_X_CYCLE2_C3, COLLECT_STACK_Y_CYCLE2_C3),Math.toRadians(180))
                 // .lineToConstantHeading(new Vector2d(COLLECT_STACK_X_2, COLLECT_STACK_Y_CYCLE1_C2))
-//                .back(9)
+                .back(10)
                 .build();
 
         TrajectorySequence GO_COLLECT_STACK_CYCLE1_C2 = drive.trajectorySequenceBuilder(
@@ -425,7 +405,7 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
             switch (status)
             {
                 case START:
@@ -595,7 +575,7 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
                         collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
                     flag = false;
                 }
-                    if (timerSlides.seconds()>timeOpenSlides && drive.getPoseEstimate().getX()< -30 && cazAuto!=3)
+                    if (timerSlides.seconds()>timeOpenSlides && drive.getPoseEstimate().getX()< -30)
                     {
                         if(collectForbarController.currentStatus != CollectForbarController.CollectStatus.COLLECT_DRIVE) {
                             collectForbarController.currentStatus = CollectForbarController.CollectStatus.AI;
@@ -612,39 +592,12 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
 
                         timeoutColectare.reset();
                     }
-                    else if(cazAuto==3)
-                    {
-                        if (timerSlides.seconds()>timeOpenSlidesC3 && extenderController.currentStatus != ExtenderController.ExtenderStatus.CLOSE_AUTO && drive.getPoseEstimate().getX()< -30)
-                    {
-                        extenderController.currentStatus = ExtenderController.ExtenderStatus.CLOSE_AUTO;
-                        collectForbarController.currentStatus = CollectForbarController.CollectStatus.AI;
-                        if(collectForbarController.currentStatus != CollectForbarController.CollectStatus.COLLECT_DRIVE) {
-                            collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_5;
-                            if(nrCycles==1){
-                                if(DID_FAILSAFE == true) collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_LOW;
-                            }
-                            if (nrCycles == 2) {
-                                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_AUTO_STACK_LOW;
-                                if(DID_FAILSAFE == true) collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                            }
-                            if (nrCycles == 3)
-                                collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                        }
-                        intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
-                        timeoutColectare.reset();
-                    }
-                    }
                     if (robot.beamFront.getState() == false && robot.beamBack.getState() == false)
                     {
                         transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
                         if(flag)
                             timerReverseScurt.reset();
                         flag = false;
-                        status = STROBOT.LEAVE_WITH_2_PIXELS;
-                    }
-                    else if(extenderController.currentStatus == ExtenderController.ExtenderStatus.CLOSE_AUTO && timeoutColectare.seconds()>4.5 && nrCycles==3)
-                    {
-                        transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
                         status = STROBOT.LEAVE_WITH_2_PIXELS;
                     }
                     else if(robot.beamBack.getState() == false)
@@ -671,62 +624,16 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
                             }
                             transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
 
-//                            if (nrCycles == 1) {
-//                                if(cazAuto==1)
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE1_C1);
-//                                else if(cazAuto==2)
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE1_C2);
-//                                else
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE1_C2);
-//                            }
-//
-//                            else if (nrCycles == 2) {
-//                                if(cazAuto==1)
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE2_C1);
-//                                else if(cazAuto==2)
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE2_C2);
-//                                else
-//                                    drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD_CYCLE2_C3);
-//                            }
-
-//                                else if (nrCycles == 3) {
-////                                    if(cazAuto==1)
-////                                        drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE3_C1);
-////                                    else if(cazAuto==2)
-////                                        drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE3_C2);
-////                                    else
-////                                        drive.followTrajectorySequenceAsync(GO_COLLECT_STACK_CYCLE3_C3);
-//                                }
                             drive.followTrajectorySequenceAsync(GO_PLACE_ON_BACKBOARD);
                             status = STROBOT.PLACE_STACK_PIXELS_BB;
                             timerLift.reset();
                         }
                     }
-                    else if(robot.beamBack.getState() == true && robot.beamFront.getState() == true && extenderController.currentStatus == ExtenderController.ExtenderStatus.CLOSE_AUTO)
-                    {
-                        if (timeoutColectare.seconds() > timeout_nopixel) {
-                            collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
-                            extenderController.currentStatus = ExtenderController.ExtenderStatus.FAILSAFE;
-                            status = STROBOT.FAILSAFE_NO_PIXELS;
-                        }
-                    }
                     break;
                 }
                 case FAILSAFE_NO_PIXELS: {
-                    if(cazAuto==3){
-                        intakeController.currentStatus= IntakeController.IntakeStatus.REVERSE;
-                    collectForbarController.currentStatus= CollectForbarController.CollectStatus.PLAY;
-                        DID_FAILSAFE = true;
-                    if (Math.abs(extenderCurrentPosition - ExtenderController.extenderFailsafe) <= 30)
-                    {
-                        //extenderController.currentStatus= ExtenderController.ExtenderStatus.FAR;
-                        status = STROBOT.GO_COLLECT_PIXELS;
-                    }
-                    }
-                    else {
                         DID_FAILSAFE = true;
                         status = STROBOT.GO_COLLECT_PIXELS;
-                    }
                     break;
                 }
                 case LEAVE_WITH_2_PIXELS:

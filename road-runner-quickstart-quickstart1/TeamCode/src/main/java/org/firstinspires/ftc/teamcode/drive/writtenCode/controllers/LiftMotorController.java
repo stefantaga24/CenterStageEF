@@ -39,7 +39,7 @@ public class LiftMotorController {
     public static int midPosition = -700;
     public static int highPosition = -1630;
     public static int anglePosition = -530;
-    public static int lowAuto = -275;
+    public static int lowAuto = -295;
     public static int mosaicPosition = -317;
     public static int autoCycle1_C1 = -550;
     public static int autoRaiseLift = -670;

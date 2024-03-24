@@ -363,7 +363,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
             switch (status)
             {
                 case START:
