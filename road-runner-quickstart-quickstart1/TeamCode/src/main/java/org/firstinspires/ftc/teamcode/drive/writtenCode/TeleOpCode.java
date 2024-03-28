@@ -261,7 +261,7 @@ public class TeleOpCode extends LinearOpMode {
             if (isStopRequested()) return;
 
             int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0

@@ -43,8 +43,8 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static  double RIGHT_SPLINE_X = 40;
     public static  double RIGHT_SPLINE_Y = -47;
-    public static  double PLACE_SPIKE_RIGHT_X = 49;
-    public static  double PLACE_SPIKE_RIGHT_Y = -46;
+    public static  double PLACE_SPIKE_RIGHT_X = 50;
+    public static  double PLACE_SPIKE_RIGHT_Y = -47.5;
 
 
     public static  double PRELOAD_MID_X = -38;
@@ -58,8 +58,8 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static  double ANGLE_SPIKE_MID = 0;
 
 
-    public static  double PRELOAD_LEFT_X = -41;
-    public static  double PRELOAD_LEFT_Y = -39;
+    public static  double PRELOAD_LEFT_X = -41.5;
+    public static  double PRELOAD_LEFT_Y = -38;
     public static  double PRELOAD_ANGLE_LEFT = 145;
 
     public static  double LEFT_SPLINE_X = 35;
@@ -72,19 +72,19 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static double PARK_RIGHT_Y = -10;
     public static double ANGLE_PARK_RIGHT = 0;
 
-    public static final double FIRST_PIXEL_X = -57.5;
-    public static final double FIRST_PIXEL_Y = -11;
+    public static final double FIRST_PIXEL_X = -56;
+    public static final double FIRST_PIXEL_Y = -10;
     public static final double FIRST_PIXEL_X_C1 =-59.4;
     public static final double FIRST_PIXEL_X_C2 =-59;
-    public static final double FIRST_PIXEL_X_C3 =-59;
+    public static final double FIRST_PIXEL_X_C3 =-57.5;
     public static final double FIRST_PIXEL_Y_C1 =-11;
     public static final double FIRST_PIXEL_Y_C2 =-11;
     public static final double FIRST_PIXEL_Y_C3 =-11;
 
     public static final double GO_TO_STACK_X_C3 = 27f;
-    public static final double GO_TO_STACK_Y_C3 = -11f;
-    public static final double COLLECT_STACK_X_C3 = -30f;
-    public static final double COLLECT_STACK_Y_C3 = -11f;
+    public static final double GO_TO_STACK_Y_C3 = -9f;
+    public static final double COLLECT_STACK_X_C3 = -28.5f;
+    public static final double COLLECT_STACK_Y_C3 = -9f;
 
     public static final double GO_TO_STACK_X_C2 = 33f;
     public static final double GO_TO_STACK_Y_C2 = -10.5f;
@@ -100,8 +100,8 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static final double PLACE_BB_LLH1_X_CYCLES = 15;
     public static final double PLACE_BB_LLH1_Y_CYCLES = -14f;
-    public static final double PLACE_BB_LLH2_X_CYCLES = 48.5;
-    public static final double PLACE_BB_LLH2_Y_CYCLES = -38.5f;
+    public static final double PLACE_BB_LLH2_X_CYCLES = 49.5;
+    public static final double PLACE_BB_LLH2_Y_CYCLES = -40f;
 
 
 
@@ -357,7 +357,7 @@ public class AutoRedFarCentru extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
             switch (status)
             {
                 case START:

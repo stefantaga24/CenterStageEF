@@ -405,7 +405,7 @@ public class AutoBlueCloseMargineAI extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
             switch (status)
             {
                 case START:

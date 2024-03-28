@@ -44,7 +44,7 @@ public class LiftMotorController {
     public static int autoCycle1_C1 = -550;
     public static int autoRaiseLift = -670;
     public static int autoCycle2_C1 = -900;
-    public static int autoCycle1_C23 = -540;
+    public static int autoCycle1_C23 = -670;
     public static int autoCycle2_C23 = -800;
     public static int autoCycle3= -1000;
 

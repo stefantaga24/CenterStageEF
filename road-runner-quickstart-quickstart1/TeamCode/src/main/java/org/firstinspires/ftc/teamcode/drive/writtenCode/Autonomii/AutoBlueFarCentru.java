@@ -43,7 +43,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
 
     public static  double LEFT_SPLINE_X = 35.7;
     public static  double LEFT_SPLINE_Y = 47;
-    public static  double PLACE_SPIKE_LEFT_X = 49.5;
+    public static  double PLACE_SPIKE_LEFT_X = 50;
     public static  double PLACE_SPIKE_LEFT_Y = 47;
     public static  double ANGLE_SPIKE_LEFT = 0;
 
@@ -51,8 +51,8 @@ public class AutoBlueFarCentru extends LinearOpMode {
     public static  double PARK_LEFT_Y = 20;
     public static  double ANGLE_PARK_LEFT = 0;
 
-    public static  double PRELOAD_MID_X = -39;
-    public static  double PRELOAD_MID_Y = 32.5;
+    public static  double PRELOAD_MID_X = -39.3;
+    public static  double PRELOAD_MID_Y = 33.2;
     public static  double PRELOAD_ANGLE_MID = -45;
 
     public static  double MID_SPLINE_X = 33.7;
@@ -80,9 +80,9 @@ public class AutoBlueFarCentru extends LinearOpMode {
     public static double PARK_RIGHT_Y = 20;
     public static double ANGLE_PARK_RIGHT = 0;
 
-    public static final double FIRST_PIXEL_X_C1 = -57;
+    public static final double FIRST_PIXEL_X_C1 = -57.5;
     public static final double FIRST_PIXEL_Y_C1 = 10;
-    public static final double FIRST_PIXEL_X_C2 = -57.5;
+    public static final double FIRST_PIXEL_X_C2 = -58;
     public static final double FIRST_PIXEL_Y_C2 = 11;
     public static final double FIRST_PIXEL_Y_C3 = 11;
     public static final double FIRST_PIXEL_X_C3=-60;
@@ -90,26 +90,32 @@ public class AutoBlueFarCentru extends LinearOpMode {
 
 
     public static final double GO_TO_STACK_X_C1 = 27f;
-    public static final double GO_TO_STACK_Y_C1 = 10f;
-    public static final double COLLECT_STACK_X_C1 = -27.7f;
-    public static final double COLLECT_STACK_Y_C1 = 10f;
+    public static final double GO_TO_STACK_Y_C1 = 10.5f;
+    public static final double COLLECT_STACK_X_C1 = -27.7f; //27.7
+    public static final double COLLECT_STACK_Y_C1 = 10.5f;
 
     public static final double GO_TO_STACK_X_C2 = 33f;
-    public static final double GO_TO_STACK_Y_C2 = 11.5f;
-    public static final double COLLECT_STACK_X_C2 = -28.5f;
+    public static final double GO_TO_STACK_Y_C2 = 11.5;
+    public static final double COLLECT_STACK_X_C2 = -28.5f; //-28.5
     public static final double COLLECT_STACK_Y_C2 = 11.5f;
 
     public static final double GO_TO_STACK_X_C3 = 30f;
-    public static final double GO_TO_STACK_Y_C3 = 10f;
-    public static final double COLLECT_STACK_X_C3 = -30f;
+    public static final double GO_TO_STACK_Y_C3 = 10.5f;
+    public static final double COLLECT_STACK_X_C3 = -30f;  //-30;
     public static final double COLLECT_STACK_Y_C3 = 10f;
 
     public static final double COLLECT_STACK_ANGLE=0f;
 
     public static final double PLACE_BB_LLH1_X_CYCLES = 20;
     public static final double PLACE_BB_LLH1_Y_CYCLES = 11.5f;
-    public static final double PLACE_BB_LLH2_X_CYCLES = 50.5;
-    public static final double PLACE_BB_LLH2_Y_CYCLES = 36.5f;
+    public static final double PLACE_BB_LLH2_X_CYCLES_C1 = 51;
+    public static final double PLACE_BB_LLH2_Y_CYCLES_C1 = 40f;
+
+    public static final double PLACE_BB_LLH2_X_CYCLES_C2 = 50.5;
+    public static final double PLACE_BB_LLH2_Y_CYCLES_C2 = 34f;
+
+    public static final double PLACE_BB_LLH2_X_CYCLES_C3 = 50.5;
+    public static final double PLACE_BB_LLH2_Y_CYCLES_C3 = 34f;
 
 
 
@@ -130,7 +136,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
     public static float time_reverse_scurt =0f;
     public static float timeToDrop = 0.7f;
     public static float timeToFirst = 1.5f;
-    public static float leave_first = 5f;
+    public static float leave_first = 3.5f;
     public static int CAZ_BUN = 0;
     private void wait(int ms) {
         try{
@@ -168,7 +174,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
     public static double timeOpenSlides = 2.1;
     public static double timeRaiseLiftFirst = 0.9;
 
-    public static double liftStack= 1.3;
+    public static double liftStack= 0.7;
     public static boolean flag =true;
     boolean DID_FAILSAFE = false;
     boolean DID_FAILSAFE_TWICE = false;
@@ -317,7 +323,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
         TrajectorySequence GO_PLACE_ON_BACKBOARD = drive.trajectorySequenceBuilder(new Pose2d(COLLECT_STACK_X_C1, COLLECT_STACK_Y_C1,Math.toRadians(COLLECT_STACK_ANGLE)))
                 .setReversed(false)
                 .lineTo(new Vector2d(PLACE_BB_LLH1_X_CYCLES,PLACE_BB_LLH1_Y_CYCLES))
-                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X_CYCLES,PLACE_BB_LLH2_Y_CYCLES),Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(PLACE_BB_LLH2_X_CYCLES_C1, PLACE_BB_LLH2_Y_CYCLES_C1),Math.toRadians(0))
                 .build();
 
         TrajectorySequence GO_TO_STACK = drive.trajectorySequenceBuilder(GO_PLACE_ON_BACKBOARD.end())
@@ -363,7 +369,7 @@ public class AutoBlueFarCentru extends LinearOpMode {
         if (isStopRequested()) return;
         while (opModeIsActive() && !isStopRequested())
         {
-            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
             switch (status)
             {
                 case START:
