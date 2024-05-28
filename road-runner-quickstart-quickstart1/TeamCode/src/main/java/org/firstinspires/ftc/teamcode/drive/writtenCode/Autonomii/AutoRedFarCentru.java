@@ -43,7 +43,7 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static  double RIGHT_SPLINE_X = 40;
     public static  double RIGHT_SPLINE_Y = -47;
-    public static  double PLACE_SPIKE_RIGHT_X = 50;
+    public static  double PLACE_SPIKE_RIGHT_X = 50.5;
     public static  double PLACE_SPIKE_RIGHT_Y = -47.5;
 
 
@@ -76,15 +76,15 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static final double FIRST_PIXEL_Y = -10;
     public static final double FIRST_PIXEL_X_C1 =-59.4;
     public static final double FIRST_PIXEL_X_C2 =-59;
-    public static final double FIRST_PIXEL_X_C3 =-57.5;
+    public static final double FIRST_PIXEL_X_C3 =-58.5;
     public static final double FIRST_PIXEL_Y_C1 =-11;
     public static final double FIRST_PIXEL_Y_C2 =-11;
     public static final double FIRST_PIXEL_Y_C3 =-11;
 
     public static final double GO_TO_STACK_X_C3 = 27f;
-    public static final double GO_TO_STACK_Y_C3 = -9f;
-    public static final double COLLECT_STACK_X_C3 = -28.5f;
-    public static final double COLLECT_STACK_Y_C3 = -9f;
+    public static final double GO_TO_STACK_Y_C3 = -12f;
+    public static final double COLLECT_STACK_X_C3 = -29.5f;
+    public static final double COLLECT_STACK_Y_C3 = -12f;
 
     public static final double GO_TO_STACK_X_C2 = 33f;
     public static final double GO_TO_STACK_Y_C2 = -10.5f;
@@ -100,8 +100,8 @@ public class AutoRedFarCentru extends LinearOpMode {
 
     public static final double PLACE_BB_LLH1_X_CYCLES = 15;
     public static final double PLACE_BB_LLH1_Y_CYCLES = -14f;
-    public static final double PLACE_BB_LLH2_X_CYCLES = 49.5;
-    public static final double PLACE_BB_LLH2_Y_CYCLES = -40f;
+    public static final double PLACE_BB_LLH2_X_CYCLES = 50;
+    public static final double PLACE_BB_LLH2_Y_CYCLES = -38.5f;
 
 
 
@@ -123,7 +123,7 @@ public class AutoRedFarCentru extends LinearOpMode {
     public static float timeToDrop = 0.7f;
     public static float timeToFirst = 1.5f;
     public static float leave_first = 3.5f;
-    public static int CAZ_BUN = 0;
+    public static int CAZ_BUN = 3;
     boolean flag2=false;
     private void wait(int ms) {
         try{
@@ -550,8 +550,8 @@ public class AutoRedFarCentru extends LinearOpMode {
                     {
                         liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
                         status = STROBOT.GO_COLLECT_PIXELS;
-                        if(nrCycles==2) timeOpenSlides-=0.1;
-                        if(cazAuto==3) timeOpenSlides+=0.2;
+                        if(nrCycles==2) timeOpenSlides-=0.2;
+                        else if(cazAuto==3) timeOpenSlides+=0.2;
                         timerSlides.reset();
                     }
 

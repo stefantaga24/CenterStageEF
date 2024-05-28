@@ -49,8 +49,7 @@ public class RobotMap {
     public Servo pixel2Outtake = null;
     public Servo forbarOuttake = null;
     public Servo forbarCutieIntake;
-    public Servo leftTransferServo;
-    public Servo rightTransferServo;
+    public Servo TransferServo;
 
     public Servo forbarIntake;
     public CRServo hangingLeft;
@@ -121,8 +120,7 @@ public class RobotMap {
 
         /// Expansion Hub
         forbarCutieIntake = Init.get(Servo.class, "forbarCutieIntake");
-        leftTransferServo = Init.get(Servo.class, "leftTransferServo");
-        rightTransferServo = Init.get(Servo.class,"rightTransferServo");
+        TransferServo = Init.get(Servo.class, "TransferServo");
         forbarIntake = Init.get(Servo.class, "forbarIntake");
         hangingLeft = Init.get(CRServo.class, "hangingLeft");
         hangingRight = Init.get(CRServo.class, "hangingRight");

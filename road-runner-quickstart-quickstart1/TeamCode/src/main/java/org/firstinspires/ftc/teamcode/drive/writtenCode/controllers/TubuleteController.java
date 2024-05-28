@@ -25,13 +25,11 @@ public class TubuleteController {
     public double blocarePosition1 = 0.05;
     public double blocarePosition2 = 1- blocarePosition1;
 
-    private Servo leftTransferServo = null;
-    private Servo rightTransferServo = null;
+    private Servo TransferServo = null;
 
     public TubuleteController(RobotMap robot)
     {
-        leftTransferServo = robot.leftTransferServo;
-        rightTransferServo = robot.rightTransferServo;
+        TransferServo = robot.TransferServo;
     }
 
     public void update()
@@ -43,20 +41,17 @@ public class TubuleteController {
             {
                 case COLECTARE:
                 {
-                    leftTransferServo.setPosition(collectPosition1);
-                    rightTransferServo.setPosition(collectPosition2);
+                    TransferServo.setPosition(collectPosition1);
                     break;
                 }
                 case TRANSFER:
                 {
-                    leftTransferServo.setPosition(transferPosition1);
-                    rightTransferServo.setPosition(transferPosition2);
+                    TransferServo.setPosition(transferPosition1);
                     break;
                 }
                 case BLOCARE:
                 {
-                    leftTransferServo.setPosition(blocarePosition1);
-                    rightTransferServo.setPosition(blocarePosition2);
+                    TransferServo.setPosition(blocarePosition1);
                 }
             }
         }

@@ -67,14 +67,14 @@ public class ParbrizServoTester extends LinearOpMode {
 
             currentGamepad1.copy(gamepad1);
             currentGamepad2.copy(gamepad2);
-            robot.clawRotate.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
+           // robot.clawRotate.setPosition(servoPosition);//fortat sa nu mai apas pe nimic
             if (currentGamepad1.y == true)
             {
-              robot.intakeMotor.setPower(0.8);
+              robot.liftMotor.setPower(1);
             }
             else
             {
-                robot.intakeMotor.setPower(0);
+                robot.liftMotor.setPower(-1);
             }
             telemetry.addData("Servo position is : ", robot.clawRotate.getPosition());
             telemetry.update();
