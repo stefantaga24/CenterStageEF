@@ -8,6 +8,7 @@ import androidx.annotation.GuardedBy;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.AnalogSensor;
@@ -18,6 +19,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
@@ -26,6 +28,8 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 import org.firstinspires.ftc.robotcontroller.external.samples.SensorREV2mDistance;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.CoolIMU;
 import org.firstinspires.ftc.teamcode.util.Encoder;
 
 /**
@@ -46,10 +50,11 @@ public class RobotMap {
     public Servo sigurantaOuttake = null;
     public Servo clawRotate = null;
     public Servo parbrizOuttake = null;
-    public Servo pixel2Outtake = null;
+    public Servo Turret = null;
     public Servo forbarOuttake = null;
     public Servo forbarCutieIntake;
     public Servo TransferServo;
+    public Servo outtakeSlides;
 
     public Servo forbarIntake;
     public CRServo hangingLeft;
@@ -57,13 +62,15 @@ public class RobotMap {
 
     public DigitalChannel beamFront;
     public DigitalChannel beamBack;
+    public HardwareMap hardwareMap;
+
+    public CoolIMU imu;
     public AnalogInput encoderForbarCutie;
 
     public MotorConfigurationType mctIntake, mctExtenderLeft ,mctExtenderRight;
     public RobotMap(HardwareMap Init)
     {
         /// Motoare
-
         liftMotor = Init.get(DcMotorEx.class , "liftMotor");
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -94,8 +101,6 @@ public class RobotMap {
         //end overclock
 
 
-
-
         rightExtension = Init.get(DcMotorEx.class , "rightExtension");
         rightExtension.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightExtension.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); // Important ca sa utilizam encoderele
@@ -106,8 +111,6 @@ public class RobotMap {
         mctExtenderRight.setAchieveableMaxRPMFraction(1.0);
         rightExtension.setMotorType(mctExtenderRight);
         //end overclock
-
-
         /// Servo-uri
 
         /// Control Hub
@@ -115,7 +118,8 @@ public class RobotMap {
         sigurantaOuttake = Init.get(Servo.class, "sigurantaOuttake"); /// Tot timpul inchis dupa transfer
         clawRotate = Init.get(Servo.class, "clawRotate");
         parbrizOuttake = Init.get(Servo.class , "parbrizOuttake"); /// Pentru cand vreti sa puneti pixeli orizontal
-        pixel2Outtake = Init.get(Servo.class , "pixel2Outtake"); /// Pentru al doilea pixel , de obicei deschis
+        Turret = Init.get(Servo.class , "turret"); /// Pentru al doilea pixel , de obicei deschis
+        outtakeSlides = Init.get(Servo.class,"slidesOuttake");
         forbarOuttake = Init.get(Servo.class, "forbarOuttake");
 
         /// Expansion Hub
@@ -131,5 +135,6 @@ public class RobotMap {
 
         /// Encoder
         encoderForbarCutie = Init.get(AnalogInput.class, "encoder");//absolute encoder axon
+        imu = new CoolIMU(Init);
     }
 }

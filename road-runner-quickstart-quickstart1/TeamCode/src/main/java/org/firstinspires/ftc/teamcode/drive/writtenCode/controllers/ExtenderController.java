@@ -15,7 +15,9 @@ public class ExtenderController {
         AUTO,
         MANUAL_LOW,
         MANUAL_HIGH,
-        CLOSE_AUTO,
+        CLOSE_AUTO_C1,
+        CLOSE_AUTO_C2,
+        CLOSE_AUTO_C3,
         CLOSE_AUTO_RED
 
     }
@@ -36,6 +38,9 @@ public class ExtenderController {
     public static int extenderFailsafe = 300;
     public static double PowerCap = 1;
     public static double maxSpeed = 1;
+    public int extenderC1=100;
+    public int extenderC2=200;
+    public int extenderC3=200;
     private DcMotor leftExtension;
     private DcMotor rightExtension;
     SimplePIDController MotorColectarePID = null;
@@ -80,9 +85,19 @@ public class ExtenderController {
                     MotorColectarePID.targetValue = extenderClose;
                     break;
                 }
-                case CLOSE_AUTO:
+                case CLOSE_AUTO_C1:
                 {
-                    MotorColectarePID.targetValue = extenderCloseAuto;
+                    MotorColectarePID.targetValue = extenderC1;
+                    break;
+                }
+                case CLOSE_AUTO_C2:
+                {
+                    MotorColectarePID.targetValue = extenderC2;
+                    break;
+                }
+                case CLOSE_AUTO_C3:
+                {
+                    MotorColectarePID.targetValue = extenderC3;
                     break;
                 }
                 case CLOSE_AUTO_RED:
@@ -107,12 +122,12 @@ public class ExtenderController {
                 }
                 case MANUAL_LOW:
                 {
-                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()-150;
+                MotorColectarePID.targetValue = rightExtension.getCurrentPosition()-150;
                     break;
                 }
                 case MANUAL_HIGH:
                 {
-                    MotorColectarePID.targetValue = rightExtension.getCurrentPosition()+150;
+              MotorColectarePID.targetValue = rightExtension.getCurrentPosition()+150;
                     break;
                 }
 

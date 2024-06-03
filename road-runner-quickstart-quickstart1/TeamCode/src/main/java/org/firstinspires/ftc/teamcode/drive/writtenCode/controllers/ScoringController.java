@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
-import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController.ScoringStatus.DROP_BOTTOM_PIXEL;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController.ScoringStatus.INIT;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController.ScoringStatus.WAIT_FOR_SAFETY;
 
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class ScoringController {
@@ -18,7 +16,7 @@ public class ScoringController {
     }
     public ScoringStatus currentStatus = INIT;
     public ScoringStatus previousStatus = null;
-    public Pixel2Controller pixel2Controller;
+    public TurretController turretController;
     public ParbrizController parbrizController;
     public SigurantaOuttakeController sigurantaOuttakeController;
     public RotateClawController rotateClawController;
@@ -28,11 +26,11 @@ public class ScoringController {
     // atunci cand vreti sa dati drop doar la unul
     private double timerSigurantaPixel2 = 0.3;
 
-    public ScoringController(Pixel2Controller pixel2Controller , SigurantaOuttakeController sigurantaOuttakeController,
+    public ScoringController(TurretController turretController, SigurantaOuttakeController sigurantaOuttakeController,
                              ParbrizController parbrizController , RotateClawController rotateClawController)
     {
         this.rotateClawController = rotateClawController;
-        this.pixel2Controller = pixel2Controller;
+        this.turretController = turretController;
         this.sigurantaOuttakeController = sigurantaOuttakeController;
         this.parbrizController = parbrizController;
     }
@@ -45,7 +43,7 @@ public class ScoringController {
             {
                 case DROP_ONE_PIXEL:
                 {
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.CLOSED;
+//                    turretController.currentStatus = TurretController.Pixel2Status.CLOSED;
                     waitForPixel2Safety.reset();
                     currentStatus = WAIT_FOR_SAFETY;
                     break;
@@ -61,7 +59,7 @@ public class ScoringController {
                 case DROP_BOTTOM_PIXEL:
                 {
                     sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.OPEN;
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.CLOSED;
+//                    turretController.currentStatus = TurretController.Pixel2Status.CLOSED;
                     currentStatus = INIT;
                     break;
                 }
@@ -69,12 +67,12 @@ public class ScoringController {
                 {
                     /// Dam drumul la ambii pixeli
                     sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.OPEN;
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+//                    turretController.currentStatus = TurretController.Pixel2Status.OPEN;
 
                     /// Daca am cutia orizontal clar trebuie sa deschid parbrizul.
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
                     {
-                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+//                        turretController.currentStatus = TurretController.Pixel2Status.OPEN;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.OPEN;
                     }
                     currentStatus = INIT;

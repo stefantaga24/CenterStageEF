@@ -8,6 +8,7 @@ public class RotateClawController {
     public enum RotateStatus{
         VERTICAL,
         HORIZONTAL,
+        RUNTO,
     }
 
     public RotateStatus currentStatus = RotateStatus.VERTICAL;
@@ -16,15 +17,21 @@ public class RotateClawController {
     public double verticalServoPosition = 0.115;
     public double horizontalServoPosition = 0.42;//0.395
         private Servo clawRotate = null;
+
+        public double currentposition = 0;
+        public double targetposition = verticalServoPosition;
+        public double previousPosition;
     public RotateClawController(RobotMap robot)
     {
         clawRotate = robot.clawRotate;
     }
     public void update()
     {
-        if (currentStatus != previousStatus)
+        currentposition=this.clawRotate.getPosition();
+        if (currentStatus != previousStatus || previousPosition != targetposition)
         {
             previousStatus = currentStatus;
+            previousPosition = targetposition;
             switch (currentStatus)
             {
                 case VERTICAL:
@@ -35,6 +42,11 @@ public class RotateClawController {
                 case HORIZONTAL:
                 {
                     this.clawRotate.setPosition(horizontalServoPosition);
+                    break;
+                }
+                case RUNTO:
+                {
+                    this.clawRotate.setPosition(targetposition);
                     break;
                 }
             }

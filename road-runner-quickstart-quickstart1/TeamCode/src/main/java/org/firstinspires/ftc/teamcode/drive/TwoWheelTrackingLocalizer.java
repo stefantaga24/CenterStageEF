@@ -36,18 +36,18 @@ import java.util.List;
  */
 @Config
 public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192;
+    public static double TICKS_PER_REV = 4096;
     public static double WHEEL_RADIUS = 0.6889764; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double PARALLEL_X = -3.07; // X is the up and down direction // de completat
-    public static double PARALLEL_Y = 6.56; // Y is the strafe direction // de completat
+    public static double PARALLEL_X = 7.89; // X is the up and down direction // de completat
+    public static double PARALLEL_Y = -2.64; // Y is the strafe direction // de completat
 
-    public static double PERPENDICULAR_X = 8.12; // de completat
-    public static double PERPENDICULAR_Y = -2.67; // de completat
+    public static double PERPENDICULAR_X = 7.89; // de completat
+    public static double PERPENDICULAR_Y = -1.12; // de completat
 
-    public static double X_MULTIPLIER = 1.0012716175; // Multiplier in the X direction de completat
-    public static double Y_MULTIPLIER = 0.993940924; // Multiplier in the Y direction de completat
+    public static double X_MULTIPLIER = 0.9969378828; // Multiplier in the X direction de completat
+    public static double Y_MULTIPLIER = 0.9953339166; // Multiplier in the Y direction de completat
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
@@ -64,10 +64,10 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         this.drive = drive;
         /// DE VAZUT CARE E PARALEL SI CARE E PERPENDICULARUL
 
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "intakeMotor"));
-        parallelEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "leftExtension"));
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "rightExtension"));
+        parallelEncoder  = new Encoder(hardwareMap.get(DcMotorEx.class, "intakeMotor"));
 
-        //parallelEncoder.setDirection(Encoder.Direction.REVERSE);
+        perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);
         parallelEncoder.setDirection(Encoder.Direction.REVERSE);
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }

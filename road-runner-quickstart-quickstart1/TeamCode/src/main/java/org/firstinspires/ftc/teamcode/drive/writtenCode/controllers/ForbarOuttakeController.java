@@ -14,14 +14,17 @@ public class ForbarOuttakeController {
         MOVE_TO_BACKBOARD_DELAY, // Cand vrei sa-l misti cu un delay
         PLACE_ON_BACKBOARD_WITH_DELAY,
         PLACE_ON_BACKBOARD_WITH_ANGLE,
+        SET3,
         DOWN,
+        PRELOAD;
     }
     public ForbarStatus currentStatus = ForbarStatus.GET_COLLECTED_PIXELS;
     public ForbarStatus previousStatus = null;
-    public static double getPixelsPosition = 0.05;
-    public static double placePixelsPosition = 0.69;
-    public static double placePixelsAnglePosition = 0.83f;
+    public static double getPixelsPosition = 0.97;
+    public static double placePixelsPosition = 0.62;
+    public static double placePixelsAnglePosition = 0.50f;
     public static double  downPosition = 0.25;
+    public static double  placePreload = 0.69;
     private ElapsedTime waitForTheLift = new ElapsedTime();
     private double timerPentruForbarOuttake = 0.05; // Modificati asta in functie de cat sa stea forbarul pana se ridica.
     private Servo forbarOuttake = null;
@@ -71,6 +74,11 @@ public class ForbarOuttakeController {
                 case DOWN:
                 {
                     this.forbarOuttake.setPosition(downPosition);
+                    break;
+                }
+                case PRELOAD:
+                {
+                    this.forbarOuttake.setPosition(placePreload);
                     break;
                 }
             }

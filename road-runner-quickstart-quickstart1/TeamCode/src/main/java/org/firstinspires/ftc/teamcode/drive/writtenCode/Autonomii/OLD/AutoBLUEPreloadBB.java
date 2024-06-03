@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttak
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
-import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Pixel2Controller;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TurretController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.RotateClawController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.SigurantaOuttakeController;
@@ -99,19 +99,19 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
         IntakeController intakeController = new IntakeController(robot);
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
-        Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
+        TurretController turretController = new TurretController(robot);
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
         ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
         RotateClawController rotateClawController = new RotateClawController(robot);
         ExtenderController extenderController = new ExtenderController(robot);
-        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot);
+        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot,turretController);
         robot.forbarCutieIntake.setPosition(initPosition);
-        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+//        turretController.currentStatus = TurretController.Pixel2Status.OPEN;
 
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController,extenderController, robot);
-        ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
+        ScoringController scoringController = new ScoringController(turretController, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();
         avionController.update();
@@ -123,7 +123,7 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
         collectForbarController.update();
         tubuleteController.update();
         transferController.update();
-        pixel2Controller.update();
+        turretController.update();
         parbrizController.update();
         sigurantaOuttakeController.update();
         scoringController.update();
@@ -306,7 +306,7 @@ public class AutoBLUEPreloadBB extends LinearOpMode {
             collectForbarController.update();
             tubuleteController.update();
             transferController.update();
-            pixel2Controller.update();
+            turretController.update();
             parbrizController.update();
             sigurantaOuttakeController.update();
             scoringController.update();

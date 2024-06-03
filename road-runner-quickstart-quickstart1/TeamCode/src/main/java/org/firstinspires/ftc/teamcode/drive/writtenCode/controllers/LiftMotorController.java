@@ -3,11 +3,13 @@ package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE1_C23;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE2_C1;
 import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.AUTO_CYCLE2_C23;
+import static org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController.LiftStatus.INIT;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
 
@@ -33,7 +35,7 @@ public class LiftMotorController {
     }
     public LiftStatus currentStatus = LiftStatus.INIT;
     public LiftStatus previousStatus = null;
-    public static int initPosition = -5;
+    public static int initPosition = 5;
     public static int downPosition = -100;
     public static int lowPosition = -700;
     public static int midPosition = -700;
@@ -51,16 +53,20 @@ public class LiftMotorController {
     public int retardPosition = -100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
+    private TurretController turretController = null;
     private ExtenderController extenderController;
     public DcMotor liftMotor = null;
     public MotorConfigurationType mct1;
+    public ElapsedTime timertoinit= new ElapsedTime();
+    double delayinit = 0.1;
+    boolean flag=false;
 
-
-    public LiftMotorController(ForbarOuttakeController forbarOuttakeController, ExtenderController extenderController, RobotMap robot)
+    public LiftMotorController(ForbarOuttakeController forbarOuttakeController, ExtenderController extenderController, RobotMap robot, TurretController turretController)
     {
         this.extenderController = extenderController;
         this.forbarOuttakeController = forbarOuttakeController;
         this.liftMotor = robot.liftMotor;
+        this.turretController = turretController;
     }
     public void update()
     {
@@ -72,7 +78,8 @@ public class LiftMotorController {
         this.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         this.liftMotor.setPower(1);
         double liftCurrentPosition = this.liftMotor.getCurrentPosition();
-        if (currentStatus != previousStatus)
+
+        if (currentStatus != previousStatus || currentStatus==INIT)
         {
             /// Atentie baieti! Delay-ul de la ridicare forbarului din outtake
             // merge doar daca liftul vine dintr-o pozitie mai mica decat 0 adica din INIT.
@@ -89,8 +96,22 @@ public class LiftMotorController {
 //                    {
 //                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
 //                    }
-                    forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
-                    currentPosition = initPosition;
+                    if(flag==false)
+                    {
+                        timertoinit.reset();
+                        flag=true;
+                    }
+                    if(turretController.Turret.getPosition()<0.57 || turretController.Turret.getPosition()>0.41) {
+                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.GET_COLLECTED_PIXELS;
+                        if(timertoinit.seconds()>delayinit && flag==true){
+                            currentPosition=initPosition;
+                            flag=false;
+                        }
+                    }
+                    else
+                    {
+                        turretController.currentStatus= TurretController.TurretStatus.INIT;
+                    }
                     break;
                 }
                 case GOING_DOWN:
@@ -99,6 +120,7 @@ public class LiftMotorController {
                     //extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
                     forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.DOWN;
                     currentPosition=downPosition;
+                    flag=false;
                     break;
                 }
                 case LOW:
@@ -116,6 +138,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case MID:
@@ -133,6 +156,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case HIGH:
@@ -150,6 +174,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case LOW_AUTO:
@@ -167,6 +192,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_CYCLE2_C1:
@@ -184,6 +210,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_CYCLE1_C1:
@@ -201,6 +228,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_CYCLE1_C23:
@@ -218,6 +246,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_CYCLE2_C23:
@@ -235,6 +264,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_CYCLE3:
@@ -252,6 +282,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case AUTO_RAISELIFT:
@@ -269,6 +300,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
                 }
                 case liftMosaic:
@@ -286,6 +318,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
                     }
+                    flag=false;
                     break;
 
                 }
@@ -300,6 +333,7 @@ public class LiftMotorController {
                     {
                         forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE;
                     }
+                    flag=false;
                     break;
                 }
             }

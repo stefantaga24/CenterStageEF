@@ -19,8 +19,9 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ExtenderCont
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.OuttakeSlidesController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
-import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Pixel2Controller;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TurretController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.RotateClawController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.SigurantaOuttakeController;
@@ -190,19 +191,20 @@ public class AutoRedFarCentru extends LinearOpMode {
         IntakeController intakeController = new IntakeController(robot);
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
-        Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
+        TurretController turretController = new TurretController(robot);
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
         ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
         RotateClawController rotateClawController = new RotateClawController(robot);
         ExtenderController extenderController = new ExtenderController(robot);
-        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot);
+        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot,turretController);
+        OuttakeSlidesController outtakeSlidesController = new OuttakeSlidesController(robot);
         robot.forbarCutieIntake.setPosition(initPosition);
-        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+//        turretController.currentStatus = TurretController.Pixel2Status.OPEN;
 
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
-        ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
+        ScoringController scoringController = new ScoringController(turretController, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();
         avionController.update();
@@ -214,7 +216,7 @@ public class AutoRedFarCentru extends LinearOpMode {
         collectForbarController.update();
         tubuleteController.update();
         transferController.update();
-        pixel2Controller.update();
+        turretController.update();
         parbrizController.update();
         sigurantaOuttakeController.update();
         scoringController.update();
@@ -416,41 +418,68 @@ public class AutoRedFarCentru extends LinearOpMode {
                 {
                     if(flag==true) {
                         collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
-                        if(cazAuto==1)
-                        {
-                            leave_first+=6;
-                            timeToFirst-=1.8;
-                            timeRaiseLiftFirst-=0.5;
-                            delayLift-=0.5;
-                        }
                         flag=false;
                     }
-                    if(!drive.isBusy())
-                    {
+                    if(!drive.isBusy()) {
+                        if (cazAuto == 1) {
+                            extenderController.currentStatus= ExtenderController.ExtenderStatus.CLOSE_AUTO_C1;
+                        }
+                        else if(cazAuto == 2){
+                            extenderController.currentStatus= ExtenderController.ExtenderStatus.CLOSE_AUTO_C2;
+                        }
+                        else if(cazAuto==3){
+                            extenderController.currentStatus= ExtenderController.ExtenderStatus.CLOSE_AUTO_C3;
+                        }
                         if(TimerFirst.seconds()>timeToFirst && collectForbarController.currentStatus != CollectForbarController.CollectStatus.ONE_PIXEL_FAILSAFE) {
                             collectForbarController.currentStatus = CollectForbarController.CollectStatus.ONE_PIXEL;
+                            intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
                         }
-                        intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
                         timeoutColectare.reset();
-
                         if(TimerFirst.seconds()>3) collectForbarController.currentStatus= CollectForbarController.CollectStatus.ONE_PIXEL_FAILSAFE;
-                        if(robot.beamBack.getState() == false && robot.beamFront.getState()==false || TimerFirst.seconds()>leave_first) {
-                            pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
-                            // Pun timpul pentru extendo
-                            transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
-                            intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
-                            transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
-
-                            if (cazAuto == 1) drive.followTrajectorySequenceAsync(PLACE_SPIKE_LEFT);
-                            else if (cazAuto == 2) drive.followTrajectorySequenceAsync(PLACE_SPIKE_MID);
-                            else if (cazAuto == 3)
-                                drive.followTrajectorySequenceAsync(PLACE_SPIKE_RIGHT);
-                            status = STROBOT.PLACE_SPIKE_BACKDROP;
-                            timerLift.reset();
-                        }
+                        outtakeSlidesController.currentStatus= OuttakeSlidesController.ExtensionStatus.FAR;
+                        forbarOuttakeController.currentStatus= ForbarOuttakeController.ForbarStatus.PRELOAD;
+                        if(TimerFirst.seconds()>1f) scoringController.currentStatus= ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
                     }
-                    break;
                 }
+//                case TAKE_ONE_PIXEL:
+//                {
+//                    if(flag==true) {
+//                        collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
+//                        if(cazAuto==1)
+//                        {
+//                            leave_first+=6;
+//                            timeToFirst-=1.8;
+//                            timeRaiseLiftFirst-=0.5;
+//                            delayLift-=0.5;
+//                        }
+//                        flag=false;
+//                    }
+//                    if(!drive.isBusy())
+//                    {
+//                        if(TimerFirst.seconds()>timeToFirst && collectForbarController.currentStatus != CollectForbarController.CollectStatus.ONE_PIXEL_FAILSAFE) {
+//                            collectForbarController.currentStatus = CollectForbarController.CollectStatus.ONE_PIXEL;
+//                        }
+//                        intakeController.currentStatus = IntakeController.IntakeStatus.STACK;
+//                        timeoutColectare.reset();
+//
+//                        if(TimerFirst.seconds()>3) collectForbarController.currentStatus= CollectForbarController.CollectStatus.ONE_PIXEL_FAILSAFE;
+//                        if(robot.beamBack.getState() == false && robot.beamFront.getState()==false || TimerFirst.seconds()>leave_first) {
+////                            turretController.currentStatus = TurretController.Pixel2Status.OPEN;
+//                            // Pun timpul pentru extendo
+//                            transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
+//                            intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
+//                            transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
+//
+//                            if (cazAuto == 1) drive.followTrajectorySequenceAsync(PLACE_SPIKE_LEFT);
+//                            else if (cazAuto == 2) drive.followTrajectorySequenceAsync(PLACE_SPIKE_MID);
+//                            else if (cazAuto == 3)
+//                                drive.followTrajectorySequenceAsync(PLACE_SPIKE_RIGHT);
+//                            status = STROBOT.PLACE_SPIKE_BACKDROP;
+//                            timerLift.reset();
+//                        }
+//                    }
+//                    break;
+//                }
                 case PLACE_SPIKE_BACKDROP:
                 {
                     if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT
@@ -603,7 +632,7 @@ public class AutoRedFarCentru extends LinearOpMode {
                             collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
                         }
                         if (timeoutColectare.seconds() > timeout_1pixel) {
-                            pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
+//                            turretController.currentStatus = TurretController.Pixel2Status.OPEN;
                             // Pun timpul pentru extendo
                             transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
                             extenderController.currentStatus = ExtenderController.ExtenderStatus.INIT;
@@ -641,8 +670,6 @@ public class AutoRedFarCentru extends LinearOpMode {
                 }
                 case LEAVE_WITH_2_PIXELS:
                 {
-                    //wait(300);
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
                     // Pun timpul pentru extendo
                     transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
@@ -734,7 +761,7 @@ public class AutoRedFarCentru extends LinearOpMode {
             collectForbarController.update();
             tubuleteController.update();
             transferController.update();
-            pixel2Controller.update();
+            turretController.update();
             parbrizController.update();
             sigurantaOuttakeController.update();
             scoringController.update();

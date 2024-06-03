@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -46,8 +47,9 @@ import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ExtenderCont
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ForbarOuttakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.IntakeController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.LiftMotorController;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.OuttakeSlidesController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ParbrizController;
-import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.Pixel2Controller;
+import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.TurretController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.RotateClawController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.ScoringController;
 import org.firstinspires.ftc.teamcode.drive.writtenCode.controllers.SigurantaOuttakeController;
@@ -164,19 +166,20 @@ public class TeleOpCode extends LinearOpMode {
         IntakeController intakeController = new IntakeController(robot);
         CollectForbarController collectForbarController = new CollectForbarController(robot);
         TubuleteController tubuleteController = new TubuleteController(robot);
-        Pixel2Controller pixel2Controller = new Pixel2Controller(robot);
+        TurretController turretController = new TurretController(robot);
         ParbrizController parbrizController = new ParbrizController(robot);
         SigurantaOuttakeController sigurantaOuttakeController = new SigurantaOuttakeController(robot);
         ForbarOuttakeController forbarOuttakeController = new ForbarOuttakeController(robot);
         RotateClawController rotateClawController = new RotateClawController(robot);
         ExtenderController extenderController = new ExtenderController(robot);
-        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot);
+        LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot,turretController);
+        OuttakeSlidesController outtakeSlidesController = new OuttakeSlidesController(robot);
         robot.forbarCutieIntake.setPosition(initPosition);
 
 
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
-        ScoringController scoringController = new ScoringController(pixel2Controller, sigurantaOuttakeController, parbrizController, rotateClawController);
+        ScoringController scoringController = new ScoringController(turretController, sigurantaOuttakeController, parbrizController, rotateClawController);
 
         cataratController.update();
         avionController.update();
@@ -188,11 +191,14 @@ public class TeleOpCode extends LinearOpMode {
         collectForbarController.update();
         tubuleteController.update();
         transferController.update();
-        pixel2Controller.update();
+        turretController.update();
         parbrizController.update();
         sigurantaOuttakeController.update();
         scoringController.update();
+        outtakeSlidesController.update();
+        robot.imu.update();
 
+//        imu = hardwareMap.get(IMU.class, "imu");
         // Declaram motoarele din drive aici
         // Numele motoarelor sunt destul de evidente
         // Ce este intre ghilimele trebuie sa fie acelasi nume ca in config
@@ -256,12 +262,16 @@ public class TeleOpCode extends LinearOpMode {
         GlobalTimer.reset();
         collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
         collectForbarController.update();
+        outtakeSlidesController.currentStatus= OuttakeSlidesController.ExtensionStatus.COMPACT;
+        outtakeSlidesController.update();
+        boolean imuReset = false;
+        int ok=-1;
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             if (isStopRequested()) return;
 
             int liftCurrentPosition = robot.liftMotor.getCurrentPosition();
-            int extenderCurrentPosition = robot.rightExtension.getCurrentPosition();
+            int extenderCurrentPosition = robot.leftExtension.getCurrentPosition();
 
             /// Updatam motoarele cu puterile necesare ca sa miscam sasiul
             /// Vei vedea ca folosim aceeasi chestie ca pe gm0
@@ -298,11 +308,16 @@ public class TeleOpCode extends LinearOpMode {
                 }
                 else
                 {
-                    tubuleteController.currentStatus = TubuleteController.CollectStatus.BLOCARE;
+//                    tubuleteController.currentStatus = TubuleteController.CollectStatus.BLOCARE;
                     intakeController.currentStatus = IntakeController.IntakeStatus.STOP;
-                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
                 }
             }
+            if(currentGamepad2.left_bumper && previousGamepad2.left_bumper)
+            {
+                if(collectForbarController.currentStatus != CollectForbarController.CollectStatus.PLAY) {
+                    collectForbarController.currentStatus = CollectForbarController.CollectStatus.PLAY;
+                }
+                }
 
             if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right)
             {
@@ -328,7 +343,6 @@ public class TeleOpCode extends LinearOpMode {
                     // Cand fac transferul vreau sa fie inchis parbrizul
                     parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                     // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
                     transferController.currentStatus = TransferController.TransferStatus.BLOCHEAZA_TUBULETE;
                 }
             }
@@ -338,23 +352,28 @@ public class TeleOpCode extends LinearOpMode {
                 if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.LOW;
+                    outtakeSlidesController.currentStatus = OuttakeSlidesController.ExtensionStatus.FAR;
                 }
                 else
                 {
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
                     {
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                        outtakeSlidesController.currentStatus = OuttakeSlidesController.ExtensionStatus.COMPACT;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                     }
-                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                    else if(rotateClawController.currentStatus== RotateClawController.RotateStatus.RUNTO && ok==0)
+                    {
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                        outtakeSlidesController.currentStatus = OuttakeSlidesController.ExtensionStatus.COMPACT;
+                        parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
+                        rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
+                    }
+                    else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL || (ok==1 && rotateClawController.currentStatus== RotateClawController.RotateStatus.RUNTO))
                     {
                         rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
                     }
                 }
-            }
-            if(liftCurrentPosition>=-120 && liftMotorController.currentStatus == LiftMotorController.LiftStatus.GOING_DOWN)
-            {
-                 liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
             }
             /// Control lift manual
             if (gamepad2.left_stick_y >0)
@@ -384,6 +403,7 @@ public class TeleOpCode extends LinearOpMode {
                 if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
                 {
                     liftMotorController.currentStatus = LiftMotorController.LiftStatus.liftMosaic;
+                    outtakeSlidesController.currentStatus = OuttakeSlidesController.ExtensionStatus.FAR;
                     //rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
                 }
                 else
@@ -392,7 +412,8 @@ public class TeleOpCode extends LinearOpMode {
                     {
                         rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
-                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
+                        liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
+                        outtakeSlidesController.currentStatus = OuttakeSlidesController.ExtensionStatus.COMPACT;
                     }
                     //{
                       //  liftMotorController.currentStatus = LiftMotorController.LiftStatus.GOING_DOWN;
@@ -408,22 +429,6 @@ public class TeleOpCode extends LinearOpMode {
             {
                 rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
             }
-
-
-            /*/// Lift going to high
-            if (currentGamepad2.y && !previousGamepad2.y)
-            {
-                if (liftMotorController.currentStatus == LiftMotorController.LiftStatus.INIT)
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.HIGH;
-                }
-                else
-                {
-                    liftMotorController.currentStatus = LiftMotorController.LiftStatus.INIT;
-                }
-            }*/
-
-
             // Apas pe left_bumper vreau sa-mi pice doar un singur pixel cand e in pozitie verticala
             // Apas pe right_bumper vreau sa-mi pice ambii
 
@@ -437,12 +442,13 @@ public class TeleOpCode extends LinearOpMode {
             {
                 sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.RETARD;
             }
-            if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper)
+            if(currentGamepad1.a && !previousGamepad1.a)
             {
-                if (scoringController.currentStatus == ScoringController.ScoringStatus.INIT &&
-                    rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL)
-                {
-                    scoringController.currentStatus = ScoringController.ScoringStatus.DROP_ONE_PIXEL;
+                if(forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE) {
+                    forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
+                }
+                else {
+                    forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE;
                 }
             }
             if (currentGamepad2.right_bumper && !previousGamepad2.right_bumper)
@@ -451,16 +457,20 @@ public class TeleOpCode extends LinearOpMode {
                 {
                     scoringController.currentStatus = ScoringController.ScoringStatus.DROP_BOTH_PIXELS;
                 }
+                if(rotateClawController.currentStatus == RotateClawController.RotateStatus.RUNTO && ok==1){
+                    sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.OPEN;
+                    parbrizController.currentStatus = ParbrizController.ParbrizStatus.OPEN;
+                }
             }
 
             if (currentGamepad2.y && !previousGamepad2.y
                 && forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD)
             {
-                if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
+                if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL || (rotateClawController.currentStatus== RotateClawController.RotateStatus.RUNTO && ok==1))
                 {
                     rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
                 }
-                else
+                else if(rotateClawController.currentStatus == RotateClawController.RotateStatus.VERTICAL || (rotateClawController.currentStatus== RotateClawController.RotateStatus.RUNTO && ok==0))
                 {
                     rotateClawController.currentStatus = RotateClawController.RotateStatus.HORIZONTAL;
                 }
@@ -487,7 +497,6 @@ public class TeleOpCode extends LinearOpMode {
                     // Cand fac transferul vreau sa fie inchis parbrizul
                     parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                     // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                    pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
                     // Pun timpul pentru extendo
                     transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
@@ -508,7 +517,8 @@ public class TeleOpCode extends LinearOpMode {
             }
             if (currentGamepad1.x && !previousGamepad1.x)
             {
-                usesBeam = !usesBeam;
+                robot.imu.resetImu();
+                imuReset=true;
             }
 //            if (!(robot.beamFront.getState() == false&& robot.beamBack.getState() == false))
 //            {
@@ -524,7 +534,6 @@ public class TeleOpCode extends LinearOpMode {
                         // Cand fac transferul vreau sa fie inchis parbrizul
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.CLOSED;
                         // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
                         // Nu trebuie sa tin cont de extendo
                         transferController.actualTimeForExtendo = 0;
@@ -540,7 +549,6 @@ public class TeleOpCode extends LinearOpMode {
                         //am parbrizul mereu inchis cand liftul e jos
 
                         // Sa fie deschis pixel2 ca sa nu impiedice colectarea
-                        pixel2Controller.currentStatus = Pixel2Controller.Pixel2Status.OPEN;
 
                         // Pun timpul pentru extendo
                         transferController.actualTimeForExtendo = TransferController.timerExtendoToInit;
@@ -604,6 +612,39 @@ public class TeleOpCode extends LinearOpMode {
                     collectForbarController.currentStatus = CollectForbarController.CollectStatus.COLLECT_DRIVE;
                 }
             }
+            if(forbarOuttakeController.currentStatus != ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE &&  liftMotorController.currentStatus != LiftMotorController.LiftStatus.INIT && liftMotorController.liftMotor.getCurrentPosition()<-100 && imuReset==true && Math.toDegrees(robot.imu.getHeading())<45 && Math.toDegrees(robot.imu.getHeading())>-45 && outtakeSlidesController.outtakeSlides.getPosition()<0.45)
+            {
+                turretController.currentStatus= TurretController.TurretStatus.RUNTO;
+                turretController.targetposition = turretController.initPosition + (0.003 * (0-Math.toDegrees(robot.imu.getHeading())));
+                if(rotateClawController.currentStatus== RotateClawController.RotateStatus.VERTICAL) ok=0;
+                else if(rotateClawController.currentStatus== RotateClawController.RotateStatus.HORIZONTAL) ok=1;
+                if(ok==0) {
+                    rotateClawController.currentStatus = RotateClawController.RotateStatus.RUNTO;
+                    rotateClawController.targetposition = rotateClawController.verticalServoPosition - (0.0010 * (0 - Math.toDegrees(robot.imu.getHeading())));
+                }
+                else if(ok==1)
+                {
+                    rotateClawController.currentStatus = RotateClawController.RotateStatus.RUNTO;
+                    rotateClawController.targetposition = rotateClawController.horizontalServoPosition - (0.0010 * (0 - Math.toDegrees(robot.imu.getHeading())));
+                }
+                telemetry.addData("using turret", true);
+            }
+            else if(forbarOuttakeController.currentStatus == ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD_WITH_ANGLE)
+            {
+                turretController.currentStatus = TurretController.TurretStatus.INIT;
+                rotateClawController.currentStatus = RotateClawController.RotateStatus.VERTICAL;
+            }
+            else if(liftMotorController.currentStatus != LiftMotorController.LiftStatus.INIT && liftMotorController.liftMotor.getCurrentPosition()<-100 && imuReset==true && outtakeSlidesController.outtakeSlides.getPosition()<0.45)
+            {
+                if(rotateClawController.currentStatus== RotateClawController.RotateStatus.VERTICAL) ok=0;
+                else if(rotateClawController.currentStatus== RotateClawController.RotateStatus.HORIZONTAL) ok=1;
+                turretController.currentStatus= TurretController.TurretStatus.RUNTO;
+//                rotateClawController.currentStatus = RotateClawController.RotateStatus.RUNTO;
+                telemetry.addData("using turret", true);
+            }
+            else{
+                turretController.currentStatus= TurretController.TurretStatus.INIT;
+            }
 
 //            if(gamepad1.dpad_right)
 //            {
@@ -623,10 +664,12 @@ public class TeleOpCode extends LinearOpMode {
             collectForbarController.update();
             tubuleteController.update();
             transferController.update();
-            pixel2Controller.update();
+            turretController.update();
             parbrizController.update();
             sigurantaOuttakeController.update();
             scoringController.update();
+            outtakeSlidesController.update();
+            robot.imu.update();
 
             telemetry.addData("Motor extensie stanga", robot.leftExtension.getCurrent(CurrentUnit.AMPS));
             telemetry.addData("Motor extensie dreapta", robot.rightExtension.getCurrent(CurrentUnit.AMPS));
@@ -639,6 +682,9 @@ public class TeleOpCode extends LinearOpMode {
             telemetry.addData("Left Trigger", gamepad2.left_trigger);
             telemetry.addData("Collect Forbar status", collectForbarController.currentStatus);
             telemetry.addData("Transfer Encoder", robot.encoderForbarCutie.getVoltage());
+            telemetry.addData("rotateclaw status", rotateClawController.currentStatus);
+            telemetry.addData("timerlift", liftMotorController.timertoinit.seconds());
+            telemetry.addData("HEADING", Math.toDegrees(robot.imu.getHeading()));
             telemetry.update();
         }
     }

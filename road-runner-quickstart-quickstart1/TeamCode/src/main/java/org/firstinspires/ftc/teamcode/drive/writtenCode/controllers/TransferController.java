@@ -48,7 +48,7 @@ public class TransferController {
     public double actualTimeForExtendo = 0; /// Nu modificati
 
     // Pozitii pentru forbar cutie intake
-    public static double transferPosition = 0.19;
+    public static double transferPosition = 0.25;
     public static double collectPosition = 0.99;
     public static double initPosition = 0.99;
 
