@@ -41,21 +41,21 @@ public class LiftMotorController {
     public static int midPosition = -700;
     public static int highPosition = -1630;
     public static int anglePosition = -530;
-    public static int lowAuto = -295;
+    public static int lowAuto = -350;
     public static int mosaicPosition = -317;
-    public static int autoCycle1_C1 = -550;
+    public static int autoCycle1_C1 = -570;
     public static int autoRaiseLift = -670;
-    public static int autoCycle2_C1 = -900;
+    public static int autoCycle2_C1 = -750;
     public static int autoCycle1_C23 = -660;
     public static int autoCycle2_C23 = -780;
-    public static int autoCycle3= -1000;
+    public static int autoCycle3= -870;
 
     public int retardPosition = -100;
     public int currentPosition = initPosition;
     private ForbarOuttakeController forbarOuttakeController = null;
     private TurretController turretController = null;
     private ExtenderController extenderController;
-    public DcMotor liftMotor = null;
+    public static DcMotor liftMotor = null;
     public MotorConfigurationType mct1;
     public ElapsedTime timertoinit= new ElapsedTime();
     double delayinit = 0.1;
@@ -292,14 +292,6 @@ public class LiftMotorController {
                     //  extenderController.currentStatus = ExtenderController.ExtenderStatus.FIX;
                     //}
                     currentPosition = autoRaiseLift;
-                    if (liftCurrentPosition <=0)
-                    {
-                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.MOVE_TO_BACKBOARD_DELAY;
-                    }
-                    else
-                    {
-                        forbarOuttakeController.currentStatus = ForbarOuttakeController.ForbarStatus.PLACE_ON_BACKBOARD;
-                    }
                     flag=false;
                     break;
                 }

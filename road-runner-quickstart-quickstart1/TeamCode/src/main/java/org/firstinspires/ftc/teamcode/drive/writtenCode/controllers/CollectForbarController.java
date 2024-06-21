@@ -16,6 +16,7 @@ public class CollectForbarController {
         COLLECT_AUTO_STACK_5,
         COLLECT_AUTO_STACK_4,
         COLLECT_AUTO_STACK_LOW,
+        COLLECT_AUTO_STACK_3,
         AI,
         ONE_PIXEL,
         ONE_PIXEL_FAILSAFE,
@@ -26,14 +27,15 @@ public class CollectForbarController {
     public CollectStatus previousStatus = null;
 
     public static double initPosition = 1f;
-    public static double collectPosition = 0.57f; //0.15
+    public static double collectPosition = 0.58f; //0.15
     public static double collectStackPosition = 0.69f; /// 0.75 - OK era 0.5
     public static double collectStackLower = 0.62f;//era 0.34
     public static double collectStackPixel5 = 0.71f;
-    public static double collectStackPixel4 = 0.57f;
-    public static double collectStackAutoLowPosition = 0.47f;
+    public static double collectStackPixel4 = 0.67f;
+    public static double collectStackPixel3 = 0.64f;
+    public static double collectStackAutoLowPosition = 0.55f;
     public static double collectStackAutoAI = 0.66f;
-    public static double onePixel = 0.73f;
+    public static double onePixel = 0.72f;
     public static double onePixelFailsafe = 0.68f;
     public static double playPosition = 0.99f;
     public static double autoPosition = 1f;
@@ -80,6 +82,11 @@ public class CollectForbarController {
                 case COLLECT_AUTO_STACK_4:
                 {
                     forbarIntake.setPosition(collectStackPixel4);
+                    break;
+                }
+                case COLLECT_AUTO_STACK_3:
+                {
+                    forbarIntake.setPosition(collectStackPixel3);
                     break;
                 }
                 case COLLECT_AUTO_STACK_LOW:

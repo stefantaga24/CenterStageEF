@@ -20,11 +20,11 @@ public class ForbarOuttakeController {
     }
     public ForbarStatus currentStatus = ForbarStatus.GET_COLLECTED_PIXELS;
     public ForbarStatus previousStatus = null;
-    public static double getPixelsPosition = 0.97;
-    public static double placePixelsPosition = 0.62;
-    public static double placePixelsAnglePosition = 0.50f;
+    public static double getPixelsPosition = 1;
+    public static double placePixelsPosition = 0.67;
+    public static double placePixelsAnglePosition = 0.56f;
     public static double  downPosition = 0.25;
-    public static double  placePreload = 0.69;
+    public static double  placePreload = 0.74;
     private ElapsedTime waitForTheLift = new ElapsedTime();
     private double timerPentruForbarOuttake = 0.05; // Modificati asta in functie de cat sa stea forbarul pana se ridica.
     private Servo forbarOuttake = null;

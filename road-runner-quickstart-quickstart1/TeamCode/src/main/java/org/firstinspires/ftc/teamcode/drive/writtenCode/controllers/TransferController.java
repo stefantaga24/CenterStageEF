@@ -35,9 +35,9 @@ public class TransferController {
     private AnalogInput encoderForbarCutie = null;
 
     /// Aici modifici cat timp ia sa-si dea flip cutia
-    public double timerFlipCutie = 0.8;
+    public double timerFlipCutie = 0.65;
     /// Aici modifici cat timp ia sa se duca pixelii din cutia de intake in cutia de outtake
-    public double timerAsteaptaPixeli = 0.45;
+    public double timerAsteaptaPixeli = 0.30;
     /// Cat timp sa astepte pana da reverse la colectare
     public double timerReverseIntake = 0;
 
@@ -49,8 +49,8 @@ public class TransferController {
 
     // Pozitii pentru forbar cutie intake
     public static double transferPosition = 0.25;
-    public static double collectPosition = 0.99;
-    public static double initPosition = 0.99;
+    public static double collectPosition = 1;
+    public static double initPosition = 1;
 
     public ElapsedTime asteaptaCutie = new ElapsedTime();
     public ElapsedTime asteaptaPixeli = new ElapsedTime();

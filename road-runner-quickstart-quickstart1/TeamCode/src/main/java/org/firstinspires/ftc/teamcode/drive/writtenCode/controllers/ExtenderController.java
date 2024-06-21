@@ -34,13 +34,14 @@ public class ExtenderController {
     public int extenderCloseAutoRED = 680;
     public int extenderClose = 475;
     public int extenderAutoOnePixel = 485;
-    public int extenderAuto = 480;
+    public int extenderAuto = 875;
     public static int extenderFailsafe = 300;
     public static double PowerCap = 1;
     public static double maxSpeed = 1;
-    public int extenderC1=100;
-    public int extenderC2=200;
-    public int extenderC3=200;
+    public int extenderC1=0;
+    public int extenderC2=180;
+
+    public int extenderC3=690;
     private DcMotor leftExtension;
     private DcMotor rightExtension;
     SimplePIDController MotorColectarePID = null;

@@ -67,12 +67,9 @@ public class ScoringController {
                 {
                     /// Dam drumul la ambii pixeli
                     sigurantaOuttakeController.currentStatus = SigurantaOuttakeController.SigurantaOuttakeStatus.OPEN;
-//                    turretController.currentStatus = TurretController.Pixel2Status.OPEN;
-
                     /// Daca am cutia orizontal clar trebuie sa deschid parbrizul.
                     if (rotateClawController.currentStatus == RotateClawController.RotateStatus.HORIZONTAL)
                     {
-//                        turretController.currentStatus = TurretController.Pixel2Status.OPEN;
                         parbrizController.currentStatus = ParbrizController.ParbrizStatus.OPEN;
                     }
                     currentStatus = INIT;
