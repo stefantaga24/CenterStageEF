@@ -14,11 +14,10 @@ public class RotateClawController {
     public RotateStatus currentStatus = RotateStatus.VERTICAL;
     public RotateStatus previousStatus = null;
 
-    public double verticalServoPosition = 0.12;
-    public double horizontalServoPosition = 0.42;//0.395
+    public static double verticalServoPosition = 0.12;
+    public static double horizontalServoPosition = 0.42;//0.395
         private Servo clawRotate = null;
-
-        public double currentposition = 0;
+    public double currentposition = 0;
         public double targetposition = verticalServoPosition;
         public double previousPosition;
     public RotateClawController(RobotMap robot)

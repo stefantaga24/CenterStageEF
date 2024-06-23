@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.drive.writtenCode.controllers;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.writtenCode.RobotMap;
-
+@Config
 public class ExtenderController {
     public enum ExtenderStatus{
         INIT,
@@ -13,6 +14,7 @@ public class ExtenderController {
         FAILSAFE,
         ONE_PIXEL,
         AUTO,
+        AUTO_CYCLE_3,
         MANUAL_LOW,
         MANUAL_HIGH,
         CLOSE_AUTO_C1,
@@ -38,10 +40,10 @@ public class ExtenderController {
     public static int extenderFailsafe = 300;
     public static double PowerCap = 1;
     public static double maxSpeed = 1;
-    public int extenderC1=0;
-    public int extenderC2=180;
-
-    public int extenderC3=690;
+    public static int extenderC1=150;
+    public static int extenderC2=300;
+    public static int extenderAuto_cycle3 = 845;
+    public static int extenderC3=760;
     private DcMotor leftExtension;
     private DcMotor rightExtension;
     SimplePIDController MotorColectarePID = null;
@@ -114,6 +116,11 @@ public class ExtenderController {
                 case AUTO:
                 {
                     MotorColectarePID.targetValue = extenderAuto;
+                    break;
+                }
+                case AUTO_CYCLE_3:
+                {
+                    MotorColectarePID.targetValue = extenderAuto_cycle3;
                     break;
                 }
                 case ONE_PIXEL:

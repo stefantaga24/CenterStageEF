@@ -8,13 +8,18 @@ public class OuttakeSlidesController {
     public enum ExtensionStatus{
         COMPACT,
         FAR,
-        RUNTO
+        RUNTO,
+        PRELOAD12,
+        PRELOAD3
     }
     public ExtensionStatus currentStatus = ExtensionStatus.COMPACT;
     public ExtensionStatus previousStatus = null;
 
     public double compactPosition = 0.095; // De modificat
     public double farPosition = 0.39; // De modificat
+
+    public double placePreloadPosition12 = 0.2;
+    public double placePreloadPosition3 = 0.17;
 
     public Servo outtakeSlides = null;
     public double targetposition = compactPosition;
@@ -45,6 +50,14 @@ public class OuttakeSlidesController {
                 case RUNTO:
                 {
                     outtakeSlides.setPosition(targetposition);
+                }
+                case PRELOAD12:
+                {
+                    outtakeSlides.setPosition(placePreloadPosition12);
+                }
+                case PRELOAD3:
+                {
+                    outtakeSlides.setPosition(placePreloadPosition3);
                 }
             }
         }

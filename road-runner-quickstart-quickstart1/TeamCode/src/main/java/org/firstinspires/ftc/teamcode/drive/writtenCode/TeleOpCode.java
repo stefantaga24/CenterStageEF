@@ -175,7 +175,7 @@ public class TeleOpCode extends LinearOpMode {
         LiftMotorController liftMotorController = new LiftMotorController(forbarOuttakeController,extenderController,robot,turretController);
         OuttakeSlidesController outtakeSlidesController = new OuttakeSlidesController(robot);
         robot.forbarCutieIntake.setPosition(initPosition);
-
+        robot.clawRotate.setPosition(RotateClawController.verticalServoPosition);
 
         TransferController transferController = new TransferController(
                 intakeController,tubuleteController,sigurantaOuttakeController, extenderController,robot);
